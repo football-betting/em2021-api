@@ -23,6 +23,14 @@ class JsonSchemaValidationServiceTest extends TestCase
         self::assertCount(0, $errors);
     }
 
+    public function testNoExistingJsonSchema(): void
+    {
+        $validation = new JsonSchemaValidationService();
+        $validation->getErrors('', 'no_exist');
+
+        $this->expectException(\RuntimeException::class);
+    }
+
     /**
      * @dataProvider schemaData
      */
