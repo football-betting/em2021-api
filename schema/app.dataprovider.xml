@@ -10,4 +10,12 @@
         <DataElement name="name" type="string"/>
     </DataProvider>
 
+    <DataProvider name="TipEvent">
+        <DataElement name="matchId" type="string"/>
+        <DataElement name="user" type="string"/>
+        <DataElement name="tipDatetime" type="string"/>
+        <DataElement name="tipTeam1" type="int"/>
+        <DataElement name="tipTeam2" type="int"/>
+    </DataProvider>
+
 </DataProviders>
