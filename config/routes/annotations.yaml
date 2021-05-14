@@ -1,0 +1,4 @@
+tip_controllers:
+    resource: ../../src/Component/Tip/Adapter/
+    type: annotation
+
