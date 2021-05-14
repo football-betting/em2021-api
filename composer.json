@@ -74,6 +74,7 @@
         }
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "infection/infection": "^0.22.1",
         "orklah/psalm-strict-types": "^0.1.2",
         "phpstan/phpstan": "^0.12.85",

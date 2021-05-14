@@ -7,7 +7,7 @@ use PHPStan\Testing\TestCase;
 
 class JsonSchemaValidationServiceTest extends TestCase
 {
-    public function testSuccessJson()
+    public function testSuccessJson(): void
     {
         $validation = new JsonSchemaValidationService();
 
@@ -18,7 +18,7 @@ class JsonSchemaValidationServiceTest extends TestCase
             "tipTeam2" => 3,
         ], JSON_THROW_ON_ERROR);
 
-        $errors = $validation->getErrors($json, 'tipp');
+        $errors = $validation->getErrors($json, 'tip');
 
         self::assertCount(0, $errors);
     }
@@ -26,13 +26,13 @@ class JsonSchemaValidationServiceTest extends TestCase
     /**
      * @dataProvider schemaData
      */
-    public function testErrorJson(array $data, array $expectedError)
+    public function testErrorJson(array $data, array $expectedError): void
     {
         $validation = new JsonSchemaValidationService();
 
         $json = json_encode($data, JSON_THROW_ON_ERROR);
 
-        $errors = $validation->getErrors($json, 'tipp');
+        $errors = $validation->getErrors($json, 'tip');
 
         self::assertCount(count($expectedError), $errors);
 
