@@ -2,16 +2,17 @@ framework:
     messenger:
         # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
         # failure_transport: failed
-
+        serializer:
+            default_serializer: App\Component\Symfony\Messenger\Transport\JsonSerializer
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
             # async: '%env(MESSENGER_TRANSPORT_DSN)%'
             # failed: 'doctrine://default?queue_name=failed'
             # sync: 'sync://'
-            skeleton_event.test_event: "%env(SKELETON_EVENT)%"
+            tip_event: "%env(TIP_EVENT)%"
 
-#        routing:
-#            'App\DataTransferObject\TestDataProvider':
-#                - skeleton_event.test_event
+        routing:
+            'App\DataTransferObject\TipEventDataProvider':
+                - tip_event
             # Route your messages to the transports
             # 'App\Message\YourMessage': async
