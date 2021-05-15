@@ -26,9 +26,10 @@ class JsonSchemaValidationServiceTest extends TestCase
     public function testNoExistingJsonSchema(): void
     {
         $validation = new JsonSchemaValidationService();
-        $validation->getErrors('', 'no_exist');
 
         $this->expectException(\RuntimeException::class);
+
+        $validation->getErrors('', 'no_exist');
     }
 
     /**

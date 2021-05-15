@@ -24,6 +24,13 @@ class Logger
     private $data = [];
 
     /**
+     * @ORM\Column(type="string")
+     *
+     * @var string
+     */
+    private string $class;
+
+    /**
      * @ORM\Column(type="date")
      */
     private DateTime $createdAt;
@@ -59,4 +66,24 @@ class Logger
     {
         return $this->createdAt;
     }
+
+    /**
+     * @return string
+     */
+    public function getClass(): string
+    {
+        return $this->class;
+    }
+
+    /**
+     * @param string $class
+     */
+    public function setClass(string $class): self
+    {
+        $this->class = $class;
+
+        return $this;
+    }
+
+
 }

@@ -2,17 +2,17 @@
 
 namespace App\Tests\Acceptance\Component\Tip\Adapter;
 
-use App\Component\Ksb\Repository\ProductFilterExcludeWriteManager;
+use App\DataTransferObject\TipEventDataProvider;
 use App\Repository\LoggerRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-/**
- * @covers \App\Component\Tip\Adapter\TipController
- */
+
 class TipControllerTest extends WebTestCase
 {
+    private ?EntityManager $entityManager;
     private LoggerRepository $loggerRepository;
     private KernelBrowser $client;
 
@@ -31,7 +31,8 @@ class TipControllerTest extends WebTestCase
 
     protected function tearDown(): void
     {
-        $this->entityManager->getConnection()->executeUpdate('DELETE FROM logger');
+        $this->entityManager->getConnection()->executeStatement('TRUNCATE messenger_messages');
+        $this->entityManager->getConnection()->executeStatement('TRUNCATE logger');
 
         $this->entityManager->close();
         $this->entityManager = null;
@@ -74,7 +75,36 @@ class TipControllerTest extends WebTestCase
         $logger = $this->loggerRepository->findAll();
         self::assertCount(1, $logger);
 
-//        $logInfo = json_$logger[0]
-//        self::assertSame(, $logger[0]);
+        $loggerEntity = $logger[0];
+        self::assertSame(TipEventDataProvider::class, $loggerEntity->getClass());
+
+        $tipEventDataProvider = new TipEventDataProvider();
+        $tipEventDataProvider->fromArray($loggerEntity->getData());
+        self::assertSame($filtersInfo['matchId'], $tipEventDataProvider->getMatchId());
+        self::assertSame($filtersInfo['tipDatetime'], $tipEventDataProvider->getTipDatetime());
+        self::assertSame($filtersInfo['tipTeam1'], $tipEventDataProvider->getTipTeam1());
+        self::assertSame($filtersInfo['tipTeam2'], $tipEventDataProvider->getTipTeam2());
+        self::assertSame($customerUser->getUsername(), $tipEventDataProvider->getUser());
+
+        $sql = "SELECT * FROM messenger_messages";
+        $stmt = $this->entityManager->getConnection()->prepare($sql);
+        $resultList = $stmt->executeQuery()->fetchAllAssociative();
+
+        self::assertCount(1, $resultList);
+
+        $result = $resultList[0];
+
+        self::assertSame('tip.user',$result['queue_name']);
+        $body = json_decode($result['body'], true);
+        self::assertSame($result['queue_name'], $body['event']);
+
+        $tipEventDataProvider = new TipEventDataProvider();
+        $tipEventDataProvider->fromArray($body['data']);
+
+        self::assertSame($filtersInfo['matchId'], $tipEventDataProvider->getMatchId());
+        self::assertSame($filtersInfo['tipDatetime'], $tipEventDataProvider->getTipDatetime());
+        self::assertSame($filtersInfo['tipTeam1'], $tipEventDataProvider->getTipTeam1());
+        self::assertSame($filtersInfo['tipTeam2'], $tipEventDataProvider->getTipTeam2());
+        self::assertSame($customerUser->getUsername(), $tipEventDataProvider->getUser());
     }
 }

@@ -9,10 +9,10 @@ framework:
             # async: '%env(MESSENGER_TRANSPORT_DSN)%'
             # failed: 'doctrine://default?queue_name=failed'
             # sync: 'sync://'
-            tip_event: "%env(TIP_EVENT)%"
+            tip.user: "%env(TIP_USER_EVENT)%"
 
         routing:
             'App\DataTransferObject\TipEventDataProvider':
-                - tip_event
+                - tip.user
             # Route your messages to the transports
             # 'App\Message\YourMessage': async

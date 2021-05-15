@@ -25,6 +25,7 @@ final class LoggerManager implements LoggerManagerInterface
     {
         $logger = new Logger();
         $logger->setData($dataProvider->toArray());
+        $logger->setClass(get_class($dataProvider));
         $logger->setCreatedAt();
 
         $this->objectManager->persist($logger);
