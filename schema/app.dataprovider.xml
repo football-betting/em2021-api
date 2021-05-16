@@ -18,4 +18,38 @@
         <DataElement name="tipTeam2" type="int"/>
     </DataProvider>
 
+    <DataProvider name="GameEvent">
+        <DataElement name="matchId" type="string"/>
+        <DataElement name="team1" type="string"/>
+        <DataElement name="team2" type="string"/>
+        <DataElement name="matchDatetime" type="string"/>
+        <DataElement name="scoreTeam1" type="int"/>
+        <DataElement name="scoreTeam2" type="int"/>
+    </DataProvider>
+
+    <DataProvider name="UserTipEvent">
+        <DataElement name="matchId" type="string"/>
+        <DataElement name="score" type="int"/>
+        <DataElement name="tipTeam1" type="int"/>
+        <DataElement name="tipTeam2" type="int"/>
+    </DataProvider>
+
+    <DataProvider name="UserInfoEvent">
+        <DataElement name="name" type="string"/>
+        <DataElement name="position" type="int"/>
+        <DataElement name="scoreSum" type="int"/>
+        <DataElement name="tips" type="TipEvent[]" singleton="Tip"/>
+    </DataProvider>
+
+    <DataProvider name="RankingAllEvent">
+        <DataElement name="event" type="string"/>
+        <DataElement name="data" type="RankingInfoEvent"/>
+    </DataProvider>
+
+    <DataProvider name="RankingInfoEvent">
+        <DataElement name="games" type="GameEvent[]" singleton="Game"/>
+        <DataElement name="users" type="UserInfoEvent[]" singleton="User"/>
+    </DataProvider>
+
+
 </DataProviders>
