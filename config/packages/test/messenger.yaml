@@ -1,8 +1,0 @@
-framework:
-    messenger:
-        transports:
-            ranking.all: "%env(RANKING_ALL_EVENT)%"
-
-        routing:
-#            'App\DataTransferObject\RankingAllEvent':
-#                - ranking.all
