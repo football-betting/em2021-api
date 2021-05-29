@@ -7,12 +7,11 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AuthControllerTest extends WebTestCase
 {
-    /**
-     * @var \App\Repository\UserRepository|object|null
-     */
+    private ?UserPasswordEncoderInterface $userPasswordEncoder;
     private ?UserRepository $userRepository;
     private ?EntityManager $entityManager;
     private KernelBrowser $client;
@@ -27,6 +26,7 @@ class AuthControllerTest extends WebTestCase
             ->getManager();
 
         $this->userRepository = static::$container->get(UserRepository::class);
+        $this->userPasswordEncoder = static::$container->get(UserPasswordEncoderInterface::class);
     }
 
 
@@ -72,5 +72,172 @@ class AuthControllerTest extends WebTestCase
         self::assertSame($user['email'], $expectedUser->getEmail());
         self::assertSame($user['username'], $expectedUser->getUsername());
         self::assertNotEmpty($expectedUser->getPassword());
+    }
+
+    public function testLogin()
+    {
+        $user = [
+            "email" => "ninja@secret.com",
+            "password" => "ninjaIsTheBest",
+        ];
+        $userEntity = new User();
+        $userEntity->setUsername('ninja');
+        $userEntity->setEmail($user['email']);
+        $userEntity->setPassword($this->userPasswordEncoder->encodePassword($userEntity, $user['password']));
+
+        $this->entityManager->persist($userEntity);
+        $this->entityManager->flush();
+
+        $this->client->request(
+            'POST',
+            '/auth/login',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode($user)
+        );
+
+        $response = $this->client->getResponse();
+
+        self::assertTrue($response->headers->contains('Content-Type', 'application/json'));
+
+        $contents = json_decode($response->getContent(), true);
+
+        self::assertSame('success!', $contents['message']);
+        self::assertNotEmpty($contents['token']);
+    }
+
+    public function testLoginFailWhenUserNotFound()
+    {
+        $user = [
+            "email" => "ninja@secret.com",
+            "password" => "ninjaIsTheBest",
+        ];
+        $userEntity = new User();
+        $userEntity->setUsername('ninja');
+        $userEntity->setEmail($user['email']);
+        $userEntity->setPassword($this->userPasswordEncoder->encodePassword($userEntity, $user['password']));
+
+        $this->entityManager->persist($userEntity);
+        $this->entityManager->flush();
+
+        $user['email'] = 'not@found.com';
+
+        $this->client->request(
+            'POST',
+            '/auth/login',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode($user)
+        );
+
+        $response = $this->client->getResponse();
+
+        self::assertTrue($response->headers->contains('Content-Type', 'application/json'));
+
+        $contents = json_decode($response->getContent(), true);
+
+        self::assertSame('email or password is wrong.', $contents['message']);
+    }
+
+    public function testLoginFailWhenUserHasWrongPassword()
+    {
+        $user = [
+            "email" => "ninja@secret.com",
+            "password" => "ninjaIsTheBest",
+        ];
+        $userEntity = new User();
+        $userEntity->setUsername('ninja');
+        $userEntity->setEmail($user['email']);
+        $userEntity->setPassword($this->userPasswordEncoder->encodePassword($userEntity, $user['password']));
+
+        $this->entityManager->persist($userEntity);
+        $this->entityManager->flush();
+
+        $user['password'] = 'i_dont_remember';
+
+        $this->client->request(
+            'POST',
+            '/auth/login',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode($user)
+        );
+
+        $response = $this->client->getResponse();
+
+        self::assertTrue($response->headers->contains('Content-Type', 'application/json'));
+
+        $contents = json_decode($response->getContent(), true);
+
+        self::assertSame('email or password is wrong.', $contents['message']);
+    }
+
+    public function testLoginFailWhenEmptyRequest()
+    {
+        $user = [
+            "email" => "ninja@secret.com",
+            "password" => "ninjaIsTheBest",
+        ];
+        $userEntity = new User();
+        $userEntity->setUsername('ninja');
+        $userEntity->setEmail($user['email']);
+        $userEntity->setPassword($this->userPasswordEncoder->encodePassword($userEntity, $user['password']));
+
+        $this->entityManager->persist($userEntity);
+        $this->entityManager->flush();
+
+        $this->client->request(
+            'POST',
+            '/auth/login',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode([])
+        );
+
+        $response = $this->client->getResponse();
+
+        self::assertTrue($response->headers->contains('Content-Type', 'application/json'));
+
+        $contents = json_decode($response->getContent(), true);
+
+        self::assertSame('email or password is wrong.', $contents['message']);
+    }
+
+    public function testLoginFailWhenEmptyPasswordRequest()
+    {
+        $user = [
+            "email" => "ninja@secret.com",
+            "password" => "ninjaIsTheBest",
+        ];
+        $userEntity = new User();
+        $userEntity->setUsername('ninja');
+        $userEntity->setEmail($user['email']);
+        $userEntity->setPassword($this->userPasswordEncoder->encodePassword($userEntity, $user['password']));
+
+        $this->entityManager->persist($userEntity);
+        $this->entityManager->flush();
+
+        unset($user['password']);
+
+        $this->client->request(
+            'POST',
+            '/auth/login',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode($user)
+        );
+
+        $response = $this->client->getResponse();
+
+        self::assertTrue($response->headers->contains('Content-Type', 'application/json'));
+
+        $contents = json_decode($response->getContent(), true);
+
+        self::assertSame('email or password is wrong.', $contents['message']);
     }
 }
