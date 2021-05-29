@@ -65,30 +65,36 @@ class AuthController extends AbstractController
         $content = $this->getContent($request);
         $info = (array)json_decode($content, true);
 
-        if(!isset($info['email']) || !isset($info['password']) ) {
+        if (!isset($info['email']) || !isset($info['password'])) {
             return $this->json([
                 'message' => 'email or password is wrong.',
             ]);
         }
 
         $user = $this->userRepository->findOneBy([
-            'email'=> $info['email'],
+            'email' => $info['email'],
         ]);
 
-        if (!$user instanceOf User || !$this->encoder->isPasswordValid($user, $info['password'])) {
+        if (!$user instanceof User || !$this->encoder->isPasswordValid($user, $info['password'])) {
             return $this->json([
                 'message' => 'email or password is wrong.',
             ]);
         }
 
         $payload = [
-            "user" => $user->getUsername()
+            "userId" => $user->getId(),
         ];
 
+        $jwt = JWT::encode($payload, $this->getParameter('kernel.secret'), 'HS256');
 
-        $jwt = JWT::encode($payload, $this->getParameter('kernel.secret'));
+        $user->setToken($jwt);
+        $user->setTokenTimeAllowed(new \DateTime('+ 1 Hours'));
+
+        $this->getDoctrine()->getManager()->persist($user);
+        $this->getDoctrine()->getManager()->flush();
+
         return $this->json([
-            'message' => 'success!',
+            'message' => 'success',
             'token' => sprintf('Bearer %s', $jwt),
         ]);
     }

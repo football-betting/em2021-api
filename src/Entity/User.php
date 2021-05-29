@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -40,6 +41,16 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $token = '';
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $tokenTimeAllowed;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -64,7 +75,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->username;
+        return (string)$this->username;
     }
 
     public function setUsername(string $username): self
@@ -126,5 +137,35 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getToken(): string
+    {
+        return $this->token;
+    }
+
+    public function setToken(string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+
+    public function getTokenTimeAllowed(): DateTime
+    {
+        return $this->tokenTimeAllowed;
+    }
+
+    /**
+     * @param \DateTime $tokenTimeAllowed
+     *
+     * @return $this
+     */
+    public function setTokenTimeAllowed(DateTime $tokenTimeAllowed): self
+    {
+        $this->tokenTimeAllowed = $tokenTimeAllowed;
+
+        return $this;
     }
 }

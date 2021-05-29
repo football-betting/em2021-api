@@ -80,13 +80,7 @@ class AuthControllerTest extends WebTestCase
             "email" => "ninja@secret.com",
             "password" => "ninjaIsTheBest",
         ];
-        $userEntity = new User();
-        $userEntity->setUsername('ninja');
-        $userEntity->setEmail($user['email']);
-        $userEntity->setPassword($this->userPasswordEncoder->encodePassword($userEntity, $user['password']));
-
-        $this->entityManager->persist($userEntity);
-        $this->entityManager->flush();
+        $this->saveUser($user);
 
         $this->client->request(
             'POST',
@@ -103,7 +97,7 @@ class AuthControllerTest extends WebTestCase
 
         $contents = json_decode($response->getContent(), true);
 
-        self::assertSame('success!', $contents['message']);
+        self::assertSame('success', $contents['message']);
         self::assertNotEmpty($contents['token']);
     }
 
@@ -113,13 +107,7 @@ class AuthControllerTest extends WebTestCase
             "email" => "ninja@secret.com",
             "password" => "ninjaIsTheBest",
         ];
-        $userEntity = new User();
-        $userEntity->setUsername('ninja');
-        $userEntity->setEmail($user['email']);
-        $userEntity->setPassword($this->userPasswordEncoder->encodePassword($userEntity, $user['password']));
-
-        $this->entityManager->persist($userEntity);
-        $this->entityManager->flush();
+        $this->saveUser($user);
 
         $user['email'] = 'not@found.com';
 
@@ -132,13 +120,7 @@ class AuthControllerTest extends WebTestCase
             json_encode($user)
         );
 
-        $response = $this->client->getResponse();
-
-        self::assertTrue($response->headers->contains('Content-Type', 'application/json'));
-
-        $contents = json_decode($response->getContent(), true);
-
-        self::assertSame('email or password is wrong.', $contents['message']);
+        $this->checkIfResponseIsForLoginFail();
     }
 
     public function testLoginFailWhenUserHasWrongPassword()
@@ -147,13 +129,7 @@ class AuthControllerTest extends WebTestCase
             "email" => "ninja@secret.com",
             "password" => "ninjaIsTheBest",
         ];
-        $userEntity = new User();
-        $userEntity->setUsername('ninja');
-        $userEntity->setEmail($user['email']);
-        $userEntity->setPassword($this->userPasswordEncoder->encodePassword($userEntity, $user['password']));
-
-        $this->entityManager->persist($userEntity);
-        $this->entityManager->flush();
+        $this->saveUser($user);
 
         $user['password'] = 'i_dont_remember';
 
@@ -166,13 +142,7 @@ class AuthControllerTest extends WebTestCase
             json_encode($user)
         );
 
-        $response = $this->client->getResponse();
-
-        self::assertTrue($response->headers->contains('Content-Type', 'application/json'));
-
-        $contents = json_decode($response->getContent(), true);
-
-        self::assertSame('email or password is wrong.', $contents['message']);
+        $this->checkIfResponseIsForLoginFail();
     }
 
     public function testLoginFailWhenEmptyRequest()
@@ -181,13 +151,7 @@ class AuthControllerTest extends WebTestCase
             "email" => "ninja@secret.com",
             "password" => "ninjaIsTheBest",
         ];
-        $userEntity = new User();
-        $userEntity->setUsername('ninja');
-        $userEntity->setEmail($user['email']);
-        $userEntity->setPassword($this->userPasswordEncoder->encodePassword($userEntity, $user['password']));
-
-        $this->entityManager->persist($userEntity);
-        $this->entityManager->flush();
+        $this->saveUser($user);
 
         $this->client->request(
             'POST',
@@ -198,13 +162,7 @@ class AuthControllerTest extends WebTestCase
             json_encode([])
         );
 
-        $response = $this->client->getResponse();
-
-        self::assertTrue($response->headers->contains('Content-Type', 'application/json'));
-
-        $contents = json_decode($response->getContent(), true);
-
-        self::assertSame('email or password is wrong.', $contents['message']);
+        $this->checkIfResponseIsForLoginFail();
     }
 
     public function testLoginFailWhenEmptyPasswordRequest()
@@ -213,13 +171,7 @@ class AuthControllerTest extends WebTestCase
             "email" => "ninja@secret.com",
             "password" => "ninjaIsTheBest",
         ];
-        $userEntity = new User();
-        $userEntity->setUsername('ninja');
-        $userEntity->setEmail($user['email']);
-        $userEntity->setPassword($this->userPasswordEncoder->encodePassword($userEntity, $user['password']));
-
-        $this->entityManager->persist($userEntity);
-        $this->entityManager->flush();
+        $this->saveUser($user);
 
         unset($user['password']);
 
@@ -232,6 +184,28 @@ class AuthControllerTest extends WebTestCase
             json_encode($user)
         );
 
+        $this->checkIfResponseIsForLoginFail();
+    }
+
+    /**
+     * @param array $user
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    protected function saveUser(array $user): void
+    {
+        $userEntity = new User();
+        $userEntity->setUsername('ninja');
+        $userEntity->setEmail($user['email']);
+        $userEntity->setPassword($this->userPasswordEncoder->encodePassword($userEntity, $user['password']));
+
+        $this->entityManager->persist($userEntity);
+        $this->entityManager->flush();
+    }
+
+    protected function checkIfResponseIsForLoginFail(): void
+    {
         $response = $this->client->getResponse();
 
         self::assertTrue($response->headers->contains('Content-Type', 'application/json'));
@@ -239,5 +213,6 @@ class AuthControllerTest extends WebTestCase
         $contents = json_decode($response->getContent(), true);
 
         self::assertSame('email or password is wrong.', $contents['message']);
+        self::assertArrayNotHasKey('token', $contents);
     }
 }
