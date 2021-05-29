@@ -3,15 +3,34 @@
 namespace App\Component\User\Infrastructure;
 
 use App\Entity\User;
-use App\Repository\UserRepository;
-use Firebase\JWT\JWT;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserController extends AbstractController
 {
-    
+    /**
+     * @Route("/api/user/info", name="user_info", methods={"GET"})
+     */
+    public function info()
+    {
+        $user = $this->getLoginUser();
+
+        return $this->json([
+            'data' => [
+                'id' => $user->getId(),
+                'username' => $user->getUsername(),
+                'email' => $user->getEmail(),
+            ],
+        ]);
+    }
+
+    private function getLoginUser(): User
+    {
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw new \Exception('User not loggin');
+        }
+
+        return $user;
+    }
 }

@@ -55,7 +55,7 @@ class TipControllerTest extends WebTestCase
 
         $this->client->request(
             'POST',
-            '/tip/send',
+            '/api/tip/send',
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],

@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class AuthControllerTest extends WebTestCase
+class UserControllerTest extends WebTestCase
 {
     private ?UserPasswordEncoderInterface $userPasswordEncoder;
     private ?UserRepository $userRepository;
@@ -40,21 +40,34 @@ class AuthControllerTest extends WebTestCase
         parent::tearDown();
     }
 
-    public function testRegister()
+    public function testInfoWithSecurityCheck()
     {
         $user = [
-            "username" => "ninja",
             "email" => "ninja@secret.com",
             "password" => "ninjaIsTheBest",
         ];
+        $this->saveUser($user);
 
         $this->client->request(
             'POST',
-            '/auth/register',
+            '/auth/login',
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
             json_encode($user)
+        );
+
+        $token = json_decode($this->client->getResponse()->getContent(), true)['token'];
+        $this->client->restart();
+
+        $this->client->request(
+            'GET',
+            '/api/user/info',
+            [],
+            [],
+            [
+                'Authorization' => $token,
+            ]
         );
 
         $response = $this->client->getResponse();
@@ -62,33 +75,22 @@ class AuthControllerTest extends WebTestCase
         self::assertTrue($response->headers->contains('Content-Type', 'application/json'));
 
         $contents = json_decode($response->getContent(), true);
-
-        self::assertSame(1, $contents['id']);
-        self::assertSame($user['email'], $contents['user']);
-
-        $expectedUser = $this->userRepository->find(1);
-
-        self::assertInstanceOf(User::class, $expectedUser);
-        self::assertSame($user['email'], $expectedUser->getEmail());
-        self::assertSame($user['username'], $expectedUser->getUsername());
-        self::assertNotEmpty($expectedUser->getPassword());
+        self::assertArrayHasKey('data', $contents);
+        self::assertSame(1, $contents['data']['id']);
+        self::assertSame('ninja', $contents['data']['username']);
+        self::assertSame($user['email'], $contents['data']['email']);
     }
 
-    public function testLogin()
+    public function testInfoWithSecurityNotValid()
     {
-        $user = [
-            "email" => "ninja@secret.com",
-            "password" => "ninjaIsTheBest",
-        ];
-        $this->saveUser($user);
-
         $this->client->request(
-            'POST',
-            '/auth/login',
+            'GET',
+            '/api/user/info',
             [],
             [],
-            ['CONTENT_TYPE' => 'application/json'],
-            json_encode($user)
+            [
+                'Authorization' => 'not_found_token',
+            ]
         );
 
         $response = $this->client->getResponse();
@@ -96,20 +98,16 @@ class AuthControllerTest extends WebTestCase
         self::assertTrue($response->headers->contains('Content-Type', 'application/json'));
 
         $contents = json_decode($response->getContent(), true);
-
-        self::assertSame('success', $contents['message']);
-        self::assertNotEmpty($contents['token']);
+        self::assertSame('Wrong number of segments', $contents['message']);
     }
 
-    public function testLoginFailWhenUserNotFound()
+    public function testInfoWithSecurityFailWhenUserNotFound()
     {
         $user = [
             "email" => "ninja@secret.com",
             "password" => "ninjaIsTheBest",
         ];
         $this->saveUser($user);
-
-        $user['email'] = 'not@found.com';
 
         $this->client->request(
             'POST',
@@ -120,18 +118,37 @@ class AuthControllerTest extends WebTestCase
             json_encode($user)
         );
 
-        $this->checkIfResponseIsForLoginFail();
+        $token = json_decode($this->client->getResponse()->getContent(), true)['token'];
+        $this->client->restart();
+
+        $this->entityManager->getConnection()->executeStatement('TRUNCATE user');
+
+
+        $this->client->request(
+            'GET',
+            '/api/user/info',
+            [],
+            [],
+            [
+                'Authorization' => $token,
+            ]
+        );
+
+        $response = $this->client->getResponse();
+
+        self::assertTrue($response->headers->contains('Content-Type', 'application/json'));
+
+        $contents = json_decode($response->getContent(), true);
+        self::assertSame('Bad credentials.', $contents['message']);
     }
 
-    public function testLoginFailWhenUserHasWrongPassword()
+    public function testInfoWithSecurityFailWhenDateTokenIsOld()
     {
         $user = [
             "email" => "ninja@secret.com",
             "password" => "ninjaIsTheBest",
         ];
         $this->saveUser($user);
-
-        $user['password'] = 'i_dont_remember';
 
         $this->client->request(
             'POST',
@@ -142,57 +159,32 @@ class AuthControllerTest extends WebTestCase
             json_encode($user)
         );
 
-        $this->checkIfResponseIsForLoginFail();
-    }
+        $token = json_decode($this->client->getResponse()->getContent(), true)['token'];
+        $this->client->restart();
 
-    public function testLoginFailWhenEmptyRequest()
-    {
-        $user = [
-            "email" => "ninja@secret.com",
-            "password" => "ninjaIsTheBest",
-        ];
-        $this->saveUser($user);
+        $userEntity = $this->userRepository->find(1);
+        $userEntity->setTokenTimeAllowed(new \DateTime());
+        $this->entityManager->persist($userEntity);
+        $this->entityManager->flush();
 
         $this->client->request(
-            'POST',
-            '/auth/login',
+            'GET',
+            '/api/user/info',
             [],
             [],
-            ['CONTENT_TYPE' => 'application/json'],
-            json_encode([])
+            [
+                'Authorization' => $token,
+            ]
         );
 
-        $this->checkIfResponseIsForLoginFail();
+        $response = $this->client->getResponse();
+
+        self::assertTrue($response->headers->contains('Content-Type', 'application/json'));
+
+        $contents = json_decode($response->getContent(), true);
+        self::assertSame('Token time is expired', $contents['message']);
     }
 
-    public function testLoginFailWhenEmptyPasswordRequest()
-    {
-        $user = [
-            "email" => "ninja@secret.com",
-            "password" => "ninjaIsTheBest",
-        ];
-        $this->saveUser($user);
-
-        unset($user['password']);
-
-        $this->client->request(
-            'POST',
-            '/auth/login',
-            [],
-            [],
-            ['CONTENT_TYPE' => 'application/json'],
-            json_encode($user)
-        );
-
-        $this->checkIfResponseIsForLoginFail();
-    }
-
-    /**
-     * @param array $user
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
     private function saveUser(array $user): void
     {
         $userEntity = new User();
@@ -204,15 +196,4 @@ class AuthControllerTest extends WebTestCase
         $this->entityManager->flush();
     }
 
-    private function checkIfResponseIsForLoginFail(): void
-    {
-        $response = $this->client->getResponse();
-
-        self::assertTrue($response->headers->contains('Content-Type', 'application/json'));
-
-        $contents = json_decode($response->getContent(), true);
-
-        self::assertSame('email or password is wrong.', $contents['message']);
-        self::assertArrayNotHasKey('token', $contents);
-    }
 }

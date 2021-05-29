@@ -42,7 +42,7 @@ class TipController extends AbstractController
     }
 
     /**
-     * @Route("/tip/send", name="tip_send", methods={"POST"})
+     * @Route("/api/tip/send", name="tip_send", methods={"POST"})
      */
     public function sendTip(Request $request): JsonResponse
     {
