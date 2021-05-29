@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Tests\Acceptance\Component\Tip\Adapter;
+namespace App\Tests\Acceptance\Component\Tip\Infrastructure;
 
 use App\DataTransferObject\TipEventDataProvider;
 use App\Repository\LoggerRepository;

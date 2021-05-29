@@ -1,4 +1,7 @@
 tip_controllers:
-    resource: ../../src/Component/Tip/Adapter/
+    resource: ../../src/Component/Tip/Infrastructure/
     type: annotation
 
+user_controllers:
+    resource: ../../src/Component/User/Infrastructure/
+    type: annotation

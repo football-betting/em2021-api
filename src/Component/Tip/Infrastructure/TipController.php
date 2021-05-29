@@ -1,11 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Component\Tip\Adapter;
+namespace App\Component\Tip\Infrastructure;
 
 use App\Component\Tip\Application\MappingTip;
-use App\Component\Tip\Application\SendTip;
-use App\DataTransferObject\TipEventDataProvider;
-use App\Repository\UserRepository;
 use App\Service\JsonSchemaValidation\JsonSchemaValidationService;
 use App\Service\Message\MessageServiceInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -85,6 +82,5 @@ class TipController extends AbstractController
     private function getContent(Request $request): string
     {
         return $request->getContent();
-
     }
 }

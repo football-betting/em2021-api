@@ -115,6 +115,9 @@
     "felixfbecker/language-server-protocol": {
         "version": "1.5.1"
     },
+    "firebase/php-jwt": {
+        "version": "v5.2.1"
+    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.3"
     },

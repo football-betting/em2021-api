@@ -12,6 +12,7 @@
         "doctrine/doctrine-bundle": "^2.3",
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "^2.8",
+        "firebase/php-jwt": "^5.2",
         "justinrainbow/json-schema": "^5.2",
         "opis/json-schema": "^2.1",
         "predis/predis": "^1.1",

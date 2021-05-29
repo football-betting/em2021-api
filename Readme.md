@@ -124,3 +124,13 @@ sudo ln -s /etc/php/7.4/mods-available/xdebug.ini /etc/php/7.4/fpm/conf.d/20-xde
 wget -O composer-setup.php https://getcomposer.org/installer
 sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 ```
+
+
+### Login via API 
+
+Article: 
+- <https://smoqadam.me/posts/how-to-authenticate-user-in-symfony-5-by-jwt/>
+- <https://www.sitepoint.com/php-authorization-jwt-json-web-tokens/>
+- <https://jwt.io/>
+- 
+

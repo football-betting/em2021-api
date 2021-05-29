@@ -24,8 +24,12 @@ services:
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
-    App\Component\Tip\Adapter\:
-        resource: '../src/Component/Tip/Adapter/'
+    App\Component\Tip\Infrastructure\:
+        resource: '../src/Component/Tip/Infrastructure/'
+        tags: ['controller.service_arguments']
+
+    App\Component\User\Infrastructure\:
+        resource: '../src/Component/User/Infrastructure/'
         tags: ['controller.service_arguments']
 
     # add more service definitions when explicit configuration is needed
