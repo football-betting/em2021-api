@@ -5,13 +5,13 @@ namespace App\DataTransferObject;
 /**
  * Auto generated data provider
  */
-final class TipEventDataProvider extends \Xervice\DataProvider\Business\Model\DataProvider\AbstractDataProvider implements \Xervice\DataProvider\Business\Model\DataProvider\DataProviderInterface
+final class UserTipDataProvider extends \Xervice\DataProvider\Business\Model\DataProvider\AbstractDataProvider implements \Xervice\DataProvider\Business\Model\DataProvider\DataProviderInterface
 {
     /** @var string */
-    protected $matchId;
+    protected $name;
 
-    /** @var string */
-    protected $tipDatetime;
+    /** @var int */
+    protected $score;
 
     /** @var int */
     protected $tipTeam1;
@@ -23,71 +23,30 @@ final class TipEventDataProvider extends \Xervice\DataProvider\Business\Model\Da
     /**
      * @return string
      */
-    public function getMatchId(): string
+    public function getName(): string
     {
-        return $this->matchId;
+        return $this->name;
     }
 
 
     /**
-     * @param string $matchId
-     * @return TipEventDataProvider
+     * @param string $name
+     * @return UserTipDataProvider
      */
-    public function setMatchId(string $matchId)
+    public function setName(string $name)
     {
-        $this->matchId = $matchId;
+        $this->name = $name;
 
         return $this;
     }
 
 
     /**
-     * @return TipEventDataProvider
+     * @return UserTipDataProvider
      */
-    public function unsetMatchId()
+    public function unsetName()
     {
-        $this->matchId = null;
-
-        return $this;
-    }
-
-
-    /**
-     * @return bool
-     */
-    public function hasMatchId()
-    {
-        return ($this->matchId !== null && $this->matchId !== []);
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getTipDatetime(): string
-    {
-        return $this->tipDatetime;
-    }
-
-
-    /**
-     * @param string $tipDatetime
-     * @return TipEventDataProvider
-     */
-    public function setTipDatetime(string $tipDatetime)
-    {
-        $this->tipDatetime = $tipDatetime;
-
-        return $this;
-    }
-
-
-    /**
-     * @return TipEventDataProvider
-     */
-    public function unsetTipDatetime()
-    {
-        $this->tipDatetime = null;
+        $this->name = null;
 
         return $this;
     }
@@ -96,9 +55,50 @@ final class TipEventDataProvider extends \Xervice\DataProvider\Business\Model\Da
     /**
      * @return bool
      */
-    public function hasTipDatetime()
+    public function hasName()
     {
-        return ($this->tipDatetime !== null && $this->tipDatetime !== []);
+        return ($this->name !== null && $this->name !== []);
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getScore(): int
+    {
+        return $this->score;
+    }
+
+
+    /**
+     * @param int $score
+     * @return UserTipDataProvider
+     */
+    public function setScore(int $score)
+    {
+        $this->score = $score;
+
+        return $this;
+    }
+
+
+    /**
+     * @return UserTipDataProvider
+     */
+    public function unsetScore()
+    {
+        $this->score = null;
+
+        return $this;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function hasScore()
+    {
+        return ($this->score !== null && $this->score !== []);
     }
 
 
@@ -113,7 +113,7 @@ final class TipEventDataProvider extends \Xervice\DataProvider\Business\Model\Da
 
     /**
      * @param int $tipTeam1
-     * @return TipEventDataProvider
+     * @return UserTipDataProvider
      */
     public function setTipTeam1(int $tipTeam1)
     {
@@ -124,7 +124,7 @@ final class TipEventDataProvider extends \Xervice\DataProvider\Business\Model\Da
 
 
     /**
-     * @return TipEventDataProvider
+     * @return UserTipDataProvider
      */
     public function unsetTipTeam1()
     {
@@ -154,7 +154,7 @@ final class TipEventDataProvider extends \Xervice\DataProvider\Business\Model\Da
 
     /**
      * @param int $tipTeam2
-     * @return TipEventDataProvider
+     * @return UserTipDataProvider
      */
     public function setTipTeam2(int $tipTeam2)
     {
@@ -165,7 +165,7 @@ final class TipEventDataProvider extends \Xervice\DataProvider\Business\Model\Da
 
 
     /**
-     * @return TipEventDataProvider
+     * @return UserTipDataProvider
      */
     public function unsetTipTeam2()
     {
@@ -190,9 +190,9 @@ final class TipEventDataProvider extends \Xervice\DataProvider\Business\Model\Da
     protected function getElements(): array
     {
         return array (
-          'matchId' =>
+          'name' =>
           array (
-            'name' => 'matchId',
+            'name' => 'name',
             'allownull' => false,
             'default' => '',
             'type' => 'string',
@@ -200,12 +200,12 @@ final class TipEventDataProvider extends \Xervice\DataProvider\Business\Model\Da
             'is_dataprovider' => false,
             'isCamelCase' => false,
           ),
-          'tipDatetime' =>
+          'score' =>
           array (
-            'name' => 'tipDatetime',
+            'name' => 'score',
             'allownull' => false,
             'default' => '',
-            'type' => 'string',
+            'type' => 'int',
             'is_collection' => false,
             'is_dataprovider' => false,
             'isCamelCase' => false,

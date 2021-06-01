@@ -5,7 +5,7 @@ namespace App\DataTransferObject;
 /**
  * Auto generated data provider
  */
-final class GameEventDataProvider extends \Xervice\DataProvider\Business\Model\DataProvider\AbstractDataProvider implements \Xervice\DataProvider\Business\Model\DataProvider\DataProviderInterface
+final class TipInfoListDataProvider extends \Xervice\DataProvider\Business\Model\DataProvider\AbstractDataProvider implements \Xervice\DataProvider\Business\Model\DataProvider\DataProviderInterface
 {
     /** @var string */
     protected $matchId;
@@ -25,6 +25,9 @@ final class GameEventDataProvider extends \Xervice\DataProvider\Business\Model\D
     /** @var int */
     protected $scoreTeam2;
 
+    /** @var \App\DataTransferObject\UserTipDataProvider[] */
+    protected $userTips = [];
+
 
     /**
      * @return string
@@ -37,7 +40,7 @@ final class GameEventDataProvider extends \Xervice\DataProvider\Business\Model\D
 
     /**
      * @param string $matchId
-     * @return GameEventDataProvider
+     * @return TipInfoListDataProvider
      */
     public function setMatchId(string $matchId)
     {
@@ -48,7 +51,7 @@ final class GameEventDataProvider extends \Xervice\DataProvider\Business\Model\D
 
 
     /**
-     * @return GameEventDataProvider
+     * @return TipInfoListDataProvider
      */
     public function unsetMatchId()
     {
@@ -78,7 +81,7 @@ final class GameEventDataProvider extends \Xervice\DataProvider\Business\Model\D
 
     /**
      * @param string $team1
-     * @return GameEventDataProvider
+     * @return TipInfoListDataProvider
      */
     public function setTeam1(string $team1)
     {
@@ -89,7 +92,7 @@ final class GameEventDataProvider extends \Xervice\DataProvider\Business\Model\D
 
 
     /**
-     * @return GameEventDataProvider
+     * @return TipInfoListDataProvider
      */
     public function unsetTeam1()
     {
@@ -119,7 +122,7 @@ final class GameEventDataProvider extends \Xervice\DataProvider\Business\Model\D
 
     /**
      * @param string $team2
-     * @return GameEventDataProvider
+     * @return TipInfoListDataProvider
      */
     public function setTeam2(string $team2)
     {
@@ -130,7 +133,7 @@ final class GameEventDataProvider extends \Xervice\DataProvider\Business\Model\D
 
 
     /**
-     * @return GameEventDataProvider
+     * @return TipInfoListDataProvider
      */
     public function unsetTeam2()
     {
@@ -160,7 +163,7 @@ final class GameEventDataProvider extends \Xervice\DataProvider\Business\Model\D
 
     /**
      * @param string $matchDatetime
-     * @return GameEventDataProvider
+     * @return TipInfoListDataProvider
      */
     public function setMatchDatetime(string $matchDatetime)
     {
@@ -171,7 +174,7 @@ final class GameEventDataProvider extends \Xervice\DataProvider\Business\Model\D
 
 
     /**
-     * @return GameEventDataProvider
+     * @return TipInfoListDataProvider
      */
     public function unsetMatchDatetime()
     {
@@ -193,7 +196,7 @@ final class GameEventDataProvider extends \Xervice\DataProvider\Business\Model\D
     /**
      * @return int
      */
-    public function getScoreTeam1(): ?int
+    public function getScoreTeam1(): int
     {
         return $this->scoreTeam1;
     }
@@ -201,9 +204,9 @@ final class GameEventDataProvider extends \Xervice\DataProvider\Business\Model\D
 
     /**
      * @param int $scoreTeam1
-     * @return GameEventDataProvider
+     * @return TipInfoListDataProvider
      */
-    public function setScoreTeam1(?int $scoreTeam1 = null)
+    public function setScoreTeam1(int $scoreTeam1)
     {
         $this->scoreTeam1 = $scoreTeam1;
 
@@ -212,7 +215,7 @@ final class GameEventDataProvider extends \Xervice\DataProvider\Business\Model\D
 
 
     /**
-     * @return GameEventDataProvider
+     * @return TipInfoListDataProvider
      */
     public function unsetScoreTeam1()
     {
@@ -234,7 +237,7 @@ final class GameEventDataProvider extends \Xervice\DataProvider\Business\Model\D
     /**
      * @return int
      */
-    public function getScoreTeam2(): ?int
+    public function getScoreTeam2(): int
     {
         return $this->scoreTeam2;
     }
@@ -242,9 +245,9 @@ final class GameEventDataProvider extends \Xervice\DataProvider\Business\Model\D
 
     /**
      * @param int $scoreTeam2
-     * @return GameEventDataProvider
+     * @return TipInfoListDataProvider
      */
-    public function setScoreTeam2(?int $scoreTeam2 = null)
+    public function setScoreTeam2(int $scoreTeam2)
     {
         $this->scoreTeam2 = $scoreTeam2;
 
@@ -253,7 +256,7 @@ final class GameEventDataProvider extends \Xervice\DataProvider\Business\Model\D
 
 
     /**
-     * @return GameEventDataProvider
+     * @return TipInfoListDataProvider
      */
     public function unsetScoreTeam2()
     {
@@ -269,6 +272,57 @@ final class GameEventDataProvider extends \Xervice\DataProvider\Business\Model\D
     public function hasScoreTeam2()
     {
         return ($this->scoreTeam2 !== null && $this->scoreTeam2 !== []);
+    }
+
+
+    /**
+     * @return \App\DataTransferObject\UserTipDataProvider[]
+     */
+    public function getUserTips(): array
+    {
+        return $this->userTips;
+    }
+
+
+    /**
+     * @param \App\DataTransferObject\UserTipDataProvider[] $userTips
+     * @return TipInfoListDataProvider
+     */
+    public function setUserTips(array $userTips)
+    {
+        $this->userTips = $userTips;
+
+        return $this;
+    }
+
+
+    /**
+     * @return TipInfoListDataProvider
+     */
+    public function unsetUserTips()
+    {
+        $this->userTips = null;
+
+        return $this;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function hasUserTips()
+    {
+        return ($this->userTips !== null && $this->userTips !== []);
+    }
+
+
+    /**
+     * @param \App\DataTransferObject\UserTipDataProvider $UserTip
+     * @return TipInfoListDataProvider
+     */
+    public function addUserTip(UserTipDataProvider $UserTip)
+    {
+        $this->userTips[] = $UserTip; return $this;
     }
 
 
@@ -321,7 +375,7 @@ final class GameEventDataProvider extends \Xervice\DataProvider\Business\Model\D
           'scoreTeam1' =>
           array (
             'name' => 'scoreTeam1',
-            'allownull' => true,
+            'allownull' => false,
             'default' => '',
             'type' => 'int',
             'is_collection' => false,
@@ -331,12 +385,24 @@ final class GameEventDataProvider extends \Xervice\DataProvider\Business\Model\D
           'scoreTeam2' =>
           array (
             'name' => 'scoreTeam2',
-            'allownull' => true,
+            'allownull' => false,
             'default' => '',
             'type' => 'int',
             'is_collection' => false,
             'is_dataprovider' => false,
             'isCamelCase' => false,
+          ),
+          'userTips' =>
+          array (
+            'name' => 'userTips',
+            'allownull' => false,
+            'default' => '',
+            'type' => '\\App\\DataTransferObject\\UserTipDataProvider[]',
+            'is_collection' => true,
+            'is_dataprovider' => false,
+            'isCamelCase' => false,
+            'singleton' => 'UserTip',
+            'singleton_type' => '\\App\\DataTransferObject\\UserTipDataProvider',
           ),
         );
     }

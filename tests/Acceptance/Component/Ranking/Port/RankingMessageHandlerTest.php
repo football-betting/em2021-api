@@ -32,7 +32,7 @@ class RankingMessageHandlerTest extends KernelTestCase
 
     protected function tearDown(): void
     {
-//        $this->entityManager->getConnection()->executeStatement('TRUNCATE messenger_messages');
+        $this->entityManager->getConnection()->executeStatement('TRUNCATE messenger_messages');
 
         $this->entityManager->close();
         $this->entityManager = null;
@@ -45,14 +45,15 @@ class RankingMessageHandlerTest extends KernelTestCase
     {
         $data = [
             "data" => [
-                "games" => [[
-                    "matchId" => "2020-06-16:2100:FR-DE",
-                    "team1" => "FR",
-                    "team2" => "DE",
-                    "matchDatetime" => "2020-06-16 21:00",
-                    "scoreTeam1" => 1,
-                    "scoreTeam2" => 4,
-                ],
+                "games" => [
+                    [
+                        "matchId" => "2020-06-16:2100:FR-DE",
+                        "team1" => "FR",
+                        "team2" => "DE",
+                        "matchDatetime" => "2020-06-16 21:00",
+                        "scoreTeam1" => 1,
+                        "scoreTeam2" => 4,
+                    ],
                     [
                         "matchId" => "2020-06-20:1800:PT-DE",
                         "team1" => "PT",
@@ -61,7 +62,14 @@ class RankingMessageHandlerTest extends KernelTestCase
                         "scoreTeam1" => null,
                         "scoreTeam2" => null,
                     ],
-
+                    [
+                        "matchId" => "2020-07-20:1800:PL-RU",
+                        "team1" => "PL",
+                        "team2" => "RU",
+                        "matchDatetime" => "2020-07-20 18:00",
+                        "scoreTeam1" => null,
+                        "scoreTeam2" => null,
+                    ],
                 ],
                 "users" => [
                     [
@@ -80,6 +88,31 @@ class RankingMessageHandlerTest extends KernelTestCase
                                 "score" => null,
                                 "tipTeam1" => 4,
                                 "tipTeam2" => 2,
+                            ],
+                        ],
+                    ],
+                    [
+                        "name" => "rockstar",
+                        "position" => 2,
+                        "scoreSum" => 21,
+                        "tips" => [
+                            [
+                                "matchId" => "2020-06-16:2100:FR-DE",
+                                "score" => 2,
+                                "tipTeam1" => 1,
+                                "tipTeam2" => 1,
+                            ],
+                            [
+                                "matchId" => "2020-06-20:1800:PT-DE",
+                                "score" => null,
+                                "tipTeam1" => 4,
+                                "tipTeam2" => 2,
+                            ],
+                            [
+                                "matchId" => "2020-07-20:1800:PL-RU",
+                                "score" => null,
+                                "tipTeam1" => 1,
+                                "tipTeam2" => 1,
                             ],
                         ],
                     ],
