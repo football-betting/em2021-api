@@ -88,7 +88,7 @@ class AuthController extends AbstractController
         $jwt = JWT::encode($payload, $this->getParameter('kernel.secret'), 'HS256');
 
         $user->setToken($jwt);
-        $user->setTokenTimeAllowed(new \DateTime('+ 1 Hours'));
+        $user->setTokenTimeAllowed(new \DateTime('+ 15 Minutes'));
 
         $this->getDoctrine()->getManager()->persist($user);
         $this->getDoctrine()->getManager()->flush();
