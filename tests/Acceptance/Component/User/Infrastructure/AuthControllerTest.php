@@ -43,7 +43,7 @@ class AuthControllerTest extends WebTestCase
     public function testRegister()
     {
         $user = [
-            "username" => "ninja",
+            "username" => "DarkNinja",
             "email" => "ninja@secret.com",
             "password" => "ninjaIsTheBest",
         ];
@@ -196,7 +196,7 @@ class AuthControllerTest extends WebTestCase
     private function saveUser(array $user): void
     {
         $userEntity = new User();
-        $userEntity->setUsername('ninja');
+        $userEntity->setUsername('DarkNinja');
         $userEntity->setEmail($user['email']);
         $userEntity->setPassword($this->userPasswordEncoder->encodePassword($userEntity, $user['password']));
 

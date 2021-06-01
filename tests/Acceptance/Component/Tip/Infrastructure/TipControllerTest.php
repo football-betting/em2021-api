@@ -2,6 +2,7 @@
 
 namespace App\Tests\Acceptance\Component\Tip\Infrastructure;
 
+use App\DataFixtures\AppFixtures;
 use App\DataTransferObject\TipEventDataProvider;
 use App\Repository\LoggerRepository;
 use App\Repository\UserRepository;
@@ -26,11 +27,13 @@ class TipControllerTest extends WebTestCase
             ->getManager();
 
         $this->loggerRepository = static::$container->get(LoggerRepository::class);
+        static::$container->get(AppFixtures::class)->load($this->entityManager);
     }
 
 
     protected function tearDown(): void
     {
+        static::$container->get(AppFixtures::class)->truncateTable($this->entityManager);
         $this->entityManager->getConnection()->executeStatement('TRUNCATE messenger_messages');
         $this->entityManager->getConnection()->executeStatement('TRUNCATE logger');
 
@@ -42,9 +45,9 @@ class TipControllerTest extends WebTestCase
 
     public function testSendTip()
     {
+        /** @var UserRepository $userRepository */
         $userRepository = static::$container->get(UserRepository::class);
         $customerUser = $userRepository->find(1);
-        $this->client->loginUser($customerUser);
 
         $filtersInfo = [
             "matchId" => "2021-06-15:2100:DE-FR",
@@ -58,7 +61,10 @@ class TipControllerTest extends WebTestCase
             '/api/tip/send',
             [],
             [],
-            ['CONTENT_TYPE' => 'application/json'],
+            [
+                'CONTENT_TYPE' => 'application/json',
+                'Authorization' => $customerUser->getToken()
+            ],
             json_encode($filtersInfo)
         );
 
