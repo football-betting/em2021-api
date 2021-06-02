@@ -25,6 +25,7 @@ class UserTips implements InformationInterface
             $userInfo = new UserInfoDataProvider();
             $userInfo->setPosition($user->getPosition());
             $userInfo->setName($user->getName());
+            $userInfo->setScoreSum($user->getScoreSum());
 
             foreach ($user->getTips() as $userTip) {
                 if (!isset($games[$userTip->getMatchId()])) {
@@ -32,7 +33,7 @@ class UserTips implements InformationInterface
                 }
 
                 $matchDateTime = $games[$userTip->getMatchId()]->getMatchDatetime();
-                if (new \DateTime($matchDateTime) > new \DateTime()) {
+                if (new \DateTime($matchDateTime) < new \DateTime()) {
                     continue;
                 }
 
@@ -45,13 +46,14 @@ class UserTips implements InformationInterface
                 $game = $games[$userTip->getMatchId()];
                 $tip->setTeam1($game->getTeam1());
                 $tip->setTeam2($game->getTeam2());
+                $tip->setMatchDatetime($game->getMatchDatetime());
 
                 $userInfo->addTip($tip);
             }
 
             $redisDtoList->addRedisDto(
                 new RedisDto(
-                    RedisKeyService::getUserPastTips($user->getName()),
+                    RedisKeyService::getUserTips($user->getName()),
                     $userInfo
                 )
             );
