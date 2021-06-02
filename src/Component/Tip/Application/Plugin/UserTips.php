@@ -33,7 +33,9 @@ class UserTips implements InformationInterface
                 }
 
                 $matchDateTime = $games[$userTip->getMatchId()]->getMatchDatetime();
-                if (new \DateTime($matchDateTime) < new \DateTime()) {
+                $matchDate = (new \DateTime($matchDateTime))->format('YmdHi');
+                $now = (new \DateTime())->format('YmdHi');
+                if ($matchDate < $now) {
                     continue;
                 }
 
