@@ -60,6 +60,7 @@
 
     <DataProvider name="TipInfo">
         <DataElement name="matchId" type="string"/>
+        <DataElement name="matchDatetime" type="string"/>
         <DataElement name="tipTeam1" type="int" allownull="true"/>
         <DataElement name="tipTeam2" type="int" allownull="true"/>
         <DataElement name="scoreTeam1" type="int" allownull="true"/>

@@ -10,6 +10,9 @@ final class TipInfoDataProvider extends \Xervice\DataProvider\Business\Model\Dat
     /** @var string */
     protected $matchId;
 
+    /** @var string */
+    protected $matchDatetime;
+
     /** @var int */
     protected $tipTeam1;
 
@@ -67,6 +70,47 @@ final class TipInfoDataProvider extends \Xervice\DataProvider\Business\Model\Dat
     public function hasMatchId()
     {
         return ($this->matchId !== null && $this->matchId !== []);
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getMatchDatetime(): string
+    {
+        return $this->matchDatetime;
+    }
+
+
+    /**
+     * @param string $matchDatetime
+     * @return TipInfoDataProvider
+     */
+    public function setMatchDatetime(string $matchDatetime)
+    {
+        $this->matchDatetime = $matchDatetime;
+
+        return $this;
+    }
+
+
+    /**
+     * @return TipInfoDataProvider
+     */
+    public function unsetMatchDatetime()
+    {
+        $this->matchDatetime = null;
+
+        return $this;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function hasMatchDatetime()
+    {
+        return ($this->matchDatetime !== null && $this->matchDatetime !== []);
     }
 
 
@@ -325,6 +369,16 @@ final class TipInfoDataProvider extends \Xervice\DataProvider\Business\Model\Dat
           'matchId' =>
           array (
             'name' => 'matchId',
+            'allownull' => false,
+            'default' => '',
+            'type' => 'string',
+            'is_collection' => false,
+            'is_dataprovider' => false,
+            'isCamelCase' => false,
+          ),
+          'matchDatetime' =>
+          array (
+            'name' => 'matchDatetime',
             'allownull' => false,
             'default' => '',
             'type' => 'string',
