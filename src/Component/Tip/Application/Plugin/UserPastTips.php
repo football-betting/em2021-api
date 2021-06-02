@@ -25,6 +25,7 @@ class UserPastTips implements InformationInterface
             $userInfo = new UserInfoDataProvider();
             $userInfo->setPosition($user->getPosition());
             $userInfo->setName($user->getName());
+            $userInfo->setScoreSum($user->getScoreSum());
 
             foreach ($user->getTips() as $userTip) {
                 if (!isset($games[$userTip->getMatchId()])) {
@@ -32,7 +33,7 @@ class UserPastTips implements InformationInterface
                 }
 
                 $matchDateTime = $games[$userTip->getMatchId()]->getMatchDatetime();
-                if (new \DateTime($matchDateTime) < new \DateTime()) {
+                if (new \DateTime($matchDateTime) >= new \DateTime()) {
                     continue;
                 }
 
@@ -47,6 +48,7 @@ class UserPastTips implements InformationInterface
                 $tip->setScoreTeam2($game->getScoreTeam2());
                 $tip->setTeam1($game->getTeam1());
                 $tip->setTeam2($game->getTeam2());
+                $tip->setMatchDatetime($game->getMatchDatetime());
 
                 $userInfo->addTip($tip);
             }
