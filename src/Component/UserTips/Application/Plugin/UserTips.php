@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Component\Tip\Application\Plugin;
+namespace App\Component\UserTips\Application\Plugin;
 
 use App\Component\Ranking\Application\Plugin\InformationInterface;
 use App\Component\Ranking\Domain\RedisDto;

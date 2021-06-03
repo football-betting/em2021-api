@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace App\Tests\Unit\Component\Tip\Application\Plugin;
+namespace App\Tests\Unit\Component\UserTips\Application\Plugin;
 
 use App\Component\Ranking\Domain\RedisDtoList;
-use App\Component\Tip\Application\Plugin\UserTips;
+use App\Component\UserTips\Application\Plugin\UserTips;
 use App\DataTransferObject\RankingAllEventDataProvider;
 use PHPUnit\Framework\TestCase;
 
