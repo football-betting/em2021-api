@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\User;
+use App\Tests\Fixtures\UserTips;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Firebase\JWT\JWT;
@@ -26,7 +27,7 @@ class AppFixtures extends Fixture
 
         $user = new User();
         $user->setEmail('ninja@em2021.com');
-        $user->setUsername('ninja');
+        $user->setUsername(UserTips::USER);
         $user->setPassword('pass');
         $user->setTokenTimeAllowed(new \DateTime('+ 15 Minutes'));
 

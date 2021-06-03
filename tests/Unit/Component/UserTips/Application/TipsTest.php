@@ -3,20 +3,31 @@
 namespace App\Tests\Unit\Component\UserTips\Application;
 
 use App\Component\UserTips\Application\Tips;
-use App\DataTransferObject\UserInfoDataProvider;
 use App\Service\Redis\RedisServiceInterface;
 use App\Service\RedisKey\RedisKeyService;
 use App\Tests\Fixtures\RedisDummy;
+use App\Tests\Fixtures\UserTips;
 use PHPUnit\Framework\TestCase;
 
 class TipsTest extends TestCase
 {
-    private $expectedDate = [];
+    private array $dummyData;
+
+    private array $expectedDate;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $userTips = new UserTips();
+        $this->dummyData = $userTips->getDummyData();
+        $this->expectedDate = $userTips->expectedDate;
+    }
 
     public function testGetUserTips()
     {
         $tips = new Tips($this->getRedisWithDummyData());
-        $userInfoDataProvider = $tips->getUserTips(self::USER);
+        $userInfoDataProvider = $tips->getUserTips(UserTips::USER);
 
         self::assertSame('ninja', $userInfoDataProvider->getName());
         self::assertSame(1, $userInfoDataProvider->getPosition());
@@ -92,7 +103,7 @@ class TipsTest extends TestCase
     public function testGetFutureUserTips()
     {
         $tips = new Tips($this->getRedisWithDummyData());
-        $userInfoDataProvider = $tips->getFutureUserTips(self::USER);
+        $userInfoDataProvider = $tips->getFutureUserTips(UserTips::USER);
 
         self::assertSame('ninja', $userInfoDataProvider->getName());
         self::assertSame(1, $userInfoDataProvider->getPosition());
@@ -131,7 +142,7 @@ class TipsTest extends TestCase
     public function testGetPastUserTips()
     {
         $tips = new Tips($this->getRedisWithDummyData());
-        $userInfoDataProvider = $tips->getPastUserTips(self::USER);
+        $userInfoDataProvider = $tips->getPastUserTips(UserTips::USER);
 
         self::assertSame('ninja', $userInfoDataProvider->getName());
         self::assertSame(1, $userInfoDataProvider->getPosition());
@@ -210,81 +221,10 @@ class TipsTest extends TestCase
     {
         $redisDummy = new RedisDummy();
 
-        $data = self::DATA;
-
-        $keys = [1, 2, 3];
-        foreach ($keys as $key) {
-            $dataTime = new \DateTime($data['tips'][$key]['matchDatetime']);
-            $data['tips'][$key]['matchId'] = $dataTime->format('Y-m-d:Hi') . $data['tips'][$key]['matchId'];
-            $data['tips'][$key]['matchDatetime'] = $dataTime->format('Y-m-d H:i');
-
-            $this->expectedDate[$key] = [
-                'matchId' => $data['tips'][$key]['matchId'],
-                'matchDatetime' => $data['tips'][$key]['matchDatetime'],
-            ];
-        }
-
-        $redisDummy->set(RedisKeyService::getUserTips(self::USER), json_encode($data));
+        $redisDummy->set(RedisKeyService::getUserTips(UserTips::USER), json_encode($this->dummyData));
         $redisDummy->set(RedisKeyService::getUserTips('empty_data'), json_encode([]));
         $redisDummy->set(RedisKeyService::getUserTips('empty_error'), '');
 
         return $redisDummy;
     }
-
-    private const USER = 'ninja';
-
-    private const DATA = [
-        'name' => self::USER,
-        'position' => 1,
-        'scoreSum' => 24,
-        'tips' => [
-            0 => [
-                'matchId' => '2000-06-16:2100:FR-DE',
-                'matchDatetime' => '2000-06-16 21:00',
-                'tipTeam1' => 2,
-                'tipTeam2' => 3,
-                'scoreTeam1' => 1,
-                'scoreTeam2' => 4,
-                'team1' => 'FR',
-                'team2' => 'DE',
-                'score' => 2,
-            ],
-            1 => [
-                'matchId' => ':IT-SP',
-                'matchDatetime' => '-1 minute',
-                'tipTeam1' => 1,
-                'tipTeam2' => 0,
-                'scoreTeam1' => 1,
-                'scoreTeam2' => 4,
-                'team1' => 'IT',
-                'team2' => 'SP',
-                'score' => 0,
-            ],
-            2 => [
-                'matchId' => ':PR-AU',
-                'matchDatetime' => 'now',
-                'tipTeam1' => 2,
-                'tipTeam2' => 3,
-                'team1' => 'PR',
-                'team2' => 'AU',
-            ],
-            3 => [
-                'matchId' => ':CZ-NL',
-                'matchDatetime' => '+ 1 minute',
-                'tipTeam1' => 4,
-                'tipTeam2' => 5,
-                'team1' => 'CZ',
-                'team2' => 'NL',
-            ],
-            4 => [
-                'matchId' => '2999-06-20:1800:RU-EN',
-                'matchDatetime' => '2999-06-20 18:00',
-                'tipTeam1' => 4,
-                'tipTeam2' => 2,
-                'team1' => 'RU',
-                'team2' => 'EN',
-            ],
-        ],
-    ];
-
 }
