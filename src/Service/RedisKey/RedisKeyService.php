@@ -9,16 +9,6 @@ final class RedisKeyService
      *
      * @return string
      */
-    public static function getUserPastTips(string $userName): string
-    {
-        return 'user:' . $userName . ':past_tips';
-    }
-
-    /**
-     * @param string $userName
-     *
-     * @return string
-     */
     public static function getUserTips(string $userName): string
     {
         return 'user:' . $userName . ':tips';

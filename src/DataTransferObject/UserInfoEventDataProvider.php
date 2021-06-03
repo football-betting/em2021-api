@@ -16,7 +16,7 @@ final class UserInfoEventDataProvider extends \Xervice\DataProvider\Business\Mod
     /** @var int */
     protected $scoreSum;
 
-    /** @var \App\DataTransferObject\TipEventDataProvider[] */
+    /** @var \App\DataTransferObject\TipInfoEventDataProvider[] */
     protected $tips = [];
 
 
@@ -144,7 +144,7 @@ final class UserInfoEventDataProvider extends \Xervice\DataProvider\Business\Mod
 
 
     /**
-     * @return \App\DataTransferObject\TipEventDataProvider[]
+     * @return \App\DataTransferObject\TipInfoEventDataProvider[]
      */
     public function getTips(): array
     {
@@ -153,7 +153,7 @@ final class UserInfoEventDataProvider extends \Xervice\DataProvider\Business\Mod
 
 
     /**
-     * @param \App\DataTransferObject\TipEventDataProvider[] $tips
+     * @param \App\DataTransferObject\TipInfoEventDataProvider[] $tips
      * @return UserInfoEventDataProvider
      */
     public function setTips(array $tips)
@@ -185,10 +185,10 @@ final class UserInfoEventDataProvider extends \Xervice\DataProvider\Business\Mod
 
 
     /**
-     * @param \App\DataTransferObject\TipEventDataProvider $Tip
+     * @param \App\DataTransferObject\TipInfoEventDataProvider $Tip
      * @return UserInfoEventDataProvider
      */
-    public function addTip(TipEventDataProvider $Tip)
+    public function addTip(TipInfoEventDataProvider $Tip)
     {
         $this->tips[] = $Tip; return $this;
     }
@@ -235,12 +235,12 @@ final class UserInfoEventDataProvider extends \Xervice\DataProvider\Business\Mod
             'name' => 'tips',
             'allownull' => false,
             'default' => '',
-            'type' => '\\App\\DataTransferObject\\TipEventDataProvider[]',
+            'type' => '\\App\\DataTransferObject\\TipInfoEventDataProvider[]',
             'is_collection' => true,
             'is_dataprovider' => false,
             'isCamelCase' => false,
             'singleton' => 'Tip',
-            'singleton_type' => '\\App\\DataTransferObject\\TipEventDataProvider',
+            'singleton_type' => '\\App\\DataTransferObject\\TipInfoEventDataProvider',
           ),
         );
     }

@@ -17,6 +17,13 @@
         <DataElement name="tipTeam2" type="int"/>
     </DataProvider>
 
+    <DataProvider name="TipInfoEvent">
+        <DataElement name="matchId" type="string"/>
+        <DataElement name="score" type="int" allownull="true"/>
+        <DataElement name="tipTeam1" type="int"/>
+        <DataElement name="tipTeam2" type="int"/>
+    </DataProvider>
+
     <DataProvider name="GameEvent">
         <DataElement name="matchId" type="string"/>
         <DataElement name="team1" type="string"/>
@@ -37,7 +44,7 @@
         <DataElement name="name" type="string"/>
         <DataElement name="position" type="int"/>
         <DataElement name="scoreSum" type="int"/>
-        <DataElement name="tips" type="TipEvent[]" singleton="Tip"/>
+        <DataElement name="tips" type="TipInfoEvent[]" singleton="Tip"/>
     </DataProvider>
 
     <DataProvider name="RankingAllEvent">
@@ -67,6 +74,7 @@
         <DataElement name="scoreTeam2" type="int" allownull="true"/>
         <DataElement name="team1" type="string"/>
         <DataElement name="team2" type="string"/>
+        <DataElement name="score" type="int" allownull="true"/>
     </DataProvider>
 
     <DataProvider name="TipInfoList">

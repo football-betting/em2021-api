@@ -32,22 +32,20 @@ class UserTips implements InformationInterface
                     continue;
                 }
 
-                $matchDateTime = $games[$userTip->getMatchId()]->getMatchDatetime();
-                $matchDate = (new \DateTime($matchDateTime))->format('YmdHi');
-                $now = (new \DateTime())->format('YmdHi');
-                if ($matchDate < $now) {
-                    continue;
-                }
-
                 $tip = new TipInfoDataProvider();
 
                 $tip->setMatchId($userTip->getMatchId());
                 $tip->setTipTeam1($userTip->getTipTeam1());
                 $tip->setTipTeam2($userTip->getTipTeam2());
+                $tip->setScore($userTip->getScore());
 
                 $game = $games[$userTip->getMatchId()];
                 $tip->setTeam1($game->getTeam1());
                 $tip->setTeam2($game->getTeam2());
+
+                $tip->setScoreTeam1($game->getScoreTeam1());
+                $tip->setScoreTeam2($game->getScoreTeam2());
+
                 $tip->setMatchDatetime($game->getMatchDatetime());
 
                 $userInfo->addTip($tip);

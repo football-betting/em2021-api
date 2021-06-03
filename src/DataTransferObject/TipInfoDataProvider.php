@@ -31,6 +31,9 @@ final class TipInfoDataProvider extends \Xervice\DataProvider\Business\Model\Dat
     /** @var string */
     protected $team2;
 
+    /** @var int */
+    protected $score;
+
 
     /**
      * @return string
@@ -361,6 +364,47 @@ final class TipInfoDataProvider extends \Xervice\DataProvider\Business\Model\Dat
 
 
     /**
+     * @return int
+     */
+    public function getScore(): ?int
+    {
+        return $this->score;
+    }
+
+
+    /**
+     * @param int $score
+     * @return TipInfoDataProvider
+     */
+    public function setScore(?int $score = null)
+    {
+        $this->score = $score;
+
+        return $this;
+    }
+
+
+    /**
+     * @return TipInfoDataProvider
+     */
+    public function unsetScore()
+    {
+        $this->score = null;
+
+        return $this;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function hasScore()
+    {
+        return ($this->score !== null && $this->score !== []);
+    }
+
+
+    /**
      * @return array
      */
     protected function getElements(): array
@@ -442,6 +486,16 @@ final class TipInfoDataProvider extends \Xervice\DataProvider\Business\Model\Dat
             'allownull' => false,
             'default' => '',
             'type' => 'string',
+            'is_collection' => false,
+            'is_dataprovider' => false,
+            'isCamelCase' => false,
+          ),
+          'score' =>
+          array (
+            'name' => 'score',
+            'allownull' => true,
+            'default' => '',
+            'type' => 'int',
             'is_collection' => false,
             'is_dataprovider' => false,
             'isCamelCase' => false,
