@@ -4,7 +4,7 @@ namespace App\Service\Redis;
 
 use Predis\Client;
 
-final class RedisService
+final class RedisService implements RedisServiceInterface
 {
     /**
      * @var \Predis\Client
