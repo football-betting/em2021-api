@@ -70,14 +70,6 @@ class TipControllerTest extends WebTestCase
 
         self::assertResponseStatusCodeSame(200);
 
-        $response = $this->client->getResponse();
-
-        self::assertTrue($response->headers->contains('Content-Type', 'application/json'));
-
-        $contents = json_decode($response->getContent(), true);
-
-        self::assertTrue($contents['success']);
-
         $logger = $this->loggerRepository->findAll();
         self::assertCount(1, $logger);
 

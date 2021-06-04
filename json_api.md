@@ -1,13 +1,10 @@
 # JSON API
 
-## Send Tip
+## JSON Web Token
 
-URL: `/api/tip/send`
+> For all urls which start with `/api` you have to send the Bearer-Token
 
-Method: `POST`
-
-##### Header:
-
+Header:
 ```
 Authorization: <Token>
 ```
@@ -17,6 +14,42 @@ example:
 ```
 Authorization: Bearer ab0dde18155a43ee83edba4a4542b973
 ```
+
+## Register
+
+URL: `/auth/register`
+
+Method: `POST`
+
+##### Request:
+
+```
+{
+  "username" : <username>,
+  "email" : <email>,
+  "password" : <password>
+}
+```
+
+example:
+
+```json
+{
+  "username" : "DarkNinja",
+  "email" : "ninja@secret.com",
+  "password" : "ninjaIsTheBest"
+}
+```
+
+##### Response:
+
+
+
+## Send Tip
+
+URL: `/api/tip/send`
+
+Method: `POST`
 
 ##### Request:
 
@@ -57,17 +90,6 @@ The URL displays all the games and the tips of what the user has typed. The resu
 Uri: `/api/user_tip/all`
 Method: `GET`
 
-##### Header:
-
-```
-Authorization: <Token>
-```
-
-example:
-
-```
-Authorization: Bearer ab0dde18155a43ee83edba4a4542b973
-```
 
 ##### Response:
 

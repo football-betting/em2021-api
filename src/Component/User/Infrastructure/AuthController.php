@@ -52,8 +52,11 @@ class AuthController extends AbstractController
         $em->flush();
 
         return $this->json([
-            'id' => $user->getId(),
-            'user' => $user->getEmail(),
+            'success' => true,
+            'data' => [
+                'id' => $user->getId(),
+                'username' => $user->getUsername(),
+            ],
         ])->setEncodingOptions(JSON_UNESCAPED_SLASHES);;
     }
 
@@ -67,6 +70,7 @@ class AuthController extends AbstractController
 
         if (!isset($info['email']) || !isset($info['password'])) {
             return $this->json([
+                'success' => false,
                 'message' => 'email or password is wrong.',
             ]);
         }
@@ -77,6 +81,7 @@ class AuthController extends AbstractController
 
         if (!$user instanceof User || !$this->encoder->isPasswordValid($user, $info['password'])) {
             return $this->json([
+                'success' => false,
                 'message' => 'email or password is wrong.',
             ]);
         }
@@ -94,7 +99,7 @@ class AuthController extends AbstractController
         $this->getDoctrine()->getManager()->flush();
 
         return $this->json([
-            'message' => 'success',
+            'success' => true,
             'token' => sprintf('Bearer %s', $jwt),
         ]);
     }

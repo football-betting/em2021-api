@@ -49,21 +49,19 @@ class TipControllerTest extends WebTestCase
                 'uri' => '/api/tip/send',
                 'content' => '{"matchId": "2099-06-15:2100:DE-FR", "tipTeam1": 2, "tipTeam2": 3}',
                 'expectedCode' => 200,
-                'expectedResult' => ''
+                'expectedResult' => '{"success":true}'
             ]
         ];
     }
 
     /**
      * @dataProvider getData
-     *
      */
     public function testSendTip($method, $uri, $content, $expectedCode, $expectedResult)
     {
         /** @var UserRepository $userRepository */
         $userRepository = static::$container->get(UserRepository::class);
         $customerUser = $userRepository->find(2);
-
 
         $auth = [
             'CONTENT_TYPE' => 'application/json',
@@ -79,6 +77,6 @@ class TipControllerTest extends WebTestCase
 
         $responseRequest = $response->getContent();
 
-        self::assertSame('{"success":true}',$responseRequest);
+        self::assertSame($expectedResult,$responseRequest);
     }
 }
