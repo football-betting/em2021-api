@@ -20,18 +20,10 @@ Authorization: Bearer ab0dde18155a43ee83edba4a4542b973
 
 ##### Request:
 
-```json
+```
 {
   "matchId": <matchId>,
-  "tipDatetime": <TimeNow>
-  #
-  deprecate
-  ->
-  in
-  futre
-  i
-  delete
-  this,
+  "tipDatetime": <TimeNow># deprecate,
   "tipTeam1": <score>,
   "tipTeam2": <score>
 }
@@ -81,7 +73,7 @@ Authorization: Bearer ab0dde18155a43ee83edba4a4542b973
 
 ##### Response:
 
-```json
+```
 {
   "success": true,
   "data": {
