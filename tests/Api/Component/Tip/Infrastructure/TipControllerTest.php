@@ -47,7 +47,7 @@ class TipControllerTest extends WebTestCase
             [
                 'method' => 'POST',
                 'uri' => '/api/tip/send',
-                'content' => '{"matchId": "2021-06-15:2100:DE-FR", "tipDatetime": "2020-05-30 14:36", "tipTeam1": 2, "tipTeam2": 3}',
+                'content' => '{"matchId": "2099-06-15:2100:DE-FR", "tipTeam1": 2, "tipTeam2": 3}',
                 'expectedCode' => 200,
                 'expectedResult' => ''
             ]

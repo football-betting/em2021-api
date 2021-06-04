@@ -14,7 +14,6 @@ class MappingTipTest extends TestCase
 
         $expectedData = [
             "matchId" => "2021-06-15:2100:DE-FR",
-            "tipDatetime" => "2020-05-30 14:36",
             "tipTeam1" => 2,
             "tipTeam2" => 3,
         ];
@@ -28,7 +27,7 @@ class MappingTipTest extends TestCase
 
         self::assertSame($user->getUsername(), $tipDataProvider->getUser());
         self::assertSame($expectedData['matchId'], $tipDataProvider->getMatchId());
-        self::assertSame($expectedData['tipDatetime'], $tipDataProvider->getTipDatetime());
+        self::assertFalse($tipDataProvider->hasTipDatetime());
         self::assertSame($expectedData['tipTeam1'], $tipDataProvider->getTipTeam1());
         self::assertSame($expectedData['tipTeam2'], $tipDataProvider->getTipTeam2());
     }

@@ -50,7 +50,7 @@ class TipControllerTest extends WebTestCase
         $customerUser = $userRepository->find(1);
 
         $filtersInfo = [
-            "matchId" => "2021-06-15:2100:DE-FR",
+            "matchId" => "2099-06-15:2100:DE-FR",
             "tipDatetime" => "2020-05-30 14:36",
             "tipTeam1" => 2,
             "tipTeam2" => 3,
@@ -85,9 +85,10 @@ class TipControllerTest extends WebTestCase
         self::assertSame(TipEventDataProvider::class, $loggerEntity->getClass());
 
         $tipEventDataProvider = new TipEventDataProvider();
+
         $tipEventDataProvider->fromArray($loggerEntity->getData());
         self::assertSame($filtersInfo['matchId'], $tipEventDataProvider->getMatchId());
-        self::assertSame($filtersInfo['tipDatetime'], $tipEventDataProvider->getTipDatetime());
+        self::assertSame((new \DateTime())->format('Y-m-d H:i'), $tipEventDataProvider->getTipDatetime());
         self::assertSame($filtersInfo['tipTeam1'], $tipEventDataProvider->getTipTeam1());
         self::assertSame($filtersInfo['tipTeam2'], $tipEventDataProvider->getTipTeam2());
         self::assertSame($customerUser->getUsername(), $tipEventDataProvider->getUser());
@@ -108,7 +109,7 @@ class TipControllerTest extends WebTestCase
         $tipEventDataProvider->fromArray($body['data']);
 
         self::assertSame($filtersInfo['matchId'], $tipEventDataProvider->getMatchId());
-        self::assertSame($filtersInfo['tipDatetime'], $tipEventDataProvider->getTipDatetime());
+        self::assertSame((new \DateTime())->format('Y-m-d H:i'), $tipEventDataProvider->getTipDatetime());
         self::assertSame($filtersInfo['tipTeam1'], $tipEventDataProvider->getTipTeam1());
         self::assertSame($filtersInfo['tipTeam2'], $tipEventDataProvider->getTipTeam2());
         self::assertSame($customerUser->getUsername(), $tipEventDataProvider->getUser());

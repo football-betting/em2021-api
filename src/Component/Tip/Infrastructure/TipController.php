@@ -49,6 +49,7 @@ class TipController extends AbstractController
         $content = $this->getContent($request);
 
         $error = $this->jsonSchemaValidation->getErrors($content, 'tip');
+
         if (count($error) > 0) {
             $data = [
                 'success' => false,
@@ -57,16 +58,26 @@ class TipController extends AbstractController
             return $this->json($data, 422)->setEncodingOptions(JSON_UNESCAPED_SLASHES);
         }
 
+        /** @var \App\Entity\User $user */
         $user = $this->getUser();
-        if (!$user instanceof UserInterface) {
-            $data = [
-                'success' => false,
-                'error' => 'User is not logging',
-            ];
-            return $this->json($data, 500)->setEncodingOptions(JSON_UNESCAPED_SLASHES);
-        }
 
         $tipEventDataProvider = $this->mappingTip->map($content, $user);
+
+        $matchId = $tipEventDataProvider->getMatchId();
+        $matchIdArray = explode(':',$matchId);
+        $matchDate = new \DateTime($matchIdArray[0] . ' ' . $matchIdArray[1]);
+        $now = new \DateTime();
+
+        if($matchDate < $now) {
+            $data = [
+                'success' => false,
+                'error' => 'For games in the past you can not type',
+            ];
+            return $this->json($data, 422)->setEncodingOptions(JSON_UNESCAPED_SLASHES);
+        }
+
+        $tipEventDataProvider->setTipDatetime($now->format('Y-m-d H:i'));
+
         $this->messageService->send($tipEventDataProvider);
 
         return $this->json([

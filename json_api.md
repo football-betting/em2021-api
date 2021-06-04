@@ -23,7 +23,6 @@ Authorization: Bearer ab0dde18155a43ee83edba4a4542b973
 ```
 {
   "matchId": <matchId>,
-  "tipDatetime": <TimeNow># deprecate,
   "tipTeam1": <score>,
   "tipTeam2": <score>
 }
@@ -34,7 +33,6 @@ example:
 ```json
 {
   "matchId": "2021-06-15:2100:DE-FR",
-  "tipDatetime": "2020-05-30 14:36",
   "tipTeam1": 2,
   "tipTeam2": 3
 }

@@ -13,7 +13,6 @@ class JsonSchemaValidationServiceTest extends TestCase
 
         $json = json_encode([
             "matchId" => "2021-06-15:2100:DE-FR",
-            "tipDatetime" => "2020-05-30 14:36",
             "tipTeam1" => 2,
             "tipTeam2" => 3,
         ], JSON_THROW_ON_ERROR);
@@ -56,7 +55,6 @@ class JsonSchemaValidationServiceTest extends TestCase
             [
                 'data' => [
                     "matchId" => "2021-06-15:2100:DE-FR",
-                    "tipDatetime" => "2020-05-30 14:36",
                     "tipTeam2" => 3,
                 ],
                 'errors' => [
@@ -66,7 +64,6 @@ class JsonSchemaValidationServiceTest extends TestCase
             [
                 'data' => [
                     "matchId" => "2021-06-15:2100:DE-FR",
-                    "tipDatetime" => "2020-05-30 14:36",
                     "tipTeam1" => 3,
                 ],
                 'errors' => [
@@ -80,15 +77,6 @@ class JsonSchemaValidationServiceTest extends TestCase
                 ],
                 'errors' => [
                     'The required properties (tipTeam1) are missing'
-                ],
-            ],
-            [
-                'data' => [
-                    "matchId" => "2021-06-15:2100:DE-FR",
-                    "tipTeam1" => 3,
-                ],
-                'errors' => [
-                    'The required properties (tipDatetime) are missing'
                 ],
             ],
             [
@@ -108,17 +96,6 @@ class JsonSchemaValidationServiceTest extends TestCase
                 ],
                 'errors' => [
                     'The string should match pattern: ^([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]):(0[0-9]|1[0-9]|2[0-3])[0-5][0-9]:\w{2}-\w{2}$'
-                ]
-            ],
-            [
-                'data' => [
-                    "matchId" => "2021-06-15:2100:DE-FR",
-                    "tipDatetime" => "202005-30 14:36",
-                    "tipTeam1" => 2,
-                    "tipTeam2" => 3,
-                ],
-                'errors' => [
-                    'The string should match pattern: ^([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$'
                 ]
             ]
         ];
