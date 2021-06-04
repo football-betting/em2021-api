@@ -114,4 +114,95 @@ class TipControllerTest extends WebTestCase
         self::assertSame($filtersInfo['tipTeam2'], $tipEventDataProvider->getTipTeam2());
         self::assertSame($customerUser->getUsername(), $tipEventDataProvider->getUser());
     }
+
+    public function testSendNoAllowedTip()
+    {
+        /** @var UserRepository $userRepository */
+        $userRepository = static::$container->get(UserRepository::class);
+        $customerUser = $userRepository->find(1);
+
+        $filtersInfo = [
+            "matchId" => "2000-06-15:2100:DE-FR",
+            "tipTeam1" => 2,
+            "tipTeam2" => 3,
+        ];
+
+        $this->client->request(
+            'POST',
+            '/api/tip/send',
+            [],
+            [],
+            [
+                'CONTENT_TYPE' => 'application/json',
+                'Authorization' => $customerUser->getToken()
+            ],
+            json_encode($filtersInfo)
+        );
+
+        self::assertResponseStatusCodeSame(422);
+
+        $response = $this->client->getResponse();
+
+        self::assertTrue($response->headers->contains('Content-Type', 'application/json'));
+
+        $contents = json_decode($response->getContent(), true);
+
+        self::assertFalse($contents['success']);
+        self::assertSame('For games in the past you can not type', $contents['message']);
+
+        $logger = $this->loggerRepository->findAll();
+        self::assertCount(0, $logger);
+
+
+        $sql = "SELECT * FROM messenger_messages";
+        $stmt = $this->entityManager->getConnection()->prepare($sql);
+        $resultList = $stmt->executeQuery()->fetchAllAssociative();
+
+        self::assertCount(0, $resultList);
+    }
+
+    public function testSendForErrorTip()
+    {
+        /** @var UserRepository $userRepository */
+        $userRepository = static::$container->get(UserRepository::class);
+        $customerUser = $userRepository->find(1);
+
+        $filtersInfo = [
+            "matchId" => "2000-06-15:2100:DE-FR",
+            "tipTeam2" => 3,
+        ];
+
+        $this->client->request(
+            'POST',
+            '/api/tip/send',
+            [],
+            [],
+            [
+                'CONTENT_TYPE' => 'application/json',
+                'Authorization' => $customerUser->getToken()
+            ],
+            json_encode($filtersInfo)
+        );
+
+        self::assertResponseStatusCodeSame(422);
+
+        $response = $this->client->getResponse();
+
+        self::assertTrue($response->headers->contains('Content-Type', 'application/json'));
+
+        $contents = json_decode($response->getContent(), true);
+
+        self::assertFalse($contents['success']);
+        self::assertSame('The required properties (tipTeam1) are missing', $contents['message'][0]);
+
+        $logger = $this->loggerRepository->findAll();
+        self::assertCount(0, $logger);
+
+
+        $sql = "SELECT * FROM messenger_messages";
+        $stmt = $this->entityManager->getConnection()->prepare($sql);
+        $resultList = $stmt->executeQuery()->fetchAllAssociative();
+
+        self::assertCount(0, $resultList);
+    }
 }

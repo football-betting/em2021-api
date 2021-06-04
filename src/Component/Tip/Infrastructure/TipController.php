@@ -53,7 +53,7 @@ class TipController extends AbstractController
         if (count($error) > 0) {
             $data = [
                 'success' => false,
-                'error' => $error,
+                'message' => $error,
             ];
             return $this->json($data, 422)->setEncodingOptions(JSON_UNESCAPED_SLASHES);
         }
@@ -71,7 +71,7 @@ class TipController extends AbstractController
         if($matchDate < $now) {
             $data = [
                 'success' => false,
-                'error' => 'For games in the past you can not type',
+                'message' => 'For games in the past you can not type',
             ];
             return $this->json($data, 422)->setEncodingOptions(JSON_UNESCAPED_SLASHES);
         }
