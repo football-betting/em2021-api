@@ -5,6 +5,7 @@
 > For all urls which start with `/api` you have to send the Bearer-Token
 
 Header:
+
 ```
 Authorization: <Token>
 ```
@@ -35,9 +36,9 @@ example:
 
 ```json
 {
-  "username" : "DarkNinja",
-  "email" : "ninja@secret.com",
-  "password" : "ninjaIsTheBest"
+  "username": "DarkNinja",
+  "email": "ninja@secret.com",
+  "password": "ninjaIsTheBest"
 }
 ```
 
@@ -45,17 +46,15 @@ example:
 
 ```json
 {
-  "success":true,
-  "data":
-  {
-    "id":1,
-    "username":"DarkNinja"
+  "success": true,
+  "data": {
+    "id": 1,
+    "username": "DarkNinja"
   }
 }
 ```
 
 Test: _tests/Api/Component/User/Infrastructure/AuthControllerTest.php_
-
 
 ## Login
 
@@ -76,8 +75,8 @@ example:
 
 ```json
 {
-  "email" : "ninja@secret.com",
-  "password" : "ninjaIsTheBest"
+  "email": "ninja@secret.com",
+  "password": "ninjaIsTheBest"
 }
 ```
 
@@ -85,14 +84,33 @@ example:
 
 ```json
 {
-  "success":true,
-  "token":"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjJ9.2MZDCZHdhlnAB1iF_c_uTR_XV3ylguykSviVfmCTWzM"
+  "success": true,
+  "token": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjJ9.2MZDCZHdhlnAB1iF_c_uTR_XV3ylguykSviVfmCTWzM"
 }
 ```
 
 Test: _tests/Api/Component/User/Infrastructure/AuthControllerTest.php_
 
+## User Info
 
+URL: `/api/user/info`
+
+Method: `GET`
+
+##### Response:
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "username": "ninja",
+    "email": "ninja@em2021.com"
+  }
+}
+```
+
+Test: _tests/Api/Component/User/Infrastructure/UserControllerTest.php_
 
 ## Send Tip
 
@@ -138,7 +156,6 @@ The URL displays all the games and the tips of what the user has typed. The resu
 
 Uri: `/api/user_tip/all`
 Method: `GET`
-
 
 ##### Response:
 
