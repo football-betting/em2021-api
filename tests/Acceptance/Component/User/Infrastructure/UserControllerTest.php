@@ -2,6 +2,7 @@
 
 namespace App\Tests\Acceptance\Component\User\Infrastructure;
 
+use App\DataFixtures\AppFixtures;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
@@ -11,6 +12,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserControllerTest extends WebTestCase
 {
+    private ?AppFixtures $appFixtures;
     private ?UserPasswordEncoderInterface $userPasswordEncoder;
     private ?UserRepository $userRepository;
     private ?EntityManager $entityManager;
@@ -26,13 +28,15 @@ class UserControllerTest extends WebTestCase
             ->getManager();
 
         $this->userRepository = static::$container->get(UserRepository::class);
-        $this->userPasswordEncoder = static::$container->get(UserPasswordEncoderInterface::class);
+
+        /** @var AppFixtures appFixtures */
+        $this->appFixtures = static::$container->get(AppFixtures::class);
     }
 
 
     protected function tearDown(): void
     {
-        $this->entityManager->getConnection()->executeStatement('TRUNCATE user');
+        $this->appFixtures->truncateTable($this->entityManager);
 
         $this->entityManager->close();
         $this->entityManager = null;
@@ -42,11 +46,11 @@ class UserControllerTest extends WebTestCase
 
     public function testInfoWithSecurityCheck()
     {
+        $userList = $this->appFixtures->load($this->entityManager);
         $user = [
-            "email" => "ninja@secret.com",
-            "password" => "ninjaIsTheBest",
+            "email" => $userList[1]->getEmail(),
+            "password" => AppFixtures::DATA['rockstar']['password'],
         ];
-        $this->saveUser($user);
 
         $this->client->request(
             'POST',
@@ -76,9 +80,9 @@ class UserControllerTest extends WebTestCase
 
         $contents = json_decode($response->getContent(), true);
         self::assertArrayHasKey('data', $contents);
-        self::assertSame(1, $contents['data']['id']);
-        self::assertSame('ninja', $contents['data']['username']);
-        self::assertSame($user['email'], $contents['data']['email']);
+        self::assertSame($userList[1]->getId(), $contents['data']['id']);
+        self::assertSame($userList[1]->getUsername(), $contents['data']['username']);
+        self::assertSame($userList[1]->getEmail(), $contents['data']['email']);
     }
 
     public function testInfoWithSecurityNotValid()
@@ -103,11 +107,11 @@ class UserControllerTest extends WebTestCase
 
     public function testInfoWithSecurityFailWhenUserNotFound()
     {
+        $userList = $this->appFixtures->load($this->entityManager);
         $user = [
-            "email" => "ninja@secret.com",
-            "password" => "ninjaIsTheBest",
+            "email" => $userList[1]->getEmail(),
+            "password" => AppFixtures::DATA['rockstar']['password'],
         ];
-        $this->saveUser($user);
 
         $this->client->request(
             'POST',
@@ -144,11 +148,11 @@ class UserControllerTest extends WebTestCase
 
     public function testInfoWithSecurityFailWhenDateTokenIsOld()
     {
+        $userList = $this->appFixtures->load($this->entityManager);
         $user = [
-            "email" => "ninja@secret.com",
-            "password" => "ninjaIsTheBest",
+            "email" => $userList[0]->getEmail(),
+            "password" => AppFixtures::DATA['ninja']['password'],
         ];
-        $this->saveUser($user);
 
         $this->client->request(
             'POST',
@@ -184,16 +188,4 @@ class UserControllerTest extends WebTestCase
         $contents = json_decode($response->getContent(), true);
         self::assertSame('Token time is expired', $contents['message']);
     }
-
-    private function saveUser(array $user): void
-    {
-        $userEntity = new User();
-        $userEntity->setUsername('ninja');
-        $userEntity->setEmail($user['email']);
-        $userEntity->setPassword($this->userPasswordEncoder->encodePassword($userEntity, $user['password']));
-
-        $this->entityManager->persist($userEntity);
-        $this->entityManager->flush();
-    }
-
 }

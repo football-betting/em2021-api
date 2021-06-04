@@ -13,24 +13,16 @@ class UserController extends AbstractController
      */
     public function info()
     {
-        $user = $this->getLoginUser();
+        /** @var User $user */
+        $user = $this->getUser();
 
         return $this->json([
+            'success' => true,
             'data' => [
                 'id' => $user->getId(),
                 'username' => $user->getUsername(),
                 'email' => $user->getEmail(),
             ],
         ]);
-    }
-
-    private function getLoginUser(): User
-    {
-        $user = $this->getUser();
-        if (!$user instanceof User) {
-            throw new \Exception('User not loggin');
-        }
-
-        return $user;
     }
 }

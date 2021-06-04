@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AuthControllerTest extends WebTestCase
 {
-    private AppFixtures $appFixtures;
+    private ?AppFixtures $appFixtures;
     private ?EntityManager $entityManager;
     private KernelBrowser $client;
 
