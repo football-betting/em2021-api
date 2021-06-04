@@ -15,6 +15,7 @@
         <DataElement name="tipDatetime" type="string"/>
         <DataElement name="tipTeam1" type="int"/>
         <DataElement name="tipTeam2" type="int"/>
+        <DataElement name="user" type="string"/>
     </DataProvider>
 
     <DataProvider name="TipInfoEvent">

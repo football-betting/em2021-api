@@ -19,6 +19,9 @@ final class TipEventDataProvider extends \Xervice\DataProvider\Business\Model\Da
     /** @var int */
     protected $tipTeam2;
 
+    /** @var string */
+    protected $user;
+
 
     /**
      * @return string
@@ -185,6 +188,47 @@ final class TipEventDataProvider extends \Xervice\DataProvider\Business\Model\Da
 
 
     /**
+     * @return string
+     */
+    public function getUser(): string
+    {
+        return $this->user;
+    }
+
+
+    /**
+     * @param string $user
+     * @return TipEventDataProvider
+     */
+    public function setUser(string $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+
+    /**
+     * @return TipEventDataProvider
+     */
+    public function unsetUser()
+    {
+        $this->user = null;
+
+        return $this;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function hasUser()
+    {
+        return ($this->user !== null && $this->user !== []);
+    }
+
+
+    /**
      * @return array
      */
     protected function getElements(): array
@@ -226,6 +270,16 @@ final class TipEventDataProvider extends \Xervice\DataProvider\Business\Model\Da
             'allownull' => false,
             'default' => '',
             'type' => 'int',
+            'is_collection' => false,
+            'is_dataprovider' => false,
+            'isCamelCase' => false,
+          ),
+          'user' =>
+          array (
+            'name' => 'user',
+            'allownull' => false,
+            'default' => '',
+            'type' => 'string',
             'is_collection' => false,
             'is_dataprovider' => false,
             'isCamelCase' => false,
