@@ -36,8 +36,6 @@ class UserTips
             2 => [
                 'matchId' => ':PR-AU',
                 'matchDatetime' => 'now',
-                'tipTeam1' => 2,
-                'tipTeam2' => 3,
                 'team1' => 'PR',
                 'team2' => 'AU',
             ],

@@ -26,14 +26,15 @@ class UserTipsController extends AbstractController
     public function userTips(): JsonResponse
     {
         /** @var \App\Entity\User $user */
-        $user = $this->getUser();
-        $userInfoDataProvider = $this->tips->getUserTips($user->getUsername());
+
 
         $dataResponse = [
-            'success' => true
+            'success' => true,
         ];
         $status = 200;
         try {
+            $user = $this->getUser();
+            $userInfoDataProvider = $this->tips->getUserTips($user->getUsername());
             $userInfo = $this->convertUserInfoDataProviderToArray($userInfoDataProvider);
             $dataResponse['data'] = $userInfo;
         } catch (\Exception $e) {
@@ -51,7 +52,20 @@ class UserTipsController extends AbstractController
     {
         $userInfo = $userInfoDataProvider->toArray();
 
-        return [];
+        $tips = $userInfoDataProvider->getTips();
+        $canBeNull = [
+            'scoreTeam1', 'scoreTeam2', 'tipTeam1', 'tipTeam2', 'score',
+        ];
+        foreach ($tips as $tipKey => $tip) {
+            foreach ($canBeNull as $methode) {
+                $methodeName = 'get' . ucfirst($methode);
+                if ($tip->$methodeName() === null) {
+                    $userInfo['tips'][$tipKey][$methode] = null;
+                }
+            }
+        }
+
+        return $userInfo;
     }
 
 }

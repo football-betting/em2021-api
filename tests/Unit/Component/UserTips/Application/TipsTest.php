@@ -64,11 +64,11 @@ class TipsTest extends TestCase
 
         self::assertSame($this->expectedDate[2]['matchId'], $tipInfoDataProvider->getMatchId());
         self::assertSame($this->expectedDate[2]['matchDatetime'], $tipInfoDataProvider->getMatchDatetime());
-        self::assertSame(2, $tipInfoDataProvider->getTipTeam1());
-        self::assertSame(3, $tipInfoDataProvider->getTipTeam2());
         self::assertSame('PR', $tipInfoDataProvider->getTeam1());
         self::assertSame('AU', $tipInfoDataProvider->getTeam2());
 
+        self::assertNull($tipInfoDataProvider->getTipTeam1());
+        self::assertNull($tipInfoDataProvider->getTipTeam2());
         self::assertNull($tipInfoDataProvider->getScore());
         self::assertNull($tipInfoDataProvider->getScoreTeam1());
         self::assertNull($tipInfoDataProvider->getScoreTeam2());
@@ -179,11 +179,11 @@ class TipsTest extends TestCase
 
         self::assertSame($this->expectedDate[2]['matchId'], $tipInfoDataProvider->getMatchId());
         self::assertSame($this->expectedDate[2]['matchDatetime'], $tipInfoDataProvider->getMatchDatetime());
-        self::assertSame(2, $tipInfoDataProvider->getTipTeam1());
-        self::assertSame(3, $tipInfoDataProvider->getTipTeam2());
         self::assertSame('PR', $tipInfoDataProvider->getTeam1());
         self::assertSame('AU', $tipInfoDataProvider->getTeam2());
 
+        self::assertNull($tipInfoDataProvider->getTipTeam1());
+        self::assertNull($tipInfoDataProvider->getTipTeam2());
         self::assertNull($tipInfoDataProvider->getScore());
         self::assertNull($tipInfoDataProvider->getScoreTeam1());
         self::assertNull($tipInfoDataProvider->getScoreTeam2());

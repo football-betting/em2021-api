@@ -3,14 +3,17 @@
 namespace App\Tests\Acceptance\Component\UserTips\Infrastructure;
 
 use App\DataFixtures\AppFixtures;
-use App\DataTransferObject\TipEventDataProvider;
 use App\Repository\UserRepository;
+use App\Service\Redis\RedisService;
+use App\Service\RedisKey\RedisKeyService;
+use App\Tests\Fixtures\UserTips;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class UserTipsControllerTest extends WebTestCase
 {
+    private RedisService $redisService;
     private ?EntityManager $entityManager;
     private KernelBrowser $client;
 
@@ -24,14 +27,25 @@ class UserTipsControllerTest extends WebTestCase
             ->getManager();
 
         static::$container->get(AppFixtures::class)->load($this->entityManager);
+
+        /** @var RedisService redisService */
+        $this->redisService = static::$container->get(RedisService::class);
+
+        $userTips = new UserTips();
+        $this->redisService->set(
+            RedisKeyService::getUserTips(UserTips::USER),
+            json_encode($userTips->getDummyData())
+        );
     }
 
 
     protected function tearDown(): void
     {
         static::$container->get(AppFixtures::class)->truncateTable($this->entityManager);
-        $this->entityManager->getConnection()->executeStatement('TRUNCATE messenger_messages');
-        $this->entityManager->getConnection()->executeStatement('TRUNCATE logger');
+
+        $this->redisService->delete(
+            RedisKeyService::getUserTips(UserTips::USER),
+        );
 
         $this->entityManager->close();
         $this->entityManager = null;
@@ -39,7 +53,7 @@ class UserTipsControllerTest extends WebTestCase
         parent::tearDown();
     }
 
-    public function testSendTip()
+    public function testUserTipAll()
     {
         /** @var UserRepository $userRepository */
         $userRepository = static::$container->get(UserRepository::class);
@@ -48,14 +62,12 @@ class UserTipsControllerTest extends WebTestCase
 
         $this->client->request(
             'GET',
-            '/api/tip/send',
+            '/api/user_tip/all',
             [],
             [],
             [
-                'CONTENT_TYPE' => 'application/json',
-                'Authorization' => $customerUser->getToken()
-            ],
-            json_encode($filtersInfo)
+                'Authorization' => $customerUser->getToken(),
+            ]
         );
 
         self::assertResponseStatusCodeSame(200);
@@ -67,40 +79,39 @@ class UserTipsControllerTest extends WebTestCase
         $contents = json_decode($response->getContent(), true);
 
         self::assertTrue($contents['success']);
+        self::assertArrayHasKey('data',$contents);
 
-        $logger = $this->loggerRepository->findAll();
-        self::assertCount(1, $logger);
+        $data = $contents['data'];
 
-        $loggerEntity = $logger[0];
-        self::assertSame(TipEventDataProvider::class, $loggerEntity->getClass());
+        self::assertArrayHasKey('tips',$data);
 
-        $tipEventDataProvider = new TipEventDataProvider();
-        $tipEventDataProvider->fromArray($loggerEntity->getData());
-        self::assertSame($filtersInfo['matchId'], $tipEventDataProvider->getMatchId());
-        self::assertSame($filtersInfo['tipDatetime'], $tipEventDataProvider->getTipDatetime());
-        self::assertSame($filtersInfo['tipTeam1'], $tipEventDataProvider->getTipTeam1());
-        self::assertSame($filtersInfo['tipTeam2'], $tipEventDataProvider->getTipTeam2());
-        self::assertSame($customerUser->getUsername(), $tipEventDataProvider->getUser());
+        $tips = $data['tips'];
+        self::assertCount(5, $tips);
 
-        $sql = "SELECT * FROM messenger_messages";
-        $stmt = $this->entityManager->getConnection()->prepare($sql);
-        $resultList = $stmt->executeQuery()->fetchAllAssociative();
+        self::assertCount(9, $tips[0]);
+        self::assertCount(9, $tips[1]);
+        self::assertCount(9, $tips[2]);
+        self::assertCount(9, $tips[3]);
+        self::assertCount(9, $tips[4]);
 
-        self::assertCount(1, $resultList);
+        $tip = $tips[0];
+        self::assertSame('2000-06-16:2100:FR-DE', $tip['matchId']);
+        self::assertSame('2000-06-16 21:00', $tip['matchDatetime']);
+        self::assertSame(2, $tip['tipTeam1']);
+        self::assertSame(3, $tip['tipTeam2']);
+        self::assertSame(1, $tip['scoreTeam1']);
+        self::assertSame(4, $tip['scoreTeam2']);
+        self::assertSame('FR', $tip['team1']);
+        self::assertSame('DE', $tip['team2']);
+        self::assertSame(2, $tip['score']);
 
-        $result = $resultList[0];
-
-        self::assertSame('tip.user',$result['queue_name']);
-        $body = json_decode($result['body'], true);
-        self::assertSame($result['queue_name'], $body['event']);
-
-        $tipEventDataProvider = new TipEventDataProvider();
-        $tipEventDataProvider->fromArray($body['data']);
-
-        self::assertSame($filtersInfo['matchId'], $tipEventDataProvider->getMatchId());
-        self::assertSame($filtersInfo['tipDatetime'], $tipEventDataProvider->getTipDatetime());
-        self::assertSame($filtersInfo['tipTeam1'], $tipEventDataProvider->getTipTeam1());
-        self::assertSame($filtersInfo['tipTeam2'], $tipEventDataProvider->getTipTeam2());
-        self::assertSame($customerUser->getUsername(), $tipEventDataProvider->getUser());
+        $tip = $tips[2];
+        self::assertNull($tip['tipTeam1']);
+        self::assertNull($tip['tipTeam2']);
+        self::assertNull($tip['scoreTeam1']);
+        self::assertNull($tip['scoreTeam2']);
+        self::assertSame('PR', $tip['team1']);
+        self::assertSame('AU', $tip['team2']);
+        self::assertNull($tip['score']);
     }
 }

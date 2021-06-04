@@ -5,3 +5,7 @@ tip_controllers:
 user_controllers:
     resource: ../../src/Component/User/Infrastructure/
     type: annotation
+
+user_tips_controllers:
+    resource: ../../src/Component/UserTips/Infrastructure/
+    type: annotation
