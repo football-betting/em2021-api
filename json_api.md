@@ -43,6 +43,55 @@ example:
 
 ##### Response:
 
+```json
+{
+  "success":true,
+  "data":
+  {
+    "id":1,
+    "username":"DarkNinja"
+  }
+}
+```
+
+Test: _tests/Api/Component/User/Infrastructure/AuthControllerTest.php_
+
+
+## Login
+
+URL: `/auth/login`
+
+Method: `POST`
+
+##### Request:
+
+```
+{
+  "email" : <email>,
+  "password" : <password>
+}
+```
+
+example:
+
+```json
+{
+  "email" : "ninja@secret.com",
+  "password" : "ninjaIsTheBest"
+}
+```
+
+##### Response:
+
+```json
+{
+  "success":true,
+  "token":"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjJ9.2MZDCZHdhlnAB1iF_c_uTR_XV3ylguykSviVfmCTWzM"
+}
+```
+
+Test: _tests/Api/Component/User/Infrastructure/AuthControllerTest.php_
+
 
 
 ## Send Tip
