@@ -95,4 +95,15 @@
         <DataElement name="tipTeam2" type="int"/>
     </DataProvider>
 
+
+    <DataProvider name="UserRatingList">
+        <DataElement name="users" type="UserRating[]" singleton="User"/>
+    </DataProvider>
+
+    <DataProvider name="UserRating">
+        <DataElement name="name" type="string"/>
+        <DataElement name="position" type="int"/>
+        <DataElement name="scoreSum" type="int"/>
+    </DataProvider>
+
 </DataProviders>

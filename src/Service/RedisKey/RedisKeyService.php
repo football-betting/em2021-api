@@ -13,4 +13,12 @@ final class RedisKeyService
     {
         return 'user:' . $userName . ':tips';
     }
+
+    /**
+     * @return string
+     */
+    public static function getTable(): string
+    {
+        return 'table';
+    }
 }
