@@ -3,17 +3,14 @@
 namespace App\Tests\Acceptance\Component\User\Infrastructure;
 
 use App\DataFixtures\AppFixtures;
-use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserControllerTest extends WebTestCase
 {
     private ?AppFixtures $appFixtures;
-    private ?UserPasswordEncoderInterface $userPasswordEncoder;
     private ?UserRepository $userRepository;
     private ?EntityManager $entityManager;
     private KernelBrowser $client;
