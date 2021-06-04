@@ -357,3 +357,38 @@ Method: `GET`
 
 Test: _tests/Acceptance/Component/UserTips/Infrastructure/UserTipsControllerTest.php_
 
+
+### Users Rating
+
+Uri: `/api/rating`
+Method: `GET`
+
+
+##### Response:
+
+For 3 users in system
+
+```json
+{
+  "success": true,
+  "data": {
+    "users": [
+      {
+        "name": "ninja",
+        "position": 1,
+        "scoreSum": 24
+      },
+      {
+        "name": "rockstar",
+        "position": 2,
+        "scoreSum": 21
+      },
+      {
+        "name": "motherSoccer",
+        "position": 3,
+        "scoreSum": 15
+      }
+    ]
+  }
+}
+```

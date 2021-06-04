@@ -9,3 +9,8 @@ user_controllers:
 user_tips_controllers:
     resource: ../../src/Component/UserTips/Infrastructure/
     type: annotation
+
+user_rating_controllers:
+    resource: ../../src/Component/UserRating/Infrastructure/
+    type: annotation
+

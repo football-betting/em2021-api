@@ -37,6 +37,10 @@ services:
         resource: '../src/Component/UserTips/Infrastructure/'
         tags: [ 'controller.service_arguments' ]
 
+    App\Component\UserRating\Infrastructure\:
+        resource: '../src/Component/UserRating/Infrastructure/'
+        tags: [ 'controller.service_arguments' ]
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
