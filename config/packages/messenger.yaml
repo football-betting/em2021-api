@@ -3,11 +3,11 @@ framework:
         serializer:
             default_serializer: App\Component\Symfony\Messenger\Transport\JsonSerializer
         transports:
-            tip.user: "%env(TIP_USER_EVENT)%"
+            app.to.tip: "%env(TIP_USER_EVENT)%"
             ranking.all: "%env(RANKING_ALL_EVENT)%"
 
         routing:
             'App\DataTransferObject\TipEventDataProvider':
-                - tip.user
+                - app.to.tip
             'App\DataTransferObject\RankingAllEventDataProvider':
                 - ranking.all

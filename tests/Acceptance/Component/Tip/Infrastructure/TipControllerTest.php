@@ -93,7 +93,7 @@ class TipControllerTest extends WebTestCase
 
         $result = $resultList[0];
 
-        self::assertSame('tip.user',$result['queue_name']);
+        self::assertSame('app.to.tip',$result['queue_name']);
         $body = json_decode($result['body'], true);
         self::assertSame($result['queue_name'], $body['event']);
 
