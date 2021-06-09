@@ -69,6 +69,123 @@ class AuthControllerTest extends WebTestCase
         self::assertNotEmpty($expectedUser->getPassword());
     }
 
+    public function testRegisterOnEmailError()
+    {
+        $userArray = [
+            "username" => "DarkNinja",
+            "email" => "ninja@secret.com",
+            "password" => "ninjaIsTheBest",
+        ];
+
+        $user = new User();
+        $user->setUsername('DarkNinja');
+        $user->setEmail('ninja@secret.com');
+        $user->setPassword('ninjaIsTheBest');
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        $this->client->request(
+            'POST',
+            '/auth/register',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode($userArray)
+        );
+
+        $response = $this->client->getResponse();
+
+        self::assertSame('{"success":false,"message":"Email ninja@secret.com is already in use!"}', $response->getContent());
+    }
+
+    public function testRegisterOnUsernameError()
+    {
+        $userArray = [
+            "username" => "DarkNinja",
+            "email" => "ninja@secret22.com",
+            "password" => "ninjaIsTheBest",
+        ];
+
+        $user = new User();
+        $user->setUsername('DarkNinja');
+        $user->setEmail('ninja@secret.com');
+        $user->setPassword('ninjaIsTheBest');
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        $this->client->request(
+            'POST',
+            '/auth/register',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode($userArray)
+        );
+
+        $response = $this->client->getResponse();
+
+        self::assertSame('{"success":false,"message":"Username DarkNinja is already in use!"}', $response->getContent());
+    }
+
+    /**
+     * @dataProvider provideEmptyEmailUsers
+     */
+    public function testRegisterOnEmptyEmail(array $user)
+    {
+        $this->client->request(
+            'POST',
+            '/auth/register',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode($user)
+        );
+
+        $response = $this->client->getResponse();
+
+        self::assertSame('{"success":false,"message":"Email  is not valid!"}', $response->getContent());
+    }
+
+    /**
+     * @dataProvider provideEmptyUsernameUsers
+     */
+    public function testRegisterOnEmptyUsername(array $user)
+    {
+        $this->client->request(
+            'POST',
+            '/auth/register',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode($user)
+        );
+
+        $response = $this->client->getResponse();
+
+        self::assertSame('{"success":false,"message":"Username should not be empty!"}', $response->getContent());
+    }
+
+    /**
+     * @dataProvider provideEmptyPasswordUsers
+     */
+    public function testRegisterOnEmptyPassword(array $user)
+    {
+        $this->client->request(
+            'POST',
+            '/auth/register',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode($user)
+        );
+
+        $response = $this->client->getResponse();
+
+        self::assertSame('{"success":false,"message":"Password should not be empty!"}', $response->getContent());
+    }
+
     public function testLogin()
     {
         $userList = $this->appFixtures->load($this->entityManager);
@@ -182,5 +299,79 @@ class AuthControllerTest extends WebTestCase
         self::assertSame('email or password is wrong.', $contents['message']);
         self::assertFalse($contents['success']);
         self::assertArrayNotHasKey('token', $contents);
+    }
+
+    public function provideEmptyEmailUsers()
+    {
+        return [
+            [
+                'user' => [
+                    "username" => "DarkNinja",
+                    "email" => "",
+                    "password" => "ninjaIsTheBest",
+                ]
+            ],
+            [
+                'user' => [
+                    "username" => "DarkNinja",
+                    "email" => null,
+                    "password" => "ninjaIsTheBest",
+                ]
+            ]
+        ];
+    }
+
+    public function provideEmptyUsernameUsers()
+    {
+        return [
+            [
+                'user' => [
+                    "username" => null,
+                    "email" => "test@test.com",
+                    "password" => "ninjaIsTheBest",
+                ]
+            ],
+            [
+                'user' => [
+                    "username" => "",
+                    "email" => "test@test.com",
+                    "password" => "ninjaIsTheBest",
+                ]
+            ],
+            [
+                'user' => [
+                    "username" => " ",
+                    "email" => "test@test.com",
+                    "password" => "ninjaIsTheBest",
+                ]
+            ]
+        ];
+    }
+
+    public function provideEmptyPasswordUsers()
+    {
+        return [
+            [
+                'user' => [
+                    "username" => 'KAI',
+                    "email" => "test@test.com",
+                    "password" => "",
+                ]
+            ],
+            [
+                'user' => [
+                    "username" => "BABO",
+                    "email" => "test@test.com",
+                    "password" => null,
+                ]
+            ],
+            [
+                'user' => [
+                    "username" => "BABO",
+                    "email" => "test@test.com",
+                    "password" => ' ',
+                ]
+            ]
+        ];
     }
 }

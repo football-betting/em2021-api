@@ -42,6 +42,43 @@ class AuthController extends AbstractController
         $email = $info['email'];
         $username = $info['username'];
 
+        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+            return $this->json([
+                'success' => false,
+                'message' => sprintf('Email %s is not valid!', $email),
+            ]);
+        }
+
+        if (empty(trim((string)$username))) {
+            return $this->json([
+                'success' => false,
+                'message' => 'Username should not be empty!',
+            ]);
+        }
+
+        if (empty(trim((string)$password))) {
+            return $this->json([
+                'success' => false,
+                'message' => 'Password should not be empty!',
+            ]);
+        }
+
+        if ($this->checkIfUserAlreadyExists('email', $email)) {
+            return $this->json([
+                'success' => false,
+                'message' => sprintf('Email %s is already in use!', $email),
+            ]);
+        }
+
+        if ($this->checkIfUserAlreadyExists('username', $username)) {
+            return $this->json([
+                'success' => false,
+                'message' => sprintf('Username %s is already in use!', $username),
+            ]);
+        }
+
         $user = new User();
         $user->setPassword($this->encoder->encodePassword($user, $password));
         $user->setEmail($email);
@@ -57,7 +94,7 @@ class AuthController extends AbstractController
                 'id' => $user->getId(),
                 'username' => $user->getUsername(),
             ],
-        ])->setEncodingOptions(JSON_UNESCAPED_SLASHES);;
+        ])->setEncodingOptions(JSON_UNESCAPED_SLASHES);
     }
 
     /**
@@ -113,4 +150,22 @@ class AuthController extends AbstractController
     {
         return $request->getContent();
     }
+
+    /**
+     * @param string $fieldName
+     * @param $value
+     *
+     * @return bool
+     */
+    private function checkIfUserAlreadyExists(string $fieldName, $value): bool
+    {
+        $user = $this->userRepository->findOneBy(
+            [
+                $fieldName => $value
+            ]
+        );
+
+        return $user instanceof User;
+    }
+
 }
