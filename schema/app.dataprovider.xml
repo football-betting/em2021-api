@@ -106,4 +106,18 @@
         <DataElement name="scoreSum" type="int"/>
     </DataProvider>
 
+    <DataProvider name="MatchList">
+        <DataElement name="event" type="string" />
+        <DataElement name="data" type="MatchDetail[]" singleton="Data"/>
+    </DataProvider>
+
+    <DataProvider name="MatchDetail">
+        <DataElement name="matchId" type="string" />
+        <DataElement name="team1" type="string" />
+        <DataElement name="team2" type="string" />
+        <DataElement name="matchDatetime" type="string" />
+        <DataElement name="scoreTeam1" type="int" allownull="true" />
+        <DataElement name="scoreTeam2" type="int" allownull="true" />
+    </DataProvider>
+
 </DataProviders>

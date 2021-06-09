@@ -2,6 +2,9 @@
 
 namespace App\Component\UserTips\Application;
 
+use App\DataTransferObject\MatchDetailDataProvider;
+use App\DataTransferObject\MatchListDataProvider;
+use App\DataTransferObject\TipInfoDataProvider;
 use App\DataTransferObject\UserInfoDataProvider;
 use App\Service\Redis\RedisServiceInterface;
 use App\Service\RedisKey\RedisKeyService;
@@ -88,13 +91,25 @@ final class Tips
         $redisInfo = $this->redisService->get($userRedisKey);
 
         $arrayInfo = json_decode($redisInfo, true);
-        if (JSON_ERROR_NONE !== json_last_error()) {
-            throw new RuntimeException(\json_last_error_msg(), \json_last_error());
+        if (JSON_ERROR_NONE !== json_last_error() || count($arrayInfo) === 0) {
+            $userInfoDataProvider = new UserInfoDataProvider();
+            $userInfoDataProvider->setName($userName);
+            $userInfoDataProvider->setPosition(0);
+            $userInfoDataProvider->setScoreSum(0);
+            $redisInfo = $this->redisService->get('games');
+
+            $games = \Safe\json_decode($redisInfo, true);
+
+            foreach ($games as $game) {
+                $tip = new TipInfoDataProvider();
+                $tip->fromArray($game);
+
+                $userInfoDataProvider->addTip($tip);
+            }
+
+            return $userInfoDataProvider;
         }
 
-        if (count($arrayInfo) === 0) {
-            throw new RuntimeException('Empty data');
-        }
 
         $userInfoDataProvider = new UserInfoDataProvider();
         $userInfoDataProvider->fromArray($arrayInfo);
@@ -113,3 +128,4 @@ final class Tips
         return (int)(new \DateTime($date))->format('YmdHi');
     }
 }
+

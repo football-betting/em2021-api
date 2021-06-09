@@ -2,6 +2,7 @@
 
 namespace App\Component\Symfony\Messenger\Transport;
 
+use App\DataTransferObject\MatchListDataProvider;
 use App\DataTransferObject\RankingAllEventDataProvider;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Stamp\SentStamp;
@@ -16,6 +17,7 @@ class JsonSerializer implements SerializerInterface
             throw new \LogicException('incorect message');
         }
 
+
         $data = json_decode($encodedEnvelope['body'], true);
 
         if (!isset($data['event'])) {
@@ -29,6 +31,15 @@ class JsonSerializer implements SerializerInterface
             return new Envelope($rankingAllEventDataProvider);
         }
 
+        if ($data['event'] === "match.to.app") {
+            // schema validation
+            $matchListDataProvider = new MatchListDataProvider();
+            $matchListDataProvider->fromArray($data);
+
+            return new Envelope($matchListDataProvider);
+        }
+
+        throw new \RuntimeException('Incorrect event ' .$data['event']);
 
     }
 

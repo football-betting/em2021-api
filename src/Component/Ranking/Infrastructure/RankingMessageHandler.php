@@ -3,8 +3,6 @@
 namespace App\Component\Ranking\Infrastructure;
 
 use App\Component\Ranking\Application\InformationPreparer;
-use App\Component\Ranking\Infrastructure\Collection\UserPrivateInfo;
-use App\Component\Ranking\Infrastructure\Collection\UserPublicInfo;
 use App\DataTransferObject\RankingAllEventDataProvider;
 use App\Service\Redis\RedisService;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;

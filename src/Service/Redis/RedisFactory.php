@@ -31,4 +31,13 @@ final class RedisFactory
 
         return $this->client;
     }
+
+    /**
+     * @return string
+     */
+    public function getPrefix(): string
+    {
+        return $this->prefix;
+    }
+
 }

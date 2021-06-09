@@ -6,6 +6,8 @@ use Predis\Client;
 
 final class RedisService implements RedisServiceInterface
 {
+    private string $prefix;
+
     /**
      * @var \Predis\Client
      */
@@ -17,6 +19,7 @@ final class RedisService implements RedisServiceInterface
     public function __construct(RedisFactory $redisFactory)
     {
         $this->client = $redisFactory->getClient();
+        $this->prefix = $redisFactory->getPrefix();
     }
 
     /**
@@ -68,6 +71,15 @@ final class RedisService implements RedisServiceInterface
     {
         $this->client->del([$key]);
     }
+
+    /**
+     * @return string
+     */
+    public function getPrefix(): string
+    {
+        return $this->prefix;
+    }
+
 }
 
 

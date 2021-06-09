@@ -34,4 +34,6 @@ interface RedisServiceInterface
      * @param string $key
      */
     public function delete(string $key): void;
+
+    public function getPrefix(): string;
 }
