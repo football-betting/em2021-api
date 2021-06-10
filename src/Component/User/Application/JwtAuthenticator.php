@@ -76,7 +76,7 @@ class JwtAuthenticator extends AbstractGuardAuthenticator
             throw new AuthenticationException('Token time is expired');
         }
 
-        $user->setTokenTimeAllowed(new \DateTime('+ 15 Minutes'));
+        $user->setTokenTimeAllowed(new \DateTime('+ 100 Minutes'));
 
         $this->em->persist($user);
         $this->em->flush();

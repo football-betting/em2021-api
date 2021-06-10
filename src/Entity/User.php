@@ -31,6 +31,16 @@ class User implements UserInterface
     private $username;
 
     /**
+     * @ORM\Column(type="string", length=2)
+     */
+    private $tip1;
+
+    /**
+     * @ORM\Column(type="string", length=2)
+     */
+    private $tip2;
+
+    /**
      * @ORM\Column(type="json")
      */
     private $roles = [];
@@ -118,6 +128,40 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTip1()
+    {
+        return $this->tip1;
+    }
+
+    /**
+     * @param mixed $tip1
+     */
+    public function setTip1(string $tip1): void
+    {
+        $this->tip1 = $tip1;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTip2()
+    {
+        return $this->tip2;
+    }
+
+    /**
+     * @param mixed $tip2
+     */
+    public function setTip2(string $tip2): void
+    {
+        $this->tip2 = $tip2;
+    }
+
+
 
     /**
      * Returning a salt is only needed, if you are not using a modern

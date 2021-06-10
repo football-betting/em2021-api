@@ -3,8 +3,13 @@
 namespace App\Component\Tip\Infrastructure;
 
 use App\Component\Tip\Application\MappingTip;
+use App\Entity\Tips;
+use App\Repository\TipsRepository;
 use App\Service\JsonSchemaValidation\JsonSchemaValidationService;
 use App\Service\Message\MessageServiceInterface;
+use App\Service\Redis\RedisService;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,17 +33,30 @@ class TipController extends AbstractController
     private MessageServiceInterface $messageService;
 
     /**
+     * @var \App\Repository\TipsRepository
+     */
+    private TipsRepository $tipsRepository;
+    /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    private EntityManagerInterface $entityManager;
+
+    /**
      * @param \App\Service\JsonSchemaValidation\JsonSchemaValidationService $jsonSchemaValidation
      */
     public function __construct(
         JsonSchemaValidationService $jsonSchemaValidation,
         MappingTip $mappingTip,
-        MessageServiceInterface $messageService
+        MessageServiceInterface $messageService,
+        TipsRepository $tipsRepository,
+        EntityManagerInterface $entityManager
     )
     {
         $this->jsonSchemaValidation = $jsonSchemaValidation;
         $this->mappingTip = $mappingTip;
         $this->messageService = $messageService;
+        $this->tipsRepository = $tipsRepository;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -77,6 +95,18 @@ class TipController extends AbstractController
         }
 
         $tipEventDataProvider->setTipDatetime($now->format('Y-m-d H:i'));
+
+        $tip = $this->tipsRepository->getTip($user->getUsername(), $tipEventDataProvider->getMatchId());
+        if (!$tip instanceof Tips) {
+            $tip = new Tips();
+            $tip->setUsername($user->getUsername());
+            $tip->setMatchId($matchId);
+        }
+        $tip->setTipTeam1($tipEventDataProvider->getTipTeam1());
+        $tip->setTipTeam2($tipEventDataProvider->getTipTeam2());
+
+        $this->entityManager->persist($tip);
+        $this->entityManager->flush();
 
         $this->messageService->send($tipEventDataProvider);
 

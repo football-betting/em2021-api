@@ -41,6 +41,8 @@ class AuthController extends AbstractController
         $password = $info['password'];
         $email = $info['email'];
         $username = $info['username'];
+        $tip1 = $info['tip1'];
+        $tip2 = $info['tip2'];
 
         $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
@@ -48,6 +50,27 @@ class AuthController extends AbstractController
             return $this->json([
                 'success' => false,
                 'message' => sprintf('Email %s is not valid!', $email),
+            ]);
+        }
+
+        if (empty(trim((string)$tip1))) {
+            return $this->json([
+                'success' => false,
+                'message' => 'Tip 1 should not be empty!',
+            ]);
+        }
+
+        if (empty(trim((string)$tip2))) {
+            return $this->json([
+                'success' => false,
+                'message' => 'Tip 2 should not be empty!',
+            ]);
+        }
+
+        if ($tip1 === $tip2) {
+            return $this->json([
+                'success' => false,
+                'message' => 'Tip 2 should not be same Tip 1',
             ]);
         }
 
@@ -83,6 +106,8 @@ class AuthController extends AbstractController
         $user->setPassword($this->encoder->encodePassword($user, $password));
         $user->setEmail($email);
         $user->setUsername($username);
+        $user->setTip1($tip1);
+        $user->setTip2($tip2);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($user);
@@ -130,7 +155,7 @@ class AuthController extends AbstractController
         $jwt = JWT::encode($payload, $this->getParameter('kernel.secret'), 'HS256');
 
         $user->setToken($jwt);
-        $user->setTokenTimeAllowed(new \DateTime('+ 15 Minutes'));
+        $user->setTokenTimeAllowed(new \DateTime('+ 100 Minutes'));
 
         $this->getDoctrine()->getManager()->persist($user);
         $this->getDoctrine()->getManager()->flush();

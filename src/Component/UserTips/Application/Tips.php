@@ -4,8 +4,10 @@ namespace App\Component\UserTips\Application;
 
 use App\DataTransferObject\MatchDetailDataProvider;
 use App\DataTransferObject\MatchListDataProvider;
+use App\DataTransferObject\TipEventDataProvider;
 use App\DataTransferObject\TipInfoDataProvider;
 use App\DataTransferObject\UserInfoDataProvider;
+use App\Repository\TipsRepository;
 use App\Service\Redis\RedisServiceInterface;
 use App\Service\RedisKey\RedisKeyService;
 use RuntimeException;
@@ -13,13 +15,18 @@ use RuntimeException;
 final class Tips
 {
     private RedisServiceInterface $redisService;
+    /**
+     * @var \App\Repository\TipsRepository
+     */
+    private TipsRepository $tipsRepository;
 
     /**
      * @param \App\Service\Redis\RedisServiceInterface $redisService
      */
-    public function __construct(RedisServiceInterface $redisService)
+    public function __construct(RedisServiceInterface $redisService, TipsRepository $tipsRepository)
     {
         $this->redisService = $redisService;
+        $this->tipsRepository = $tipsRepository;
     }
 
     /**
@@ -64,7 +71,29 @@ final class Tips
      */
     public function getFutureUserTips(string $userName): UserInfoDataProvider
     {
-        $userInfoDataProvider = $this->getRedisUserInfo($userName);
+//        $userInfoDataProvider = $this->getRedisUserInfo($userName);
+
+        $userInfoDataProvider = new UserInfoDataProvider();
+        $userInfoDataProvider->setName($userName);
+        $userInfoDataProvider->setPosition(0);
+        $userInfoDataProvider->setScoreSum(0);
+//        $redisInfo = $this->redisService->get('games');
+//        $games = \Safe\json_decode($redisInfo, true);
+        $games = json_decode(file_get_contents(__DIR__ . '/games.json'), true);
+
+        foreach ($games as $game) {
+            $tip = new TipInfoDataProvider();
+            $tip->fromArray($game);
+
+            $tipEntity = $this->tipsRepository->getTip($userName, $tip->getMatchId());
+            if ($tipEntity instanceof \App\Entity\Tips) {
+                $tip->setTipTeam1($tipEntity->getTipTeam1());
+                $tip->setTipTeam2($tipEntity->getTipTeam2());
+            }
+
+            $userInfoDataProvider->addTip($tip);
+        }
+
         $tips = $userInfoDataProvider->getTips();
 
         foreach ($tips as $key => $tip) {

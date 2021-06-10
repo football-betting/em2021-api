@@ -244,7 +244,7 @@ class UserTipsControllerTest extends WebTestCase
 
         $this->client->request(
             'GET',
-            '/api/user_tip/future',
+                '/api/user_tip/future',
             [],
             [],
             [
