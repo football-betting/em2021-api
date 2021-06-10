@@ -19,6 +19,10 @@ class TipsRepository extends ServiceEntityRepository
         parent::__construct($registry, Tips::class);
     }
 
+    public function getTip(string $username, string $matchId): ?Tips
+    {
+        return $this->findOneBy(['username' => $username, 'matchId' => $matchId]);
+    }
 
     /**
      * @param string $username
