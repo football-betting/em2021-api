@@ -81,14 +81,15 @@ final class Tips
 //        $games = \Safe\json_decode($redisInfo, true);
         $games = json_decode(file_get_contents(__DIR__ . '/games.json'), true);
 
+        $tipsFromDb = $this->tipsRepository->getTipUserTips($userName);
+
         foreach ($games as $game) {
             $tip = new TipInfoDataProvider();
             $tip->fromArray($game);
 
-            $tipEntity = $this->tipsRepository->getTip($userName, $tip->getMatchId());
-            if ($tipEntity instanceof \App\Entity\Tips) {
-                $tip->setTipTeam1($tipEntity->getTipTeam1());
-                $tip->setTipTeam2($tipEntity->getTipTeam2());
+            if (isset($tipsFromDb[$tip->getMatchId()]) &&  $tipsFromDb[$tip->getMatchId()] instanceof \App\Entity\Tips) {
+                $tip->setTipTeam1($tipsFromDb[$tip->getMatchId()]->getTipTeam1());
+                $tip->setTipTeam2($tipsFromDb[$tip->getMatchId()]->getTipTeam2());
             }
 
             $userInfoDataProvider->addTip($tip);
