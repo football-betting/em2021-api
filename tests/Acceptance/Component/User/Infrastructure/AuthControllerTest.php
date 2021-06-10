@@ -48,6 +48,7 @@ class AuthControllerTest extends WebTestCase
             "username" => "DarkNinja",
             "email" => "ninja@secret.com",
             "password" => "ninjaIsTheBest",
+            "passwordConfirm" => "ninjaIsTheBest",
         ];
 
         $this->client->request(
@@ -75,6 +76,7 @@ class AuthControllerTest extends WebTestCase
             "username" => "DarkNinja",
             "email" => "ninja@secret.com",
             "password" => "ninjaIsTheBest",
+            "passwordConfirm" => "ninjaIsTheBest",
         ];
 
         $user = new User();
@@ -105,6 +107,7 @@ class AuthControllerTest extends WebTestCase
             "username" => "DarkNinja",
             "email" => "ninja@secret22.com",
             "password" => "ninjaIsTheBest",
+            "passwordConfirm" => "ninjaIsTheBest",
         ];
 
         $user = new User();
@@ -184,6 +187,25 @@ class AuthControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         self::assertSame('{"success":false,"message":"Password should not be empty!"}', $response->getContent());
+    }
+
+    /**
+     * @dataProvider provideWrongPasswordConfirm
+     */
+    public function testRegisterOnWrongPasswordConfirm(array $user)
+    {
+        $this->client->request(
+            'POST',
+            '/auth/register',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode($user)
+        );
+
+        $response = $this->client->getResponse();
+
+        self::assertSame('{"Both passwords are not identical!"}', $response->getContent());
     }
 
     public function testLogin()
@@ -309,6 +331,7 @@ class AuthControllerTest extends WebTestCase
                     "username" => "DarkNinja",
                     "email" => "",
                     "password" => "ninjaIsTheBest",
+                    "passwordConfirm" => "ninjaIsTheBest",
                 ]
             ],
             [
@@ -316,6 +339,7 @@ class AuthControllerTest extends WebTestCase
                     "username" => "DarkNinja",
                     "email" => null,
                     "password" => "ninjaIsTheBest",
+                    "passwordConfirm" => "ninjaIsTheBest",
                 ]
             ]
         ];
@@ -329,6 +353,7 @@ class AuthControllerTest extends WebTestCase
                     "username" => null,
                     "email" => "test@test.com",
                     "password" => "ninjaIsTheBest",
+                    "passwordConfirm" => "ninjaIsTheBest",
                 ]
             ],
             [
@@ -336,6 +361,7 @@ class AuthControllerTest extends WebTestCase
                     "username" => "",
                     "email" => "test@test.com",
                     "password" => "ninjaIsTheBest",
+                    "passwordConfirm" => "ninjaIsTheBest",
                 ]
             ],
             [
@@ -343,6 +369,7 @@ class AuthControllerTest extends WebTestCase
                     "username" => " ",
                     "email" => "test@test.com",
                     "password" => "ninjaIsTheBest",
+                    "passwordConfirm" => "ninjaIsTheBest",
                 ]
             ]
         ];
@@ -356,6 +383,7 @@ class AuthControllerTest extends WebTestCase
                     "username" => 'KAI',
                     "email" => "test@test.com",
                     "password" => "",
+                    "passwordConfirm" => "ninjaIsTheBest",
                 ]
             ],
             [
@@ -363,6 +391,7 @@ class AuthControllerTest extends WebTestCase
                     "username" => "BABO",
                     "email" => "test@test.com",
                     "password" => null,
+                    "passwordConfirm" => "ninjaIsTheBest",
                 ]
             ],
             [
@@ -370,6 +399,37 @@ class AuthControllerTest extends WebTestCase
                     "username" => "BABO",
                     "email" => "test@test.com",
                     "password" => ' ',
+                    "passwordConfirm" => "ninjaIsTheBest",
+                ]
+            ]
+        ];
+    }
+
+    public function provideWrongPasswordConfirm()
+    {
+        return [
+            [
+                'user' => [
+                    "username" => 'KAI',
+                    "email" => "test@test.com",
+                    "password" => "ninjaIsTheBest",
+                    "passwordConfirm" => "ninjaIsTheBest2",
+                ]
+            ],
+            [
+                'user' => [
+                    "username" => "BABO",
+                    "email" => "test@test.com",
+                    "password" => "testtest",
+                    "passwordConfirm" => "ninjaIsTheBest",
+                ]
+            ],
+            [
+                'user' => [
+                    "username" => "BABO",
+                    "email" => "test@test.com",
+                    "password" => 'ninjaIsTheBest ',
+                    "passwordConfirm" => "ninjaIsTheBest",
                 ]
             ]
         ];
