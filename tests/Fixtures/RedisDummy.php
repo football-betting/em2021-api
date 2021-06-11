@@ -42,4 +42,10 @@ class RedisDummy implements RedisServiceInterface
     {
         throw new \RuntimeException('not implemented yet');
     }
+
+    public function getPrefix(): string
+    {
+        // TODO: Implement getPrefix() method.
+        return '';
+    }
 }

@@ -39,6 +39,7 @@ class AuthController extends AbstractController
         $info = (array)json_decode($content, true);
 
         $password = $info['password'];
+        $passwordConfirm = $info['passwordConfirm'];
         $email = $info['email'];
         $username = $info['username'];
         $tip1 = $info['tip1'];
@@ -99,6 +100,13 @@ class AuthController extends AbstractController
             return $this->json([
                 'success' => false,
                 'message' => sprintf('Username %s is already in use!', $username),
+            ]);
+        }
+
+        if ($password !== $passwordConfirm) {
+            return $this->json([
+                'success' => false,
+                'message' => 'Both passwords are not identical!',
             ]);
         }
 
