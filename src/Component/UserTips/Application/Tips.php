@@ -47,18 +47,30 @@ final class Tips
      */
     public function getPastUserTips(string $userName): UserInfoDataProvider
     {
-        $userInfoDataProvider = $this->getRedisUserInfo($userName);
-        $tips = $userInfoDataProvider->getTips();
+        //$userInfoDataProvider = $this->getRedisUserInfo($userName);
+        $userInfoDataProvider = new UserInfoDataProvider();
+        $userInfoDataProvider->setName($userName);
+        $userInfoDataProvider->setPosition(0);
+        $userInfoDataProvider->setScoreSum(0);
 
-        foreach ($tips as $key => $tip) {
-            $matchDatetime = $this->formatDate($tip->getMatchDatetime());
-            $now = $this->formatDate('now');
-            if ($matchDatetime > $now) {
-                unset($tips[$key]);
+        $tipsFromDb = $this->tipsRepository->getTipUserTips($userName);
+
+        $games = json_decode(file_get_contents(__DIR__ . '/games.json'), true);
+        $matchIdsAlreadyPlayed = array_keys($tipsFromDb);
+
+        foreach ($games as $game) {
+            $tip = new TipInfoDataProvider();
+            $tip->fromArray($game);
+
+            if (in_array($tip->getMatchId(), $matchIdsAlreadyPlayed)) {
+                if (isset($tipsFromDb[$tip->getMatchId()]) &&  $tipsFromDb[$tip->getMatchId()] instanceof \App\Entity\Tips) {
+                    $tip->setTipTeam1($tipsFromDb[$tip->getMatchId()]->getTipTeam1());
+                    $tip->setTipTeam2($tipsFromDb[$tip->getMatchId()]->getTipTeam2());
+                }
+
+                $userInfoDataProvider->addTip($tip);
             }
         }
-
-        $userInfoDataProvider->setTips($tips);
 
         return $userInfoDataProvider;
     }
