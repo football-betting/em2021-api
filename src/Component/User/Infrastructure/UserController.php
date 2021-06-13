@@ -22,6 +22,8 @@ class UserController extends AbstractController
                 'id' => $user->getId(),
                 'username' => $user->getUsername(),
                 'email' => $user->getEmail(),
+                'winningTeam' => $user->getTip1(),
+                'secretWinningTeam' => $user->getTip2(),
             ],
         ]);
     }
