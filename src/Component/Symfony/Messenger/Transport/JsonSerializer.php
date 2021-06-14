@@ -28,6 +28,8 @@ class JsonSerializer implements SerializerInterface
             // schema validation
             $rankingAllEventDataProvider = new RankingAllEventDataProvider();
             $rankingAllEventDataProvider->fromArray($data);
+            $rankingAllEventDataProvider->setEvent($data['event']);
+
             return new Envelope($rankingAllEventDataProvider);
         }
 
@@ -35,6 +37,7 @@ class JsonSerializer implements SerializerInterface
             // schema validation
             $matchListDataProvider = new MatchListDataProvider();
             $matchListDataProvider->fromArray($data);
+            $matchListDataProvider->setEvent($data['event']);
 
             return new Envelope($matchListDataProvider);
         }
