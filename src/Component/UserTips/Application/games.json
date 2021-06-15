@@ -1,1 +1,218 @@
-[{"matchId":"2021-06-11:2100:TR-IT","team1":"TR","team2":"IT","matchDatetime":"2021-06-11 21:00"},{"matchId":"2021-06-12:1500:WL-CH","team1":"WL","team2":"CH","matchDatetime":"2021-06-12 15:00"},{"matchId":"2021-06-12:1800:DK-FI","team1":"DK","team2":"FI","matchDatetime":"2021-06-12 18:00"},{"matchId":"2021-06-12:2100:BE-RU","team1":"BE","team2":"RU","matchDatetime":"2021-06-12 21:00"},{"matchId":"2021-06-13:1500:EN-HR","team1":"EN","team2":"HR","matchDatetime":"2021-06-13 15:00"},{"matchId":"2021-06-13:1800:AT-MK","team1":"AT","team2":"MK","matchDatetime":"2021-06-13 18:00"},{"matchId":"2021-06-13:2100:NL-UA","team1":"NL","team2":"UA","matchDatetime":"2021-06-13 21:00"},{"matchId":"2021-06-14:1500:SC-CZ","team1":"SC","team2":"CZ","matchDatetime":"2021-06-14 15:00"},{"matchId":"2021-06-14:1800:PL-SK","team1":"PL","team2":"SK","matchDatetime":"2021-06-14 18:00"},{"matchId":"2021-06-14:2100:ES-SE","team1":"ES","team2":"SE","matchDatetime":"2021-06-14 21:00"},{"matchId":"2021-06-15:1800:HU-PT","team1":"HU","team2":"PT","matchDatetime":"2021-06-15 16:00"},{"matchId":"2021-06-15:2100:FR-DE","team1":"FR","team2":"DE","matchDatetime":"2021-06-15 19:00"},{"matchId":"2021-06-16:1500:FI-RU","team1":"FI","team2":"RU","matchDatetime":"2021-06-16 13:00"},{"matchId":"2021-06-16:1800:TR-WL","team1":"TR","team2":"WL","matchDatetime":"2021-06-16 16:00"},{"matchId":"2021-06-16:2100:IT-CH","team1":"IT","team2":"CH","matchDatetime":"2021-06-16 19:00"},{"matchId":"2021-06-17:1500:UA-MK","team1":"UA","team2":"MK","matchDatetime":"2021-06-17 13:00"},{"matchId":"2021-06-17:1800:DK-BE","team1":"DK","team2":"BE","matchDatetime":"2021-06-17 16:00"},{"matchId":"2021-06-17:2100:NL-AT","team1":"NL","team2":"AT","matchDatetime":"2021-06-17 19:00"},{"matchId":"2021-06-18:1500:SE-SK","team1":"SE","team2":"SK","matchDatetime":"2021-06-18 13:00"},{"matchId":"2021-06-18:1800:HR-CZ","team1":"HR","team2":"CZ","matchDatetime":"2021-06-18 16:00"},{"matchId":"2021-06-18:2100:EN-SC","team1":"EN","team2":"SC","matchDatetime":"2021-06-18 19:00"},{"matchId":"2021-06-19:1500:HU-FR","team1":"HU","team2":"FR","matchDatetime":"2021-06-19 13:00"},{"matchId":"2021-06-19:1800:PT-DE","team1":"PT","team2":"DE","matchDatetime":"2021-06-19 16:00"},{"matchId":"2021-06-19:2100:ES-PL","team1":"ES","team2":"PL","matchDatetime":"2021-06-19 19:00"},{"matchId":"2021-06-20:1800:IT-WL","team1":"IT","team2":"WL","matchDatetime":"2021-06-20 16:00"},{"matchId":"2021-06-20:1800:CH-TR","team1":"CH","team2":"TR","matchDatetime":"2021-06-20 16:00"},{"matchId":"2021-06-21:1800:MK-NL","team1":"MK","team2":"NL","matchDatetime":"2021-06-21 16:00"},{"matchId":"2021-06-21:1800:UA-AT","team1":"UA","team2":"AT","matchDatetime":"2021-06-21 16:00"},{"matchId":"2021-06-21:2100:FI-BE","team1":"FI","team2":"BE","matchDatetime":"2021-06-21 19:00"},{"matchId":"2021-06-21:2100:RU-DK","team1":"RU","team2":"DK","matchDatetime":"2021-06-21 19:00"},{"matchId":"2021-06-22:2100:CZ-EN","team1":"CZ","team2":"EN","matchDatetime":"2021-06-22 19:00"},{"matchId":"2021-06-22:2100:HR-SC","team1":"HR","team2":"SC","matchDatetime":"2021-06-22 19:00"},{"matchId":"2021-06-23:1800:SK-ES","team1":"SK","team2":"ES","matchDatetime":"2021-06-23 16:00"},{"matchId":"2021-06-23:1800:SE-PL","team1":"SE","team2":"PL","matchDatetime":"2021-06-23 16:00"},{"matchId":"2021-06-23:2100:PT-FR","team1":"PT","team2":"FR","matchDatetime":"2021-06-23 19:00"},{"matchId":"2021-06-23:2100:DE-HU","team1":"DE","team2":"HU","matchDatetime":"2021-06-23 19:00"}]
+[
+  {
+    "matchId": "2021-06-11:2100:TR-IT",
+    "team1": "TR",
+    "team2": "IT",
+    "matchDatetime": "2021-06-11 21:00"
+  },
+  {
+    "matchId": "2021-06-12:1500:WL-CH",
+    "team1": "WL",
+    "team2": "CH",
+    "matchDatetime": "2021-06-12 15:00"
+  },
+  {
+    "matchId": "2021-06-12:1800:DK-FI",
+    "team1": "DK",
+    "team2": "FI",
+    "matchDatetime": "2021-06-12 18:00"
+  },
+  {
+    "matchId": "2021-06-12:2100:BE-RU",
+    "team1": "BE",
+    "team2": "RU",
+    "matchDatetime": "2021-06-12 21:00"
+  },
+  {
+    "matchId": "2021-06-13:1500:EN-HR",
+    "team1": "EN",
+    "team2": "HR",
+    "matchDatetime": "2021-06-13 15:00"
+  },
+  {
+    "matchId": "2021-06-13:1800:AT-MK",
+    "team1": "AT",
+    "team2": "MK",
+    "matchDatetime": "2021-06-13 18:00"
+  },
+  {
+    "matchId": "2021-06-13:2100:NL-UA",
+    "team1": "NL",
+    "team2": "UA",
+    "matchDatetime": "2021-06-13 21:00"
+  },
+  {
+    "matchId": "2021-06-14:1500:SC-CZ",
+    "team1": "SC",
+    "team2": "CZ",
+    "matchDatetime": "2021-06-14 15:00"
+  },
+  {
+    "matchId": "2021-06-14:1800:PL-SK",
+    "team1": "PL",
+    "team2": "SK",
+    "matchDatetime": "2021-06-14 18:00"
+  },
+  {
+    "matchId": "2021-06-14:2100:ES-SE",
+    "team1": "ES",
+    "team2": "SE",
+    "matchDatetime": "2021-06-14 21:00"
+  },
+  {
+    "matchId": "2021-06-15:1800:HU-PT",
+    "team1": "HU",
+    "team2": "PT",
+    "matchDatetime": "2021-06-15 16:00"
+  },
+  {
+    "matchId": "2021-06-15:2100:FR-DE",
+    "team1": "FR",
+    "team2": "DE",
+    "matchDatetime": "2021-06-15 19:00"
+  },
+  {
+    "matchId": "2021-06-16:1500:FI-RU",
+    "team1": "FI",
+    "team2": "RU",
+    "matchDatetime": "2021-06-16 15:00"
+  },
+  {
+    "matchId": "2021-06-16:1800:TR-WL",
+    "team1": "TR",
+    "team2": "WL",
+    "matchDatetime": "2021-06-16 18:00"
+  },
+  {
+    "matchId": "2021-06-16:2100:IT-CH",
+    "team1": "IT",
+    "team2": "CH",
+    "matchDatetime": "2021-06-16 21:00"
+  },
+  {
+    "matchId": "2021-06-17:1500:UA-MK",
+    "team1": "UA",
+    "team2": "MK",
+    "matchDatetime": "2021-06-17 15:00"
+  },
+  {
+    "matchId": "2021-06-17:1800:DK-BE",
+    "team1": "DK",
+    "team2": "BE",
+    "matchDatetime": "2021-06-17 18:00"
+  },
+  {
+    "matchId": "2021-06-17:2100:NL-AT",
+    "team1": "NL",
+    "team2": "AT",
+    "matchDatetime": "2021-06-17 21:00"
+  },
+  {
+    "matchId": "2021-06-18:1500:SE-SK",
+    "team1": "SE",
+    "team2": "SK",
+    "matchDatetime": "2021-06-18 15:00"
+  },
+  {
+    "matchId": "2021-06-18:1800:HR-CZ",
+    "team1": "HR",
+    "team2": "CZ",
+    "matchDatetime": "2021-06-18 18:00"
+  },
+  {
+    "matchId": "2021-06-18:2100:EN-SC",
+    "team1": "EN",
+    "team2": "SC",
+    "matchDatetime": "2021-06-18 21:00"
+  },
+  {
+    "matchId": "2021-06-19:1500:HU-FR",
+    "team1": "HU",
+    "team2": "FR",
+    "matchDatetime": "2021-06-19 15:00"
+  },
+  {
+    "matchId": "2021-06-19:1800:PT-DE",
+    "team1": "PT",
+    "team2": "DE",
+    "matchDatetime": "2021-06-19 18:00"
+  },
+  {
+    "matchId": "2021-06-19:2100:ES-PL",
+    "team1": "ES",
+    "team2": "PL",
+    "matchDatetime": "2021-06-19 21:00"
+  },
+  {
+    "matchId": "2021-06-20:1800:IT-WL",
+    "team1": "IT",
+    "team2": "WL",
+    "matchDatetime": "2021-06-20 18:00"
+  },
+  {
+    "matchId": "2021-06-20:1800:CH-TR",
+    "team1": "CH",
+    "team2": "TR",
+    "matchDatetime": "2021-06-20 18:00"
+  },
+  {
+    "matchId": "2021-06-21:1800:MK-NL",
+    "team1": "MK",
+    "team2": "NL",
+    "matchDatetime": "2021-06-21 18:00"
+  },
+  {
+    "matchId": "2021-06-21:1800:UA-AT",
+    "team1": "UA",
+    "team2": "AT",
+    "matchDatetime": "2021-06-21 18:00"
+  },
+  {
+    "matchId": "2021-06-21:2100:FI-BE",
+    "team1": "FI",
+    "team2": "BE",
+    "matchDatetime": "2021-06-21 21:00"
+  },
+  {
+    "matchId": "2021-06-21:2100:RU-DK",
+    "team1": "RU",
+    "team2": "DK",
+    "matchDatetime": "2021-06-21 21:00"
+  },
+  {
+    "matchId": "2021-06-22:2100:CZ-EN",
+    "team1": "CZ",
+    "team2": "EN",
+    "matchDatetime": "2021-06-22 21:00"
+  },
+  {
+    "matchId": "2021-06-22:2100:HR-SC",
+    "team1": "HR",
+    "team2": "SC",
+    "matchDatetime": "2021-06-22 21:00"
+  },
+  {
+    "matchId": "2021-06-23:1800:SK-ES",
+    "team1": "SK",
+    "team2": "ES",
+    "matchDatetime": "2021-06-23 18:00"
+  },
+  {
+    "matchId": "2021-06-23:1800:SE-PL",
+    "team1": "SE",
+    "team2": "PL",
+    "matchDatetime": "2021-06-23 18:00"
+  },
+  {
+    "matchId": "2021-06-23:2100:PT-FR",
+    "team1": "PT",
+    "team2": "FR",
+    "matchDatetime": "2021-06-23 21:00"
+  },
+  {
+    "matchId": "2021-06-23:2100:DE-HU",
+    "team1": "DE",
+    "team2": "HU",
+    "matchDatetime": "2021-06-23 21:00"
+  }
+]

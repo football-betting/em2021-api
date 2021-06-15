@@ -55,6 +55,10 @@ services:
         tags: [console.command]
     ###< Xervice\DataProvider ###
 
+    App\Component\Ranking\Application\InformationPreparer:
+        arguments:
+            - '@App\Component\UserRating\Application\Plugin\UserRating'
+#            - '@App\Component\UserTips\Application\Plugin\UserTips'
 
 
 

@@ -21,8 +21,7 @@ final class InformationPreparer
     {
         $this->collection = $collection;
     }
-
-
+    
     public function get(RankingAllEventDataProvider $rankingAllEvent): RedisDtoList
     {
         $redisDtoList = new RedisDtoList();
