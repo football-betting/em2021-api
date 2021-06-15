@@ -42,9 +42,6 @@ services:
         tags: [ 'controller.service_arguments' ]
 
 
-    App\Component\Game\Infrastructure\GameMessageHandler:
-        tags: [messenger.message_handler]
-
     App\Component\Ranking\Infrastructure\RankingMessageHandler:
         tags: [messenger.message_handler]
 

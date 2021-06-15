@@ -19,17 +19,22 @@
     </DataProvider>
 
     <DataProvider name="TipInfoEvent">
-        <DataElement name="matchId" type="string"/>
-        <DataElement name="score" type="int" allownull="true"/>
-        <DataElement name="tipTeam1" type="int"/>
-        <DataElement name="tipTeam2" type="int"/>
+        <DataElement name="matchId" type="string" />
+        <DataElement name="user" type="string" />
+        <DataElement name="score" type="int"/>
+        <DataElement name="team1" type="string" />
+        <DataElement name="team2" type="string" />
+        <DataElement name="tipTeam1" type="int" allownull="true" />
+        <DataElement name="tipTeam2" type="int" allownull="true" />
+        <DataElement name="scoreTeam1" type="int" allownull="true" />
+        <DataElement name="scoreTeam2" type="int" allownull="true" />
     </DataProvider>
 
     <DataProvider name="GameEvent">
         <DataElement name="matchId" type="string"/>
         <DataElement name="team1" type="string"/>
         <DataElement name="team2" type="string"/>
-        <DataElement name="matchDatetime" type="string"/>
+        <DataElement name="matchDatetime" type="string" allownull="true"/>
         <DataElement name="scoreTeam1" type="int" allownull="true"/>
         <DataElement name="scoreTeam2" type="int" allownull="true"/>
     </DataProvider>
@@ -45,6 +50,9 @@
         <DataElement name="name" type="string"/>
         <DataElement name="position" type="int"/>
         <DataElement name="scoreSum" type="int"/>
+        <DataElement name="sumWinExact" type="int"/>
+        <DataElement name="sumScoreDiff" type="int"/>
+        <DataElement name="sumTeam" type="int"/>
         <DataElement name="tips" type="TipInfoEvent[]" singleton="Tip"/>
     </DataProvider>
 
@@ -93,17 +101,6 @@
         <DataElement name="score" type="int"/>
         <DataElement name="tipTeam1" type="int"/>
         <DataElement name="tipTeam2" type="int"/>
-    </DataProvider>
-
-
-    <DataProvider name="UserRatingList">
-        <DataElement name="users" type="UserRating[]" singleton="User"/>
-    </DataProvider>
-
-    <DataProvider name="UserRating">
-        <DataElement name="name" type="string"/>
-        <DataElement name="position" type="int"/>
-        <DataElement name="scoreSum" type="int"/>
     </DataProvider>
 
     <DataProvider name="MatchList">

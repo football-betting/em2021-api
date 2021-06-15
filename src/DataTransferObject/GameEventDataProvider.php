@@ -152,7 +152,7 @@ final class GameEventDataProvider extends \Xervice\DataProvider\Business\Model\D
     /**
      * @return string
      */
-    public function getMatchDatetime(): string
+    public function getMatchDatetime(): ?string
     {
         return $this->matchDatetime;
     }
@@ -162,7 +162,7 @@ final class GameEventDataProvider extends \Xervice\DataProvider\Business\Model\D
      * @param string $matchDatetime
      * @return GameEventDataProvider
      */
-    public function setMatchDatetime(string $matchDatetime)
+    public function setMatchDatetime(?string $matchDatetime = null)
     {
         $this->matchDatetime = $matchDatetime;
 
@@ -311,7 +311,7 @@ final class GameEventDataProvider extends \Xervice\DataProvider\Business\Model\D
           'matchDatetime' =>
           array (
             'name' => 'matchDatetime',
-            'allownull' => false,
+            'allownull' => true,
             'default' => '',
             'type' => 'string',
             'is_collection' => false,

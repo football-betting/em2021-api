@@ -6,8 +6,8 @@ use App\Component\Ranking\Application\Plugin\InformationInterface;
 use App\Component\Ranking\Domain\RedisDto;
 use App\Component\Ranking\Domain\RedisDtoList;
 use App\DataTransferObject\RankingAllEventDataProvider;
-use App\DataTransferObject\UserRatingDataProvider;
-use App\DataTransferObject\UserRatingListDataProvider;
+use App\DataTransferObject\RankingInfoEventDataProvider;
+use App\DataTransferObject\UserInfoEventDataProvider;
 use App\Service\RedisKey\RedisKeyService;
 
 class UserRating implements InformationInterface
@@ -16,20 +16,25 @@ class UserRating implements InformationInterface
     {
         $data = $rankingAllEvent->getData();
 
-        $userRatingListDataProvider = new UserRatingListDataProvider();
+        $rankingInfoEventDataProvider = new RankingInfoEventDataProvider();
         foreach ($data->getUsers() as $user) {
-            $userRating = new UserRatingDataProvider();
+            $userRating = new UserInfoEventDataProvider();
+
             $userRating->setPosition($user->getPosition());
             $userRating->setName($user->getName());
-            $userRating->setScoreSum($user->getScoreSum());
 
-            $userRatingListDataProvider->addUser($userRating);
+            $userRating->setScoreSum($user->getScoreSum());
+            $userRating->setSumWinExact($user->getSumWinExact());
+            $userRating->setSumTeam($user->getSumTeam());
+            $userRating->setSumScoreDiff($user->getSumScoreDiff());
+
+            $rankingInfoEventDataProvider->addUser($userRating);
         }
 
         $redisDtoList->addRedisDto(
             new RedisDto(
                 RedisKeyService::getTable(),
-                $userRatingListDataProvider
+                $rankingInfoEventDataProvider
             )
         );
 

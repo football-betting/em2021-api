@@ -15,7 +15,9 @@ class UserRatingTest extends TestCase
     {
         $userRating = new UserRating();
 
-        $rankingAllEventDataProvider = $this->getRankingAllEventDataProvider();
+//        $rankingAllEventDataProvider = $this->getRankingAllEventDataProvider();
+        $rankingAllEventDataProvider = new RankingAllEventDataProvider();
+        $rankingAllEventDataProvider->fromArray(\Safe\json_decode(file_get_contents(__DIR__ . '/ranking_1623772282.0495.json'), true));
         $redisDtoList = $userRating->get($rankingAllEventDataProvider, new RedisDtoList());
 
         $redisDto = $redisDtoList->getRedisDto()[0];

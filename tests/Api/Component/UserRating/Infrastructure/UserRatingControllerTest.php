@@ -3,6 +3,7 @@
 namespace App\Tests\Api\Component\UserRating\Infrastructure;
 
 use App\DataFixtures\AppFixtures;
+use App\DataTransferObject\RankingInfoEventDataProvider;
 use App\DataTransferObject\UserRatingListDataProvider;
 use App\Repository\UserRepository;
 use App\Service\Redis\RedisService;
@@ -34,23 +35,32 @@ class UserRatingControllerTest extends WebTestCase
         /** @var RedisService redisService */
         $this->redisService = static::$container->get(RedisService::class);
 
-        $userRatingListDataProvider = new UserRatingListDataProvider();
+        $userRatingListDataProvider = new RankingInfoEventDataProvider();
         $userRatingListDataProvider->fromArray([
             "users" => [
                 [
                     "name" => "ninja",
                     "position" => 1,
                     "scoreSum" => 24,
+                    "sumWinExact" => 3,
+                    "sumTeam" => 2,
+                    "sumScoreDiff" => 1,
                 ],
                 [
                     "name" => "rockstar",
                     "position" => 2,
                     "scoreSum" => 21,
+                    "sumWinExact" => 1,
+                    "sumTeam" => 2,
+                    "sumScoreDiff" => 0,
                 ],
                 [
                     "name" => "motherSoccer",
                     "position" => 3,
                     "scoreSum" => 15,
+                    "sumWinExact" => 0,
+                    "sumTeam" => 4,
+                    "sumScoreDiff" => 0,
                 ],
             ],
         ]);

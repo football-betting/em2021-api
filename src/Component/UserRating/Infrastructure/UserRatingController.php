@@ -2,6 +2,7 @@
 
 namespace App\Component\UserRating\Infrastructure;
 
+use App\DataTransferObject\RankingInfoEventDataProvider;
 use App\DataTransferObject\UserRatingListDataProvider;
 use App\Service\Redis\RedisServiceInterface;
 use App\Service\RedisKey\RedisKeyService;
@@ -46,12 +47,12 @@ class UserRatingController extends AbstractController
     }
 
     /**
-     * @return \App\DataTransferObject\UserRatingListDataProvider
+     * @return \App\DataTransferObject\RankingInfoEventDataProvider
      */
-    private function getTable(): UserRatingListDataProvider
+    private function getTable(): RankingInfoEventDataProvider
     {
-        $redisInfo = $this->redisService->get(RedisKeyService::getTable());
-
+        //$redisInfo = $this->redisService->get(RedisKeyService::getTable());
+        $redisInfo = file_get_contents(__DIR__ . '/table.json');
         $arrayInfo = json_decode($redisInfo, true);
         if (JSON_ERROR_NONE !== json_last_error()) {
             throw new RuntimeException(\json_last_error_msg(), \json_last_error());
@@ -61,7 +62,7 @@ class UserRatingController extends AbstractController
             throw new RuntimeException('Empty data');
         }
 
-        $userRatingListDataProvider = new UserRatingListDataProvider();
+        $userRatingListDataProvider = new RankingInfoEventDataProvider();
         $userRatingListDataProvider->fromArray($arrayInfo);
 
         return $userRatingListDataProvider;

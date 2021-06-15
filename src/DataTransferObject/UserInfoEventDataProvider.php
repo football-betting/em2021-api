@@ -16,6 +16,15 @@ final class UserInfoEventDataProvider extends \Xervice\DataProvider\Business\Mod
     /** @var int */
     protected $scoreSum;
 
+    /** @var int */
+    protected $sumWinExact;
+
+    /** @var int */
+    protected $sumScoreDiff;
+
+    /** @var int */
+    protected $sumTeam;
+
     /** @var \App\DataTransferObject\TipInfoEventDataProvider[] */
     protected $tips = [];
 
@@ -144,6 +153,129 @@ final class UserInfoEventDataProvider extends \Xervice\DataProvider\Business\Mod
 
 
     /**
+     * @return int
+     */
+    public function getSumWinExact(): int
+    {
+        return $this->sumWinExact;
+    }
+
+
+    /**
+     * @param int $sumWinExact
+     * @return UserInfoEventDataProvider
+     */
+    public function setSumWinExact(int $sumWinExact)
+    {
+        $this->sumWinExact = $sumWinExact;
+
+        return $this;
+    }
+
+
+    /**
+     * @return UserInfoEventDataProvider
+     */
+    public function unsetSumWinExact()
+    {
+        $this->sumWinExact = null;
+
+        return $this;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function hasSumWinExact()
+    {
+        return ($this->sumWinExact !== null && $this->sumWinExact !== []);
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getSumScoreDiff(): int
+    {
+        return $this->sumScoreDiff;
+    }
+
+
+    /**
+     * @param int $sumScoreDiff
+     * @return UserInfoEventDataProvider
+     */
+    public function setSumScoreDiff(int $sumScoreDiff)
+    {
+        $this->sumScoreDiff = $sumScoreDiff;
+
+        return $this;
+    }
+
+
+    /**
+     * @return UserInfoEventDataProvider
+     */
+    public function unsetSumScoreDiff()
+    {
+        $this->sumScoreDiff = null;
+
+        return $this;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function hasSumScoreDiff()
+    {
+        return ($this->sumScoreDiff !== null && $this->sumScoreDiff !== []);
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getSumTeam(): int
+    {
+        return $this->sumTeam;
+    }
+
+
+    /**
+     * @param int $sumTeam
+     * @return UserInfoEventDataProvider
+     */
+    public function setSumTeam(int $sumTeam)
+    {
+        $this->sumTeam = $sumTeam;
+
+        return $this;
+    }
+
+
+    /**
+     * @return UserInfoEventDataProvider
+     */
+    public function unsetSumTeam()
+    {
+        $this->sumTeam = null;
+
+        return $this;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function hasSumTeam()
+    {
+        return ($this->sumTeam !== null && $this->sumTeam !== []);
+    }
+
+
+    /**
      * @return \App\DataTransferObject\TipInfoEventDataProvider[]
      */
     public function getTips(): array
@@ -223,6 +355,36 @@ final class UserInfoEventDataProvider extends \Xervice\DataProvider\Business\Mod
           'scoreSum' =>
           array (
             'name' => 'scoreSum',
+            'allownull' => false,
+            'default' => '',
+            'type' => 'int',
+            'is_collection' => false,
+            'is_dataprovider' => false,
+            'isCamelCase' => false,
+          ),
+          'sumWinExact' =>
+          array (
+            'name' => 'sumWinExact',
+            'allownull' => false,
+            'default' => '',
+            'type' => 'int',
+            'is_collection' => false,
+            'is_dataprovider' => false,
+            'isCamelCase' => false,
+          ),
+          'sumScoreDiff' =>
+          array (
+            'name' => 'sumScoreDiff',
+            'allownull' => false,
+            'default' => '',
+            'type' => 'int',
+            'is_collection' => false,
+            'is_dataprovider' => false,
+            'isCamelCase' => false,
+          ),
+          'sumTeam' =>
+          array (
+            'name' => 'sumTeam',
             'allownull' => false,
             'default' => '',
             'type' => 'int',
