@@ -4,13 +4,13 @@ framework:
             default_serializer: App\Component\Symfony\Messenger\Transport\JsonSerializer
         transports:
             app.to.tip: "%env(TIP_USER_EVENT)%"
-            rating.to.app: "%env(RANKING_ALL_EVENT)%"
+            calculation.to.app: "%env(CALCULATION_ALL_EVENT)%"
             match.to.app: "%env(MATCH_TO_APP)%"
 
         routing:
             'App\DataTransferObject\TipEventDataProvider':
                 - app.to.tip
             'App\DataTransferObject\RankingAllEventDataProvider':
-                - rating.to.app
+                - calculation.to.app
             'App\DataTransferObject\MatchListDataProvider':
                 - match.to.app
