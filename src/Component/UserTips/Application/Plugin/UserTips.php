@@ -19,62 +19,16 @@ class UserTips implements InformationInterface
     ): RedisDtoList
     {
         $data = $rankingAllEvent->getData();
-        $games = $this->getGames($data);
 
         foreach ($data->getUsers() as $user) {
-            $userInfo = new UserInfoDataProvider();
-            $userInfo->setPosition($user->getPosition());
-            $userInfo->setName($user->getName());
-            $userInfo->setScoreSum($user->getScoreSum());
-
-            foreach ($user->getTips() as $userTip) {
-                if (!isset($games[$userTip->getMatchId()])) {
-                    continue;
-                }
-
-                $tip = new TipInfoDataProvider();
-
-                $tip->setMatchId($userTip->getMatchId());
-                $tip->setTipTeam1($userTip->getTipTeam1());
-                $tip->setTipTeam2($userTip->getTipTeam2());
-                $tip->setScore($userTip->getScore());
-
-                $game = $games[$userTip->getMatchId()];
-                $tip->setTeam1($game->getTeam1());
-                $tip->setTeam2($game->getTeam2());
-
-                $tip->setScoreTeam1($game->getScoreTeam1());
-                $tip->setScoreTeam2($game->getScoreTeam2());
-
-                $tip->setMatchDatetime($game->getMatchDatetime());
-
-                $userInfo->addTip($tip);
-            }
-
             $redisDtoList->addRedisDto(
                 new RedisDto(
                     RedisKeyService::getUserTips($user->getName()),
-                    $userInfo
+                    $user
                 )
             );
         }
 
         return $redisDtoList;
-    }
-
-    /**
-     * @param \App\DataTransferObject\RankingInfoEventDataProvider $rankingAllEvent
-     *
-     * @return \App\DataTransferObject\GameEventDataProvider[]
-     */
-    private function getGames(RankingInfoEventDataProvider $data): array
-    {
-        $games = [];
-
-        foreach ($data->getGames() as $game) {
-            $games[$game->getMatchId()] = $game;
-        }
-
-        return $games;
     }
 }

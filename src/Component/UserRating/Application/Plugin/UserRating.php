@@ -31,6 +31,8 @@ class UserRating implements InformationInterface
             $rankingInfoEventDataProvider->addUser($userRating);
         }
 
+        file_put_contents(__DIR__ . '/../table.json', json_encode($rankingInfoEventDataProvider->toArray()));
+
         $redisDtoList->addRedisDto(
             new RedisDto(
                 RedisKeyService::getTable(),
