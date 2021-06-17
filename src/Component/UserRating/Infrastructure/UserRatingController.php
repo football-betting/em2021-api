@@ -52,7 +52,6 @@ class UserRatingController extends AbstractController
     private function getTable(): RankingInfoEventDataProvider
     {
         $redisInfo = $this->redisService->get(RedisKeyService::getTable());
-//        $redisInfo = file_get_contents(__DIR__ . '/table.json');
         $arrayInfo = json_decode($redisInfo, true);
         if (JSON_ERROR_NONE !== json_last_error()) {
             throw new RuntimeException(\json_last_error_msg(), \json_last_error());
