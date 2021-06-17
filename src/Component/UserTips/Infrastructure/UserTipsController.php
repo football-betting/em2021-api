@@ -4,6 +4,7 @@ namespace App\Component\UserTips\Infrastructure;
 
 use App\Component\UserTips\Application\Tips;
 use App\DataTransferObject\UserInfoDataProvider;
+use App\DataTransferObject\UserInfoEventDataProvider;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,17 +19,6 @@ class UserTipsController extends AbstractController
     public function __construct(Tips $tips)
     {
         $this->tips = $tips;
-    }
-
-    /**
-     * @Route("/api/user_tip/all", name="user_tip_all", methods={"GET"})
-     */
-    public function userTips(): JsonResponse
-    {
-        /** @var \App\Entity\User $user */
-        $user = $this->getUser();
-
-        return $this->getInfo('getUserTips', $user->getUsername());
     }
 
     /**
@@ -47,7 +37,23 @@ class UserTipsController extends AbstractController
      */
     public function userPastTips(string $username): JsonResponse
     {
-        return $this->getInfo('getPastUserTips', $username);
+        $dataResponse = [
+            'success' => true,
+        ];
+        $status = 200;
+        try {
+            $userInfoDataProvider = $this->tips->getPastUserTips($username);
+            $userInfo = $this->convertUserInfoDataProviderToArraySecond($userInfoDataProvider);
+            $dataResponse['data'] = $userInfo;
+        } catch (\Exception $e) {
+            $dataResponse = [
+                'success' => false,
+                'message' => $e->getMessage(),
+            ];
+            $status = 500;
+        }
+
+        return $this->json($dataResponse, $status)->setEncodingOptions(JSON_UNESCAPED_SLASHES);
     }
 
     /**
@@ -75,6 +81,27 @@ class UserTipsController extends AbstractController
         }
 
         return $this->json($dataResponse, $status)->setEncodingOptions(JSON_UNESCAPED_SLASHES);
+    }
+
+
+    private function convertUserInfoDataProviderToArraySecond(UserInfoEventDataProvider $userInfoDataProvider): array
+    {
+        $userInfo = $userInfoDataProvider->toArray();
+
+        $tips = $userInfoDataProvider->getTips();
+        $canBeNull = [
+            'scoreTeam1', 'scoreTeam2', 'tipTeam1', 'tipTeam2', 'score',
+        ];
+        foreach ($tips as $tipKey => $tip) {
+            foreach ($canBeNull as $methode) {
+                $methodeName = 'get' . ucfirst($methode);
+                if ($tip->$methodeName() === null) {
+                    $userInfo['tips'][$tipKey][$methode] = null;
+                }
+            }
+        }
+
+        return $userInfo;
     }
 
 

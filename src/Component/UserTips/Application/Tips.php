@@ -2,15 +2,12 @@
 
 namespace App\Component\UserTips\Application;
 
-use App\DataTransferObject\MatchDetailDataProvider;
-use App\DataTransferObject\MatchListDataProvider;
-use App\DataTransferObject\TipEventDataProvider;
 use App\DataTransferObject\TipInfoDataProvider;
 use App\DataTransferObject\UserInfoDataProvider;
+use App\DataTransferObject\UserInfoEventDataProvider;
 use App\Repository\TipsRepository;
 use App\Service\Redis\RedisServiceInterface;
 use App\Service\RedisKey\RedisKeyService;
-use RuntimeException;
 
 final class Tips
 {
@@ -22,6 +19,7 @@ final class Tips
 
     /**
      * @param \App\Service\Redis\RedisServiceInterface $redisService
+     * @param \App\Repository\TipsRepository $tipsRepository
      */
     public function __construct(RedisServiceInterface $redisService, TipsRepository $tipsRepository)
     {
@@ -32,27 +30,17 @@ final class Tips
     /**
      * @param string $userName
      *
-     * @return \App\DataTransferObject\UserInfoDataProvider
-     */
-    public function getUserTips(string $userName): UserInfoDataProvider
-    {
-        return $this->getRedisUserInfo($userName);
-    }
-
-    /**
-     * @param string $userName
-     *
      * @throws \Exception
-     * @return \App\DataTransferObject\UserInfoDataProvider
+     * @return \App\DataTransferObject\UserInfoEventDataProvider
      */
-    public function getPastUserTips(string $userName): UserInfoDataProvider
+    public function getPastUserTips(string $userName): UserInfoEventDataProvider
     {
         $userInfoDataProvider = $this->getRedisUserInfo($userName);
         $tips = $userInfoDataProvider->getTips();
 
         foreach ($tips as $key => $tip) {
-            $matchDatetime = $this->formatDate($tip->getMatchDatetime());
-            $now = $this->formatDate('now');
+            $matchDatetime = $this->formatDate($tip->getMatchId());
+            $now = (int)(new \DateTime('now'))->format('YmdHi');
             if ($matchDatetime > $now) {
                 unset($tips[$key]);
             }
@@ -98,8 +86,8 @@ final class Tips
         $tips = $userInfoDataProvider->getTips();
 
         foreach ($tips as $key => $tip) {
-            $matchDatetime = $this->formatDate($tip->getMatchDatetime());
-            $now = $this->formatDate('now');
+            $matchDatetime = $this->formatDate($tip->getMatchId());
+            $now = (int)(new \DateTime('now'))->format('YmdHi');
             if ($matchDatetime <= $now) {
                 unset($tips[$key]);
             }
@@ -113,35 +101,27 @@ final class Tips
     /**
      * @param $userName
      *
-     * @return \App\DataTransferObject\UserInfoDataProvider
+     * @return \App\DataTransferObject\UserInfoEventDataProvider
      */
-    private function getRedisUserInfo($userName): UserInfoDataProvider
+    private function getRedisUserInfo($userName): UserInfoEventDataProvider
     {
         $userRedisKey = RedisKeyService::getUserTips($userName);
         $redisInfo = $this->redisService->get($userRedisKey);
 
         $arrayInfo = json_decode($redisInfo, true);
         if (JSON_ERROR_NONE !== json_last_error() || count($arrayInfo) === 0) {
-            $userInfoDataProvider = new UserInfoDataProvider();
+            $userInfoDataProvider = new UserInfoEventDataProvider();
+            $userInfoDataProvider->fromArray($arrayInfo);
             $userInfoDataProvider->setName($userName);
             $userInfoDataProvider->setPosition(0);
             $userInfoDataProvider->setScoreSum(0);
-            $redisInfo = $this->redisService->get('games');
 
-            $games = \Safe\json_decode($redisInfo, true);
-
-            foreach ($games as $game) {
-                $tip = new TipInfoDataProvider();
-                $tip->fromArray($game);
-
-                $userInfoDataProvider->addTip($tip);
-            }
 
             return $userInfoDataProvider;
         }
 
 
-        $userInfoDataProvider = new UserInfoDataProvider();
+        $userInfoDataProvider = new UserInfoEventDataProvider();
         $userInfoDataProvider->fromArray($arrayInfo);
 
         return $userInfoDataProvider;
@@ -153,9 +133,11 @@ final class Tips
      * @throws \Exception
      * @return int
      */
-    private function formatDate(string $date): int
+    private function formatDate(string $matchId): int
     {
-        return (int)(new \DateTime($date))->format('YmdHi');
+        $matchId = substr($matchId, 0, -6);
+        $matchId = str_replace(':' , ' ', $matchId);
+        return (int)(new \DateTime($matchId))->format('YmdHi');
     }
 }
 

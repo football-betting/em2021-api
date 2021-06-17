@@ -1,0 +1,179 @@
+{
+  "event": "calculation.to.app",
+  "data": {
+    "users": [
+      {
+        "name": "rockstar",
+        "position": 1,
+        "scoreSum": 15,
+        "sumWinExact": 1,
+        "sumScoreDiff": 3,
+        "sumTeam": 5,
+        "tips": [
+          {
+            "matchId": "2021-06-11:2100:TR-IT",
+            "user": "VAV",
+            "score": 1,
+            "team1": "TR",
+            "team2": "IT",
+            "tipTeam1": 0,
+            "tipTeam2": 2,
+            "scoreTeam1": 0,
+            "scoreTeam2": 3
+          },
+          {
+            "matchId": "2021-06-12:1500:WL-CH",
+            "user": "VAV",
+            "score": 4,
+            "team1": "WL",
+            "team2": "CH",
+            "tipTeam1": 1,
+            "tipTeam2": 1,
+            "scoreTeam1": 1,
+            "scoreTeam2": 1
+          },
+          {
+            "matchId": "2021-06-12:2030:DK-FI",
+            "user": "VAV",
+            "score": 0,
+            "team1": "DK",
+            "team2": "FI",
+            "scoreTeam1": 0,
+            "scoreTeam2": 1
+          },
+          {
+            "matchId": "2021-06-12:2100:BE-RU",
+            "user": "VAV",
+            "score": 1,
+            "team1": "BE",
+            "team2": "RU",
+            "tipTeam1": 2,
+            "tipTeam2": 0,
+            "scoreTeam1": 3,
+            "scoreTeam2": 0
+          },
+          {
+            "matchId": "2021-06-23:1800:SE-PL",
+            "user": "VAV",
+            "score": 0,
+            "team1": "SE",
+            "team2": "PL",
+            "tipTeam1": 2,
+            "tipTeam2": 1
+          },
+          {
+            "matchId": "2021-06-23:1800:SK-ES",
+            "user": "VAV",
+            "score": 0,
+            "team1": "SK",
+            "team2": "ES",
+            "tipTeam1": 0,
+            "tipTeam2": 3
+          },
+          {
+            "matchId": "2021-06-23:2100:DE-HU",
+            "user": "VAV",
+            "score": 0,
+            "team1": "DE",
+            "team2": "HU"
+          },
+          {
+            "matchId": "2021-06-23:2100:PT-FR",
+            "user": "VAV",
+            "score": 0,
+            "team1": "PT",
+            "team2": "FR"
+          }
+        ]
+      },
+      {
+        "name": "ninja",
+        "position": 2,
+        "scoreSum": 14,
+        "sumWinExact": 2,
+        "sumScoreDiff": 2,
+        "sumTeam": 3,
+        "tips": [
+          {
+            "matchId": "2021-06-11:2100:TR-IT",
+            "user": "TK",
+            "score": 1,
+            "team1": "TR",
+            "team2": "IT",
+            "tipTeam1": 1,
+            "tipTeam2": 3,
+            "scoreTeam1": 0,
+            "scoreTeam2": 3
+          },
+          {
+            "matchId": "2021-06-12:1500:WL-CH",
+            "user": "TK",
+            "score": 4,
+            "team1": "WL",
+            "team2": "CH",
+            "tipTeam1": 1,
+            "tipTeam2": 1,
+            "scoreTeam1": 1,
+            "scoreTeam2": 1
+          },
+          {
+            "matchId": "2021-06-12:2030:DK-FI",
+            "user": "TK",
+            "score": 0,
+            "team1": "DK",
+            "team2": "FI",
+            "scoreTeam1": 0,
+            "scoreTeam2": 1
+          },
+          {
+            "matchId": "2021-06-12:2100:BE-RU",
+            "user": "TK",
+            "score": 1,
+            "team1": "BE",
+            "team2": "RU",
+            "tipTeam1": 2,
+            "tipTeam2": 1,
+            "scoreTeam1": 3,
+            "scoreTeam2": 0
+          },
+          {
+            "matchId": "2021-06-23:1800:SE-PL",
+            "user": "TK",
+            "score": 0,
+            "team1": "SE",
+            "team2": "PL",
+            "tipTeam1": 2,
+            "tipTeam2": 2
+          },
+          {
+            "matchId": "2021-06-23:1800:SK-ES",
+            "user": "TK",
+            "score": 0,
+            "team1": "SK",
+            "team2": "ES",
+            "tipTeam1": 2,
+            "tipTeam2": 3
+          },
+          {
+            "matchId": "2021-06-23:2100:DE-HU",
+            "user": "TK",
+            "score": 0,
+            "team1": "DE",
+            "team2": "HU",
+            "tipTeam1": 4,
+            "tipTeam2": 0
+          },
+          {
+            "matchId": "2021-06-23:2100:PT-FR",
+            "user": "TK",
+            "score": 0,
+            "team1": "PT",
+            "team2": "FR",
+            "tipTeam1": 2,
+            "tipTeam2": 0
+          }
+        ]
+      }
+    ]
+  }
+}

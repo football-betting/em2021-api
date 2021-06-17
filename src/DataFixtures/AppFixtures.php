@@ -16,12 +16,16 @@ class AppFixtures extends Fixture
         'ninja' => [
             'email' => 'ninja@em2021.com',
             'username' => UserTips::USER,
-            'password' => 'pass123'
+            'password' => 'pass123',
+            'tip1' => 'FR',
+            'tip2' => 'EN',
         ],
         'rockstar' => [
             'email' => 'rockstar@em2021.com',
             'username' => 'rockstar',
-            'password' => 'pass123'
+            'password' => 'pass123',
+            'tip1' => 'DE',
+            'tip2' => 'EN',
         ]
     ];
 
@@ -57,6 +61,8 @@ class AppFixtures extends Fixture
         $user->setUsername(self::DATA['ninja']['username']);
         $user->setPassword($this->userPasswordEncoder->encodePassword($user, self::DATA['ninja']['password']));
         $user->setTokenTimeAllowed(new \DateTime('+ 15 Minutes'));
+        $user->setTip1(self::DATA['ninja']['tip1']);
+        $user->setTip2(self::DATA['ninja']['tip2']);
 
         $payload = [
             "userId" => 1,
@@ -72,6 +78,8 @@ class AppFixtures extends Fixture
         $user->setUsername(self::DATA['rockstar']['username']);
         $user->setPassword($this->userPasswordEncoder->encodePassword($user, self::DATA['rockstar']['password']));
         $user->setTokenTimeAllowed(new \DateTime('+ 15 Minutes'));
+        $user->setTip1(self::DATA['rockstar']['tip1']);
+        $user->setTip2(self::DATA['rockstar']['tip2']);
 
         $payload = [
             "userId" => 2,
