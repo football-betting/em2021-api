@@ -73,6 +73,21 @@ final class RedisService implements RedisServiceInterface
     }
 
     /**
+     * @param string $key
+     */
+    public function deleteAll(): void
+    {
+        $keys = $this->getKeys('*');
+        foreach ($keys as $id => $key) {
+            $keys[$id] = str_replace($this->prefix, '', $key);
+        }
+
+        if(count($keys) > 0) {
+            $this->client->del($keys);
+        }
+    }
+
+    /**
      * @return string
      */
     public function getPrefix(): string

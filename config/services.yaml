@@ -58,7 +58,7 @@ services:
     App\Component\Ranking\Application\InformationPreparer:
         arguments:
             - '@App\Component\UserRating\Application\Plugin\UserRating'
-#            - '@App\Component\UserTips\Application\Plugin\UserTips'
+            - '@App\Component\UserTips\Application\Plugin\UserTips'
 
 
 
