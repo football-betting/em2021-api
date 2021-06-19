@@ -221,6 +221,8 @@ Method: `GET`
     "name": "ninja",
     "position": 1,
     "scoreSum": 24,
+    "scoreWinTeam": 1,
+    "scoreExact": 1,
     "tips": [
       {
         "matchId": "2021-06-04:2258:CZ-NL",
