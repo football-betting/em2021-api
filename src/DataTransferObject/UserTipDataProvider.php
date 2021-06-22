@@ -64,7 +64,7 @@ final class UserTipDataProvider extends \Xervice\DataProvider\Business\Model\Dat
     /**
      * @return int
      */
-    public function getScore(): int
+    public function getScore(): ?int
     {
         return $this->score;
     }
@@ -74,7 +74,7 @@ final class UserTipDataProvider extends \Xervice\DataProvider\Business\Model\Dat
      * @param int $score
      * @return UserTipDataProvider
      */
-    public function setScore(int $score)
+    public function setScore(?int $score = null)
     {
         $this->score = $score;
 
@@ -105,7 +105,7 @@ final class UserTipDataProvider extends \Xervice\DataProvider\Business\Model\Dat
     /**
      * @return int
      */
-    public function getTipTeam1(): int
+    public function getTipTeam1(): ?int
     {
         return $this->tipTeam1;
     }
@@ -115,7 +115,7 @@ final class UserTipDataProvider extends \Xervice\DataProvider\Business\Model\Dat
      * @param int $tipTeam1
      * @return UserTipDataProvider
      */
-    public function setTipTeam1(int $tipTeam1)
+    public function setTipTeam1(?int $tipTeam1 = null)
     {
         $this->tipTeam1 = $tipTeam1;
 
@@ -146,7 +146,7 @@ final class UserTipDataProvider extends \Xervice\DataProvider\Business\Model\Dat
     /**
      * @return int
      */
-    public function getTipTeam2(): int
+    public function getTipTeam2(): ?int
     {
         return $this->tipTeam2;
     }
@@ -156,7 +156,7 @@ final class UserTipDataProvider extends \Xervice\DataProvider\Business\Model\Dat
      * @param int $tipTeam2
      * @return UserTipDataProvider
      */
-    public function setTipTeam2(int $tipTeam2)
+    public function setTipTeam2(?int $tipTeam2 = null)
     {
         $this->tipTeam2 = $tipTeam2;
 
@@ -203,7 +203,7 @@ final class UserTipDataProvider extends \Xervice\DataProvider\Business\Model\Dat
           'score' =>
           array (
             'name' => 'score',
-            'allownull' => false,
+            'allownull' => true,
             'default' => '',
             'type' => 'int',
             'is_collection' => false,
@@ -213,7 +213,7 @@ final class UserTipDataProvider extends \Xervice\DataProvider\Business\Model\Dat
           'tipTeam1' =>
           array (
             'name' => 'tipTeam1',
-            'allownull' => false,
+            'allownull' => true,
             'default' => '',
             'type' => 'int',
             'is_collection' => false,
@@ -223,7 +223,7 @@ final class UserTipDataProvider extends \Xervice\DataProvider\Business\Model\Dat
           'tipTeam2' =>
           array (
             'name' => 'tipTeam2',
-            'allownull' => false,
+            'allownull' => true,
             'default' => '',
             'type' => 'int',
             'is_collection' => false,

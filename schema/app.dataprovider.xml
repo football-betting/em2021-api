@@ -117,4 +117,21 @@
         <DataElement name="scoreTeam2" type="int" allownull="true" />
     </DataProvider>
 
+    <DataProvider name="GameUserTipsInfo">
+        <DataElement name="matchId" type="string" />
+        <DataElement name="team1" type="string" />
+        <DataElement name="team2" type="string" />
+        <DataElement name="scoreTeam1" type="int" allownull="true" />
+        <DataElement name="scoreTeam2" type="int" allownull="true" />
+
+        <DataElement name="usersTip" type="UserTip[]" singleton="UserTip"/>
+    </DataProvider>
+
+    <DataProvider name="UserTip">
+        <DataElement name="tipTeam1" type="int" allownull="true"/>
+        <DataElement name="tipTeam2" type="int" allownull="true"/>
+        <DataElement name="score" type="int" allownull="true"/>
+        <DataElement name="name" type="string"/>
+    </DataProvider>
+
 </DataProviders>
