@@ -117,4 +117,9 @@
         <DataElement name="scoreTeam2" type="int" allownull="true" />
     </DataProvider>
 
+    <DataProvider name="GameEventList">
+        <DataElement name="games" type="GameEvent[]" singleton="Game" />
+    </DataProvider>
+
+
 </DataProviders>

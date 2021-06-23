@@ -59,6 +59,7 @@ services:
         arguments:
             - '@App\Component\UserRating\Application\Plugin\UserRating'
             - '@App\Component\UserTips\Application\Plugin\UserTips'
+            - '@App\Component\Game\Application\Plugin\GamePlugins'
 
 
 

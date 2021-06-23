@@ -21,4 +21,9 @@ final class RedisKeyService
     {
         return 'table';
     }
+
+    public static function getGames(): string
+    {
+        return 'games';
+    }
 }
