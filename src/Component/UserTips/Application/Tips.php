@@ -6,7 +6,9 @@ use App\DataTransferObject\GameEventListDataProvider;
 use App\DataTransferObject\TipInfoDataProvider;
 use App\DataTransferObject\UserInfoDataProvider;
 use App\DataTransferObject\UserInfoEventDataProvider;
+use App\Entity\User;
 use App\Repository\TipsRepository;
+use App\Repository\UserRepository;
 use App\Service\Redis\RedisServiceInterface;
 use App\Service\RedisKey\RedisKeyService;
 
@@ -17,15 +19,24 @@ final class Tips
      * @var \App\Repository\TipsRepository
      */
     private TipsRepository $tipsRepository;
+    /**
+     * @var \App\Repository\UserRepository
+     */
+    private UserRepository $userRepository;
 
     /**
      * @param \App\Service\Redis\RedisServiceInterface $redisService
      * @param \App\Repository\TipsRepository $tipsRepository
      */
-    public function __construct(RedisServiceInterface $redisService, TipsRepository $tipsRepository)
+    public function __construct(
+        RedisServiceInterface $redisService,
+        TipsRepository $tipsRepository,
+        UserRepository $userRepository
+    )
     {
         $this->redisService = $redisService;
         $this->tipsRepository = $tipsRepository;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -90,7 +101,7 @@ final class Tips
 
             $tip->setMatchDatetime($this->formatMatchIdToDate($game->getMatchId()));
 
-            if (isset($tipsFromDb[$tip->getMatchId()]) &&  $tipsFromDb[$tip->getMatchId()] instanceof \App\Entity\Tips) {
+            if (isset($tipsFromDb[$tip->getMatchId()]) && $tipsFromDb[$tip->getMatchId()] instanceof \App\Entity\Tips) {
                 $tip->setTipTeam1($tipsFromDb[$tip->getMatchId()]->getTipTeam1());
                 $tip->setTipTeam2($tipsFromDb[$tip->getMatchId()]->getTipTeam2());
             }
@@ -127,6 +138,19 @@ final class Tips
         $userInfoDataProvider = new UserInfoEventDataProvider();
         $userInfoDataProvider->fromArray($arrayInfo);
 
+        $userInfoDataProvider->setExtraPoint(0);
+
+        $winner = '-';
+        $winnerSecret = '-';
+        $user = $this->userRepository->findOneBy(['username' => $userInfoDataProvider->getName()]);
+        if ($user instanceof User) {
+            $winner = $user->getTip1();
+            $winnerSecret = $user->getTip2();
+        }
+
+        $userInfoDataProvider->setWinner($winner);
+        $userInfoDataProvider->setWinnerSecret($winnerSecret);
+
         return $userInfoDataProvider;
     }
 
@@ -139,7 +163,7 @@ final class Tips
     private function formatDate(string $matchId): int
     {
         $matchId = substr($matchId, 0, -6);
-        $matchId = str_replace(':' , ' ', $matchId);
+        $matchId = str_replace(':', ' ', $matchId);
         return (int)(new \DateTime($matchId))->format('YmdHi');
     }
 
@@ -152,7 +176,7 @@ final class Tips
     private function formatMatchIdToDate(string $matchId): string
     {
         $matchId = substr($matchId, 0, -6);
-        $matchId = str_replace(':' , ' ', $matchId);
+        $matchId = str_replace(':', ' ', $matchId);
         return (new \DateTime($matchId))->format('Y-m-d H:i');
     }
 }
