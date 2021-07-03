@@ -23,8 +23,8 @@ class GameUserTipsTest extends TestCase
         self::assertCount(2, $redisDto);
 
 
-        self::assertSame('game:2000-06-16:2100:FR-DE:tips', $redisDto[0]->getKey());
-        self::assertSame('game:2000-06-18:2100:PL-EN:tips', $redisDto[1]->getKey());
+        self::assertSame('game:2000-06-16:2100:FR-DE', $redisDto[0]->getKey());
+        self::assertSame('game:2000-06-18:2100:PL-EN', $redisDto[1]->getKey());
 
         /** @var \App\DataTransferObject\GameUserTipsInfoDataProvider $game */
         $game = $redisDto[0]->getData();
