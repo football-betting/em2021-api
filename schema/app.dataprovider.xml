@@ -134,4 +134,9 @@
         <DataElement name="name" type="string"/>
     </DataProvider>
 
+    <DataProvider name="GameEventList">
+        <DataElement name="games" type="GameEvent[]" singleton="Game" />
+    </DataProvider>
+
+
 </DataProviders>

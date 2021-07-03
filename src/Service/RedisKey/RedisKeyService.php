@@ -22,6 +22,11 @@ final class RedisKeyService
         return 'table';
     }
 
+    public static function getGames(): string
+    {
+        return 'games';
+    }
+
     /**
      * @param string $matchId
      * @return string

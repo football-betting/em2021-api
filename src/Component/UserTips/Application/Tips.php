@@ -2,6 +2,7 @@
 
 namespace App\Component\UserTips\Application;
 
+use App\DataTransferObject\GameEventListDataProvider;
 use App\DataTransferObject\TipInfoDataProvider;
 use App\DataTransferObject\UserInfoDataProvider;
 use App\DataTransferObject\UserInfoEventDataProvider;
@@ -59,21 +60,35 @@ final class Tips
      */
     public function getFutureUserTips(string $userName): UserInfoDataProvider
     {
-//        $userInfoDataProvider = $this->getRedisUserInfo($userName);
-
         $userInfoDataProvider = new UserInfoDataProvider();
         $userInfoDataProvider->setName($userName);
         $userInfoDataProvider->setPosition(0);
         $userInfoDataProvider->setScoreSum(0);
-//        $redisInfo = $this->redisService->get('games');
-//        $games = \Safe\json_decode($redisInfo, true);
-        $games = json_decode(file_get_contents(__DIR__ . '/games.json'), true);
+        $redisInfo = $this->redisService->get(RedisKeyService::getGames());
+        $games = \Safe\json_decode($redisInfo, true);
+
+        $gameEventListDataProvider = new GameEventListDataProvider();
+        $gameEventListDataProvider->fromArray($games);
 
         $tipsFromDb = $this->tipsRepository->getTipUserTips($userName);
 
-        foreach ($games as $game) {
+        foreach ($gameEventListDataProvider->getGames() as $game) {
+
+            $matchDatetime = $this->formatDate($game->getMatchId());
+            $now = (int)(new \DateTime('now'))->format('YmdHi');
+            if ($matchDatetime <= $now) {
+                continue;
+            }
+
             $tip = new TipInfoDataProvider();
-            $tip->fromArray($game);
+
+            $tip->setMatchId($game->getMatchId());
+            $tip->setTeam1($game->getTeam1());
+            $tip->setTeam2($game->getTeam2());
+            $tip->setScoreTeam1($game->getScoreTeam1());
+            $tip->setScoreTeam2($game->getScoreTeam2());
+
+            $tip->setMatchDatetime($this->formatMatchIdToDate($game->getMatchId()));
 
             if (isset($tipsFromDb[$tip->getMatchId()]) &&  $tipsFromDb[$tip->getMatchId()] instanceof \App\Entity\Tips) {
                 $tip->setTipTeam1($tipsFromDb[$tip->getMatchId()]->getTipTeam1());
@@ -82,18 +97,6 @@ final class Tips
 
             $userInfoDataProvider->addTip($tip);
         }
-
-        $tips = $userInfoDataProvider->getTips();
-
-        foreach ($tips as $key => $tip) {
-            $matchDatetime = $this->formatDate($tip->getMatchId());
-            $now = (int)(new \DateTime('now'))->format('YmdHi');
-            if ($matchDatetime <= $now) {
-                unset($tips[$key]);
-            }
-        }
-
-        $userInfoDataProvider->setTips(array_values($tips));
 
         return $userInfoDataProvider;
     }
@@ -138,6 +141,19 @@ final class Tips
         $matchId = substr($matchId, 0, -6);
         $matchId = str_replace(':' , ' ', $matchId);
         return (int)(new \DateTime($matchId))->format('YmdHi');
+    }
+
+    /**
+     * @param string $matchId
+     *
+     * @throws \Exception
+     * @return string
+     */
+    private function formatMatchIdToDate(string $matchId): string
+    {
+        $matchId = substr($matchId, 0, -6);
+        $matchId = str_replace(':' , ' ', $matchId);
+        return (new \DateTime($matchId))->format('Y-m-d H:i');
     }
 }
 
