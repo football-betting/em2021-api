@@ -14,3 +14,6 @@ user_rating_controllers:
     resource: ../../src/Component/UserRating/Infrastructure/
     type: annotation
 
+game_user_tips_controllers:
+    resource: ../../src/Component/GameUserTips/Infrastructure/
+    type: annotation
