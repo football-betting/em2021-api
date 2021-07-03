@@ -48,9 +48,15 @@ class UserRatingController extends AbstractController
 
             foreach ($userRatingListDataProvider->getUsers() as $user) {
                 $user->setExtraPoint(0);
-                $userInfo = $userName2users[$user->getName()];
-                $user->setWinner($userInfo->getTip1());
-                $user->setWinnerSecret($userInfo->getTip2());
+                $winner = '-';
+                $winnerSecret = '-';
+                if(isset($userName2users[$user->getName()])) {
+                    $winner = $userName2users[$user->getName()]->getTip1();
+                    $winnerSecret = $userName2users[$user->getName()]->getTip2();
+                }
+
+                $user->setWinner($winner);
+                $user->setWinnerSecret($winnerSecret);
             }
             $dataResponse['data'] = $userRatingListDataProvider->toArray();
         } catch (\Exception $e) {
