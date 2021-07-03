@@ -26,4 +26,13 @@ final class RedisKeyService
     {
         return 'games';
     }
+
+    /**
+     * @param string $matchId
+     * @return string
+     */
+    public static function getGameUsersTip(string $matchId):string
+    {
+
+    }
 }

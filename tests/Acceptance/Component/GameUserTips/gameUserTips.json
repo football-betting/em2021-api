@@ -1,0 +1,70 @@
+{
+  "event": "ranking.to.app",
+  "data": {
+    "games": [
+      {
+        "matchId": "2021-06-11:2100:TR-IT",
+        "team1": "TR",
+        "team2": "IT",
+        "scoreTeam1": 0,
+        "scoreTeam2": 3,
+        "tips": [
+          {
+            "user": "VAV",
+            "score": 1,
+            "tipTeam1": 0,
+            "tipTeam2": 2
+          },
+          {
+            "user": "TK",
+            "score": 1,
+            "tipTeam1": 1,
+            "tipTeam2": 3
+          }
+        ]
+      },
+      {
+        "matchId": "2021-06-12:1500:WL-CH",
+        "team1": "WL",
+        "team2": "CH",
+        "scoreTeam1": 1,
+        "scoreTeam2": 1,
+        "tips": [
+          {
+            "user": "VAV",
+            "score": 0,
+            "tipTeam1": 1,
+            "tipTeam2": 2
+          },
+          {
+            "user": "TK",
+            "score": 1,
+            "tipTeam1": 3,
+            "tipTeam2": 3
+          }
+        ]
+      },
+      {
+        "matchId": "2021-06-12:2100:BE-RU",
+        "team1": "BE",
+        "team2": "RU",
+        "scoreTeam1": 3,
+        "scoreTeam2": 0,
+        "tips": [
+          {
+            "user": "VAV",
+            "score": 0,
+            "tipTeam1": 0,
+            "tipTeam2": 2
+          },
+          {
+            "user": "TK",
+            "score": 1,
+            "tipTeam1": 1,
+            "tipTeam2": 0
+          }
+        ]
+      }
+    ]
+  }
+}
