@@ -53,6 +53,9 @@
         <DataElement name="sumWinExact" type="int"/>
         <DataElement name="sumScoreDiff" type="int"/>
         <DataElement name="sumTeam" type="int"/>
+        <DataElement name="extraPoint" type="int" />
+        <DataElement name="winner" type="string" />
+        <DataElement name="winnerSecret" type="string" />
         <DataElement name="tips" type="TipInfoEvent[]" singleton="Tip"/>
     </DataProvider>
 

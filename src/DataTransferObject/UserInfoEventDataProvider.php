@@ -25,6 +25,15 @@ final class UserInfoEventDataProvider extends \Xervice\DataProvider\Business\Mod
     /** @var int */
     protected $sumTeam;
 
+    /** @var int */
+    protected $extraPoint;
+
+    /** @var string */
+    protected $winner;
+
+    /** @var string */
+    protected $winnerSecret;
+
     /** @var \App\DataTransferObject\TipInfoEventDataProvider[] */
     protected $tips = [];
 
@@ -276,6 +285,129 @@ final class UserInfoEventDataProvider extends \Xervice\DataProvider\Business\Mod
 
 
     /**
+     * @return int
+     */
+    public function getExtraPoint(): int
+    {
+        return $this->extraPoint;
+    }
+
+
+    /**
+     * @param int $extraPoint
+     * @return UserInfoEventDataProvider
+     */
+    public function setExtraPoint(int $extraPoint)
+    {
+        $this->extraPoint = $extraPoint;
+
+        return $this;
+    }
+
+
+    /**
+     * @return UserInfoEventDataProvider
+     */
+    public function unsetExtraPoint()
+    {
+        $this->extraPoint = null;
+
+        return $this;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function hasExtraPoint()
+    {
+        return ($this->extraPoint !== null && $this->extraPoint !== []);
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getWinner(): string
+    {
+        return $this->winner;
+    }
+
+
+    /**
+     * @param string $winner
+     * @return UserInfoEventDataProvider
+     */
+    public function setWinner(string $winner)
+    {
+        $this->winner = $winner;
+
+        return $this;
+    }
+
+
+    /**
+     * @return UserInfoEventDataProvider
+     */
+    public function unsetWinner()
+    {
+        $this->winner = null;
+
+        return $this;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function hasWinner()
+    {
+        return ($this->winner !== null && $this->winner !== []);
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getWinnerSecret(): string
+    {
+        return $this->winnerSecret;
+    }
+
+
+    /**
+     * @param string $winnerSecret
+     * @return UserInfoEventDataProvider
+     */
+    public function setWinnerSecret(string $winnerSecret)
+    {
+        $this->winnerSecret = $winnerSecret;
+
+        return $this;
+    }
+
+
+    /**
+     * @return UserInfoEventDataProvider
+     */
+    public function unsetWinnerSecret()
+    {
+        $this->winnerSecret = null;
+
+        return $this;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function hasWinnerSecret()
+    {
+        return ($this->winnerSecret !== null && $this->winnerSecret !== []);
+    }
+
+
+    /**
      * @return \App\DataTransferObject\TipInfoEventDataProvider[]
      */
     public function getTips(): array
@@ -388,6 +520,36 @@ final class UserInfoEventDataProvider extends \Xervice\DataProvider\Business\Mod
             'allownull' => false,
             'default' => '',
             'type' => 'int',
+            'is_collection' => false,
+            'is_dataprovider' => false,
+            'isCamelCase' => false,
+          ),
+          'extraPoint' =>
+          array (
+            'name' => 'extraPoint',
+            'allownull' => false,
+            'default' => '',
+            'type' => 'int',
+            'is_collection' => false,
+            'is_dataprovider' => false,
+            'isCamelCase' => false,
+          ),
+          'winner' =>
+          array (
+            'name' => 'winner',
+            'allownull' => false,
+            'default' => '',
+            'type' => 'string',
+            'is_collection' => false,
+            'is_dataprovider' => false,
+            'isCamelCase' => false,
+          ),
+          'winnerSecret' =>
+          array (
+            'name' => 'winnerSecret',
+            'allownull' => false,
+            'default' => '',
+            'type' => 'string',
             'is_collection' => false,
             'is_dataprovider' => false,
             'isCamelCase' => false,

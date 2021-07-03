@@ -4,6 +4,7 @@ namespace App\Component\UserRating\Infrastructure;
 
 use App\DataTransferObject\RankingInfoEventDataProvider;
 use App\DataTransferObject\UserRatingListDataProvider;
+use App\Repository\UserRepository;
 use App\Service\Redis\RedisServiceInterface;
 use App\Service\RedisKey\RedisKeyService;
 use RuntimeException;
@@ -14,13 +15,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserRatingController extends AbstractController
 {
     private RedisServiceInterface $redisService;
+    /**
+     * @var \App\Repository\UserRepository
+     */
+    private UserRepository $userRepository;
 
     /**
      * @param \App\Service\Redis\RedisServiceInterface $redisService
      */
-    public function __construct(RedisServiceInterface $redisService)
+    public function __construct(RedisServiceInterface $redisService, UserRepository $userRepository)
     {
         $this->redisService = $redisService;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -33,7 +39,19 @@ class UserRatingController extends AbstractController
         ];
         $status = 200;
         try {
+            $users = $this->userRepository->findAll();
+            $userName2users = [];
+            foreach ($users as $user) {
+                $userName2users[$user->getUsername()] = $user;
+            }
             $userRatingListDataProvider = $this->getTable();
+
+            foreach ($userRatingListDataProvider->getUsers() as $user) {
+                $user->setExtraPoint(0);
+                $userInfo = $userName2users[$user->getName()];
+                $user->setWinner($userInfo->getTip1());
+                $user->setWinnerSecret($userInfo->getTip2());
+            }
             $dataResponse['data'] = $userRatingListDataProvider->toArray();
         } catch (\Exception $e) {
             $dataResponse = [
