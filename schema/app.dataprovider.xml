@@ -141,5 +141,14 @@
         <DataElement name="games" type="GameEvent[]" singleton="Game" />
     </DataProvider>
 
+    <DataProvider name="DailyWinner">
+        <DataElement name="users" type="array"/>
+        <DataElement name="points" type="int"/>
+        <DataElement name="matchDate" type="string"/>
+    </DataProvider>
+
+    <DataProvider name="DailyWinnerList">
+        <DataElement name="data" type="DailyWinner[]" singleton="DailyWinner"/>
+    </DataProvider>
 
 </DataProviders>

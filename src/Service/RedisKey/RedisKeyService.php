@@ -38,4 +38,12 @@ final class RedisKeyService
     {
         return 'game:' . $matchId;
     }
+
+    /**
+     * @return string
+     */
+    public static function getDailyWinner(): string
+    {
+        return 'daily_winner';
+    }
 }

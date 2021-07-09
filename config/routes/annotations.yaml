@@ -17,3 +17,7 @@ user_rating_controllers:
 game_user_tips_controllers:
     resource: ../../src/Component/GameUserTips/Infrastructure/
     type: annotation
+
+daily_winners_controllers:
+    resource: ../../src/Component/DailyWinner/Infrastructure/
+    type: annotation

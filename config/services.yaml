@@ -45,6 +45,10 @@ services:
         resource: '../src/Component/GameUserTips/Infrastructure/'
         tags: [ 'controller.service_arguments' ]
 
+    App\Component\DailyWinner\Infrastructure\:
+        resource: '../src/Component/DailyWinner/Infrastructure/'
+        tags: [ 'controller.service_arguments' ]
+
     App\Component\Ranking\Infrastructure\RankingMessageHandler:
         tags: [messenger.message_handler]
 
@@ -64,3 +68,4 @@ services:
             - '@App\Component\UserTips\Application\Plugin\UserTips'
             - '@App\Component\Game\Application\Plugin\GamePlugins'
             - '@App\Component\GameUserTips\Application\Plugin\GameUserTips'
+            - '@App\Component\DailyWinner\Application\Plugin\DailyWinner'
