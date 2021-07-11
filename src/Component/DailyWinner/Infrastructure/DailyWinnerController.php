@@ -36,10 +36,7 @@ class DailyWinnerController extends AbstractController
             $dailyWinnerListJson = $this->redisService->get(RedisKeyService::getDailyWinner());
             $dailyWinnerListJsonArray = json_decode($dailyWinnerListJson, true);
 
-            $dailyWinnerListDataProvider = new DailyWinnerListDataProvider();
-            $dailyWinnerListDataProvider->fromArray($dailyWinnerListJsonArray);
-
-            $dataResponse['data'] = $dailyWinnerListDataProvider->toArray();
+            $dataResponse['data'] = $dailyWinnerListJsonArray['data'];
         } catch (\Exception $e) {
             $dataResponse = [
                 'success' => false,
