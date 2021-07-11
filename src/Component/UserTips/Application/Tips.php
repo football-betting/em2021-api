@@ -138,7 +138,9 @@ final class Tips
         $userInfoDataProvider = new UserInfoEventDataProvider();
         $userInfoDataProvider->fromArray($arrayInfo);
 
-        $userInfoDataProvider->setExtraPoint(0);
+        if(!$userInfoDataProvider->hasExtraPoint()) {
+            $userInfoDataProvider->setExtraPoint(0);
+        }
 
         $winner = '-';
         $winnerSecret = '-';
