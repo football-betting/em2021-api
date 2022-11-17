@@ -77,13 +77,12 @@ final class Tips
         $userInfoDataProvider->setScoreSum(0);
         $redisInfo = $this->redisService->get(RedisKeyService::getGames());
         if(empty($redisInfo)) {
-            $games = \Safe\json_decode(file_get_contents(__DIR__ . '/games.json'), true);
+            $games = json_decode(file_get_contents(__DIR__ . '/games.json'), true);
             usort($games, fn ($a, $b) => strtotime($a["matchDatetime"]) - strtotime($b["matchDatetime"]));
             $games['games'] = $games;
         } else {
-            $games = \Safe\json_decode($redisInfo, true);
+            $games = json_decode($redisInfo, true);
         }
-
 
         $gameEventListDataProvider = new GameEventListDataProvider();
         $gameEventListDataProvider->fromArray($games);
