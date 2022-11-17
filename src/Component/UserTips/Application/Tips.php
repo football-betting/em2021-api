@@ -76,7 +76,12 @@ final class Tips
         $userInfoDataProvider->setPosition(0);
         $userInfoDataProvider->setScoreSum(0);
         $redisInfo = $this->redisService->get(RedisKeyService::getGames());
-        $games = \Safe\json_decode($redisInfo, true);
+        if(empty($redisInfo)) {
+            $games['games'] = \Safe\json_decode(file_get_contents(__DIR__ . '/games.json'), true);
+        } else {
+            $games = \Safe\json_decode($redisInfo, true);
+        }
+
 
         $gameEventListDataProvider = new GameEventListDataProvider();
         $gameEventListDataProvider->fromArray($games);
